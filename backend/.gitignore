@@ -1,3 +1,5 @@
+# See https://help.github.com/ignore-files/ for more about ignoring files.
+
 # dependencies
 /node_modules
 /.env
@@ -5,17 +7,16 @@
 /server/let-s-watch-abc3f2a07b7d.json
 /server/node_modules
 /.vscode
-/.expo
-/config.js
+/
 
 # testing
 /coverage
-/jest.setup.js
 
 # production
 /build
 
 # misc
+variables.env
 .DS_Store
 .env.local
 .env.development.local

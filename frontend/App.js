@@ -1,24 +1,37 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
-
+import { ApolloProvider } from 'react-apollo';
+// import withData from './lib/withData';
+import client from './lib/createClient';
+import navStyles from './styles/navStyles';
 import Image from './screens/Image';
+
+
+
+
 
 class App extends React.Component {
   static navigationOptions = {
     title: "Home",
-    headerStyle: {
-      backgroundColor: "#3E517A"
-    },
-    headerTitleStyle: {
-      color: "#FFF"
-    }
+    ...navStyles,
   }
+
+  goToImage = () => {
+    this.props.navigation.navigate('Image');
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Hello!</Text>
-      </View>
+      <ApolloProvider client={client}>
+        <View style={styles.container}>
+          <Text>Hello!</Text>
+          <Button
+            onPress={this.goToImage}
+            title="Image Page"
+          />
+        </View>
+      </ApolloProvider>
     );
   }
 }
