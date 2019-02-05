@@ -7,9 +7,15 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "apollo-boost": "^0.1.27",
+    "@babel/polyfill": "^7.2.5",
+    "@expo/vector-icons": "^9.0.0",
+    "apollo-cache-inmemory": "^1.4.2",
+    "apollo-client": "^2.4.12",
+    "apollo-link-http": "^1.5.9",
     "expo": "^32.0.0",
     "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
+    "native-base": "^2.11.0",
     "react": "16.5.0",
     "react-apollo": "^2.4.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
