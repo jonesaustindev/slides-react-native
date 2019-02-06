@@ -4,6 +4,7 @@ import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import SignupForm from './SignupForm';
+import { signIn } from '../auth';
 
 
 class SignupGQL extends Component {
@@ -15,6 +16,8 @@ class SignupGQL extends Component {
             const signin = await this.props.signinUser({
                 variables: { email, password }
             })
+            signIn(signin.data.signinUser.token);
+            this.props.client.resetStore();          
         } catch (err) {
             console.log(err);
         }
@@ -55,6 +58,6 @@ const SIGNIN_MUTATION = gql`
     `;
 
 export default compose(
-    graphql(signinUser, { name: "signinUser" }),
-    graphql(createUser, { name: "createUser" }),
+    graphql(SIGNIN_MUTATION, { name: "signinUser" }),
+    graphql(SIGNUP_MUTATION, { name: "createUser" }),
 )(SignupGQL);

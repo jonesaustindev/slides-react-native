@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { Query } from 'react-apollo';
+import { Fab, Icon } from 'native-base';
 import gql from 'graphql-tag';
 
 import navStyles from '../styles/navStyles';
@@ -10,6 +11,9 @@ const POST_QUERY = gql`
     Post(id: $id) {
       caption
       id
+      user {
+        id
+      }
     }
   }
 `;
@@ -20,6 +24,11 @@ class Post extends Component {
       title: navigation.state.params.title,
       ...navStyles
     }
+  }
+  editPost = () => {
+    this.props.navigation.navigate('EditPost', {
+      id: this.props.navigation.state.params.id,
+    });
   }
   render() {
     const postId = this.props.navigation.state.params.id;
@@ -35,6 +44,12 @@ class Post extends Component {
           return (
             <View style={styles.container}>
               <Text style={styles.bodyText}>{data.Post.id}</Text>
+              <Text style={styles.bodyText}>{data.Post.user.id}</Text>
+              <Fab
+                onPress={this.editPost}
+              >
+                <Icon name="add" />
+              </Fab>
             </View>
           )
         }}
@@ -53,3 +68,4 @@ const styles = StyleSheet.create({
 });
 
 export default Post;
+export { POST_QUERY };

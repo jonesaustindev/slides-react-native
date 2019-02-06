@@ -15,7 +15,7 @@ const ALL_POSTS_QUERY = gql`
 
 class Posts extends Component {
     render() {
-        const { navigation } = this.props;
+        const { navigation, screenProps } = this.props;
         return (
             <Query query={ALL_POSTS_QUERY}>
                 {({ data, loading, error }) => {

@@ -1,14 +1,18 @@
 import React from 'react';
-import { StyleSheet, View, Text, TouchableHighlight } from 'react-native';
+import { StyleSheet, View, Text, TouchableHighlight, ActivityIndicator, Button } from 'react-native';
 import { createStackNavigator, createAppContainer } from 'react-navigation';
 import { Fab, Icon } from 'native-base';
+import { graphql, withApollo } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import navStyles from './styles/navStyles';
 
 import Posts from './screens/Posts';
 import Post from './screens/Post';
 import NewPost from './screens/NewPost';
+import EditPost from './screens/EditPost';
 import Signin from './screens/Signin';
+import { signOut } from './auth';
 
 class Home extends React.Component {
     static navigationOptions = {
@@ -24,6 +28,13 @@ class Home extends React.Component {
         return (
             <View style={styles.container}>
                 <Posts {...this.props} />
+                <Button 
+                    onPress={() => {
+                        signOut();
+                        this.props.client.resetStore();
+                    }}
+                    title="Sign Out"
+                />
                 <Fab
                     onPress={this.newPost}
                     style={styles.newPost}
@@ -48,7 +59,7 @@ const styles = StyleSheet.create({
 
 const AppNavigator = createStackNavigator({
     Home: {
-        screen: Home
+        screen: withApollo(Home)
     },
     Post: {
         screen: Post
@@ -56,14 +67,34 @@ const AppNavigator = createStackNavigator({
     NewPost: {
         screen: NewPost
     },
+    EditPost: {
+        screen: EditPost
+    },
 });
 
 const AppContainer = createAppContainer(AppNavigator);
 
-const NavWrapper = (props) => {
-    return <Signin {...props} />
-    return <AppContainer />
+const NavWrapper = ({ data }) => {
+    if (data.loading) <ActivityIndicator size="large" />
+    if (!data.user) return <Signin />
+    const user = data.user;
+    return <AppContainer screenProps={{ user }} />
 }
 
+const USER_QUERY = gql`
+    query USER_QUERY {
+        user {
+            id
+            email
+            posts {
+                id
+                caption
+            }
+        }
+    }
+`;
 
-export default NavWrapper;
+
+export default graphql(USER_QUERY, {
+    prop: ({ data }) => ({ ...data })
+})(NavWrapper);

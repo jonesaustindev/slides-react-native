@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Button, ActivityIndicator } from 'react-native';
+import { Button } from 'react-native';
 import { Form, Item, Input, Label } from 'native-base';
 
 class SignupForm extends Component {
@@ -7,6 +7,14 @@ class SignupForm extends Component {
         name: '',
         email: '',
         password: '',
+    }
+    submitForm = () => {
+        const { name, email, password } = this.state;
+        this.props.onSubmit({
+            name: name.toLowerCase(),
+            email: email.toLowerCase(),
+            password
+        });
     }
     render() {
         return (

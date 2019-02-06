@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
+import { withApollo } from 'react-apollo';
 
-import SignupForm from '../components/SignupForm';
-import SigninForm from '../components/SigninForm';
+import SignupGQL from '../components/SignupGQL';
+import SigninGQL from '../components/SigninGQL';
 
 class Signin extends Component {
   state = {
@@ -11,7 +12,7 @@ class Signin extends Component {
   render() {
     return (
       <View style={styles.container}>
-        {this.state.register ? <SignupForm {...this.props} /> : <SigninForm {...this.props} />}
+        {this.state.register ? <SignupGQL {...this.props} /> : <SigninGQL {...this.props} />}
         <Button 
           onPress={() => 
             this.setState({
@@ -31,4 +32,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default Signin;
+export default withApollo(Signin);
