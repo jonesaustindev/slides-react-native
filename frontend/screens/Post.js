@@ -48,7 +48,7 @@ class Post extends Component {
               <Fab
                 onPress={this.editPost}
               >
-                <Icon name="add" />
+                <Icon name="create" />
               </Fab>
             </View>
           )
@@ -60,7 +60,8 @@ class Post extends Component {
 
 const styles = StyleSheet.create({
   container: {
-      padding: 20
+      padding: 20,
+      flex: 1,
   },
   bodyText: {
     fontSize: 16

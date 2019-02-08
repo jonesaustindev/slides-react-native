@@ -1,22 +1,74 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
 
 import UpdatePost from '../components/UpdatePost';
 import navStyles from '../styles/navStyles';
-
+import { POST_QUERY } from './Post';
 
 class EditPost extends Component {
     static navigationOptions = {
         title: "Edit Post",
         ...navStyles
     }
+    state = {
+        loading: false
+    }
+
+    editPost = ({ caption }) => {
+        const { updatePost, navigation, screenProps, Post } = this.props;
+        this.setState({ loading: true });
+        updatePost({
+            variables: {
+                id: Post.id,
+                caption,
+                userId: screenProps.user.id,
+            }
+        })
+            .then(() => {
+                navigation.goBack();
+            })
+            .catch(err => {
+                this.setState({ loading: false });
+                console.log(err);
+            })
+    }
+
     render() {
         return (
             <View>
-                <UpdatePost {...this.props} />
+                {this.state.loading ? (
+                    <ActivityIndicator size="large" />
+                ) : (
+                    <UpdatePost post={this.props.Post} onSubmit={this.editPost} />
+                )}
             </View>
         )
     }
 }
 
-export default EditPost;
+const updatePost = gql`
+    mutation updatePost($caption: String!, $userId: ID!, $id: ID!) {
+        updatePost(caption: $caption, userId: $userId, id: $id) {
+            id
+        }
+    }
+`;
+
+export default compose(
+    graphql(POST_QUERY, {
+        props: ({ data }) => ({ ...data }),
+        options: ({ navigation }) => ({
+            variables: {
+                id: navigation.state.params.id,
+            }
+        })
+    }),
+    graphql(updatePost, {
+        name: "updatePost",
+        options: {
+            refetchQueries: ["POST_QUERY"]
+        }
+    })
+)(EditPost);

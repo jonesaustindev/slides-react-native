@@ -64,3 +64,4 @@ const styles = StyleSheet.create({
 });
 
 export default PostForm;
+export { NEW_POST_MUTATION };
