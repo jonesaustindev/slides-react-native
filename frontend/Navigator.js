@@ -11,7 +11,7 @@ import Posts from './screens/Posts';
 import Post from './screens/Post';
 import NewPost from './screens/NewPost';
 import EditPost from './screens/EditPost';
-import Signin from './screens/Signin';
+import Signup from './screens/Signup';
 import { signOut } from './auth';
 
 class Home extends React.Component {
@@ -76,7 +76,7 @@ const AppContainer = createAppContainer(AppNavigator);
 
 const NavWrapper = ({ data }) => {
     if (data.loading) <ActivityIndicator size="large" />
-    if (!data.user) return <Signin />
+    if (!data.user) return <Signup />
     const user = data.user;
     return <AppContainer screenProps={{ user }} />
 }
@@ -93,7 +93,6 @@ const USER_QUERY = gql`
         }
     }
 `;
-
 
 export default graphql(USER_QUERY, {
     prop: ({ data }) => ({ ...data })

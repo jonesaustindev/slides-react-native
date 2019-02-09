@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator } from 'react-native';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 
-import UpdatePost from '../components/UpdatePost';
 import navStyles from '../styles/navStyles';
 import { POST_QUERY } from './Post';
+import PostForm from '../components/PostForm';
 
 class EditPost extends Component {
     static navigationOptions = {
@@ -41,7 +41,10 @@ class EditPost extends Component {
                 {this.state.loading ? (
                     <ActivityIndicator size="large" />
                 ) : (
-                    <UpdatePost post={this.props.Post} onSubmit={this.editPost} />
+                    <PostForm 
+                        post={this.props.Post} 
+                        onSubmit={this.editPost} 
+                    />
                 )}
             </View>
         )
