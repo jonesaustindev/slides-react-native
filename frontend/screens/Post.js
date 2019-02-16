@@ -21,11 +21,22 @@ class Post extends Component {
   }
   render() {
     const { Post } = this.props;
-    if (!Post) return <ActivityIndicator size="large" />
+    if (!Post) return (
+      <ActivityIndicator
+        style={{
+          flex: 1,
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+        size="large"
+      />
+    )
     return (
       <View style={styles.container}>
         <Text style={styles.bodyText}>{Post.id}</Text>
         <Text style={styles.bodyText}>{Post.user.id}</Text>
+        <Text style={styles.bodyText}>Posted by: {Post.user.name}</Text>
         <Fab
           onPress={this.editPost}
         >
@@ -43,6 +54,7 @@ const POST_QUERY = gql`
       id
       user {
         id
+        name
       }
     }
   }

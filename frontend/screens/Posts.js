@@ -7,7 +7,17 @@ import gql from 'graphql-tag';
 class Posts extends Component {
     render() {
         const { navigation, allPosts } = this.props;
-        if (!allPosts) return <ActivityIndicator size="large" />;
+        if (!allPosts) return (
+            <ActivityIndicator
+                style={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                size="large"
+            />
+        );
         return (
             <View>
                 <List>

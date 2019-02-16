@@ -39,13 +39,21 @@ class EditPost extends Component {
         return (
             <View>
                 {this.state.loading ? (
-                    <ActivityIndicator size="large" />
-                ) : (
-                    <PostForm 
-                        post={this.props.Post} 
-                        onSubmit={this.editPost} 
+                    <ActivityIndicator
+                        style={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        size="large"
                     />
-                )}
+                ) : (
+                        <PostForm
+                            post={this.props.Post}
+                            onSubmit={this.editPost}
+                        />
+                    )}
             </View>
         )
     }

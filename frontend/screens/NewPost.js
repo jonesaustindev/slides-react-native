@@ -37,7 +37,15 @@ class NewPost extends Component {
         return (
             <View>
                 {this.state.loading ? (
-                    <ActivityIndicator size="large" />
+                    <ActivityIndicator
+                        style={{
+                            flex: 1,
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        size="large"
+                    />
                 ) : (
                     <PostForm 
                         onSubmit={this.newPost}
