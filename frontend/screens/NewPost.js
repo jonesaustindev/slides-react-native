@@ -5,6 +5,7 @@ import gql from 'graphql-tag';
 
 import PostForm from '../components/PostForm';
 import navStyles from '../styles/navStyles';
+import { fileEndpoint } from '../config';
 
 
 class NewPost extends Component {
@@ -15,9 +16,30 @@ class NewPost extends Component {
     state = {
         loading: false
     }
-    newPost = ({ caption }) => {
+    newPost = ({ caption, image, name }) => {
         const { createPost, navigation, screenProps } = this.props;
         this.setState({ loading: true });
+
+        const imagePost = new FormData();
+        imagePost.append('name', 'testName');
+        imagePost.append('photo', {
+            uri: image,
+            type: 'image/jpeg',
+            name: name,
+        });
+        fetch('POST', fileEndpoint, {
+            'Accept': 'application/json',
+            'Content-Type': 'multipart/form-data',
+        }, [{
+            name: 'data',
+            filename: name,
+            data: image,
+        }]).then(res => {
+            console.log(res);
+        }).catch(err => {
+            console.log(err);
+        })
+
         createPost({
             variables: {
                 caption,

@@ -12,11 +12,14 @@ class PostForm extends Component {
     state = {
         caption: this.props.post.caption || '',
         image: this.props.post.image || null,
+        name: this.props.post.name || '',
     }
 
     submitForm = () => {
         this.props.onSubmit({
             caption: this.state.caption,
+            image: this.state.image,
+            name: this.state.name,
         })
     }
 
@@ -27,7 +30,8 @@ class PostForm extends Component {
         });
         if (!result.cancelled) {
             this.setState({
-                image: result.uri
+                image: result.uri,
+                name: result.uri.split('ImagePicker/').pop(),
             });
         }
     }

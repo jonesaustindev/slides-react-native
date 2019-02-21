@@ -28,35 +28,35 @@ const AppNavigator = createStackNavigator({
 const AppContainer = createAppContainer(AppNavigator);
 
 const NavWrapper = ({ data }) => {
-    if (data.loading) return (
-        <ActivityIndicator 
-            style={{
-                flex: 1,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }} 
-            size="large"
-        />
-    )
-    if (!data.user) return <Signup />
-    const user = data.user;
-    return <AppContainer screenProps={{ user }} />
+    // if (data.loading) return (
+    //     <ActivityIndicator 
+    //         style={{
+    //             flex: 1,
+    //             display: 'flex',
+    //             justifyContent: 'center',
+    //             alignItems: 'center',
+    //         }} 
+    //         size="large"
+    //     />
+    // )
+    // console.log(data);
+    // if (!data.user) return <Signup />
+    // const user = data.user;
+    // return <AppContainer screenProps={{ user }} />
+    return <Signup />
 }
 
-const USER_QUERY = gql`
-    query USER_QUERY {
-        user {
-            id
-            email
-            posts {
-                id
-                caption
-            }
-        }
-    }
-`;
+// const USER_QUERY = gql`
+//     query USER_QUERY {
+//         me {
+//             id
+//             email
+//             jwt
+//         }
+//     }
+// `;
 
-export default graphql(USER_QUERY, {
-    prop: ({ data }) => ({ ...data })
-})(NavWrapper);
+// export default graphql(USER_QUERY, {
+//     prop: ({ data }) => ({ ...data }),
+// })(NavWrapper);
+export default NavWrapper;
