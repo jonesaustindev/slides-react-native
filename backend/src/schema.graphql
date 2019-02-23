@@ -1,15 +1,19 @@
+scalar DateTime
+
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
   post(id: ID!): Post
   me: User
+  currentUser: User
 }
 
 type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
-  login(email: String!, password: String!): AuthPayload!
-  createDraft(title: String!, content: String!): Post!
-  publish(id: ID!): Post!
+  signin(email: String!, password: String!): AuthPayload!
+  # createDraft(title: String!, content: String!): Post!
+  # publish(id: ID!): Post!
+  createPost(caption: String, pictureUrl: String!): Post!
   deletePost(id: ID!): Post!
 }
 
@@ -31,8 +35,9 @@ type User {
 
 type Post {
   id: ID!
-  published: Boolean!
-  title: String!
-  content: String!
-  author: User!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  caption: String
+  pictureUrl: String!
+  user: User!
 }

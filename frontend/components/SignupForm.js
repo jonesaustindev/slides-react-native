@@ -30,6 +30,7 @@ class SignupForm extends Component {
                     <Label>Email</Label>
                     <Input
                         keyboardType="email-address"
+                        autoCapitalize="none"
                         value={this.state.email}
                         onChangeText={email => this.setState({ email })}
                     />
@@ -38,6 +39,7 @@ class SignupForm extends Component {
                     <Label>Password</Label>
                     <Input
                         secureTextEntry
+                        autoCapitalize="none"
                         value={this.state.password}
                         onChangeText={password => this.setState({ password })}
                     />

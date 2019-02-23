@@ -51,10 +51,9 @@ type Post {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  published: Boolean!
-  title: String!
-  content: String!
-  author: User!
+  caption: String
+  pictureUrl: String!
+  user: User!
 }
 
 type PostConnection {
@@ -64,21 +63,19 @@ type PostConnection {
 }
 
 input PostCreateInput {
-  published: Boolean
-  title: String!
-  content: String!
-  author: UserCreateOneWithoutPostsInput!
+  caption: String
+  pictureUrl: String!
+  user: UserCreateOneWithoutPostsInput!
 }
 
-input PostCreateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
+input PostCreateManyWithoutUserInput {
+  create: [PostCreateWithoutUserInput!]
   connect: [PostWhereUniqueInput!]
 }
 
-input PostCreateWithoutAuthorInput {
-  published: Boolean
-  title: String!
-  content: String!
+input PostCreateWithoutUserInput {
+  caption: String
+  pictureUrl: String!
 }
 
 type PostEdge {
@@ -93,21 +90,18 @@ enum PostOrderByInput {
   createdAt_DESC
   updatedAt_ASC
   updatedAt_DESC
-  published_ASC
-  published_DESC
-  title_ASC
-  title_DESC
-  content_ASC
-  content_DESC
+  caption_ASC
+  caption_DESC
+  pictureUrl_ASC
+  pictureUrl_DESC
 }
 
 type PostPreviousValues {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
-  published: Boolean!
-  title: String!
-  content: String!
+  caption: String
+  pictureUrl: String!
 }
 
 input PostScalarWhereInput {
@@ -141,36 +135,34 @@ input PostScalarWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
-  published: Boolean
-  published_not: Boolean
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  content: String
-  content_not: String
-  content_in: [String!]
-  content_not_in: [String!]
-  content_lt: String
-  content_lte: String
-  content_gt: String
-  content_gte: String
-  content_contains: String
-  content_not_contains: String
-  content_starts_with: String
-  content_not_starts_with: String
-  content_ends_with: String
-  content_not_ends_with: String
+  caption: String
+  caption_not: String
+  caption_in: [String!]
+  caption_not_in: [String!]
+  caption_lt: String
+  caption_lte: String
+  caption_gt: String
+  caption_gte: String
+  caption_contains: String
+  caption_not_contains: String
+  caption_starts_with: String
+  caption_not_starts_with: String
+  caption_ends_with: String
+  caption_not_ends_with: String
+  pictureUrl: String
+  pictureUrl_not: String
+  pictureUrl_in: [String!]
+  pictureUrl_not_in: [String!]
+  pictureUrl_lt: String
+  pictureUrl_lte: String
+  pictureUrl_gt: String
+  pictureUrl_gte: String
+  pictureUrl_contains: String
+  pictureUrl_not_contains: String
+  pictureUrl_starts_with: String
+  pictureUrl_not_starts_with: String
+  pictureUrl_ends_with: String
+  pictureUrl_not_ends_with: String
   AND: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   NOT: [PostScalarWhereInput!]
@@ -195,32 +187,29 @@ input PostSubscriptionWhereInput {
 }
 
 input PostUpdateInput {
-  published: Boolean
-  title: String
-  content: String
-  author: UserUpdateOneRequiredWithoutPostsInput
+  caption: String
+  pictureUrl: String
+  user: UserUpdateOneRequiredWithoutPostsInput
 }
 
 input PostUpdateManyDataInput {
-  published: Boolean
-  title: String
-  content: String
+  caption: String
+  pictureUrl: String
 }
 
 input PostUpdateManyMutationInput {
-  published: Boolean
-  title: String
-  content: String
+  caption: String
+  pictureUrl: String
 }
 
-input PostUpdateManyWithoutAuthorInput {
-  create: [PostCreateWithoutAuthorInput!]
+input PostUpdateManyWithoutUserInput {
+  create: [PostCreateWithoutUserInput!]
   delete: [PostWhereUniqueInput!]
   connect: [PostWhereUniqueInput!]
   set: [PostWhereUniqueInput!]
   disconnect: [PostWhereUniqueInput!]
-  update: [PostUpdateWithWhereUniqueWithoutAuthorInput!]
-  upsert: [PostUpsertWithWhereUniqueWithoutAuthorInput!]
+  update: [PostUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [PostUpsertWithWhereUniqueWithoutUserInput!]
   deleteMany: [PostScalarWhereInput!]
   updateMany: [PostUpdateManyWithWhereNestedInput!]
 }
@@ -230,21 +219,20 @@ input PostUpdateManyWithWhereNestedInput {
   data: PostUpdateManyDataInput!
 }
 
-input PostUpdateWithoutAuthorDataInput {
-  published: Boolean
-  title: String
-  content: String
+input PostUpdateWithoutUserDataInput {
+  caption: String
+  pictureUrl: String
 }
 
-input PostUpdateWithWhereUniqueWithoutAuthorInput {
+input PostUpdateWithWhereUniqueWithoutUserInput {
   where: PostWhereUniqueInput!
-  data: PostUpdateWithoutAuthorDataInput!
+  data: PostUpdateWithoutUserDataInput!
 }
 
-input PostUpsertWithWhereUniqueWithoutAuthorInput {
+input PostUpsertWithWhereUniqueWithoutUserInput {
   where: PostWhereUniqueInput!
-  update: PostUpdateWithoutAuthorDataInput!
-  create: PostCreateWithoutAuthorInput!
+  update: PostUpdateWithoutUserDataInput!
+  create: PostCreateWithoutUserInput!
 }
 
 input PostWhereInput {
@@ -278,37 +266,35 @@ input PostWhereInput {
   updatedAt_lte: DateTime
   updatedAt_gt: DateTime
   updatedAt_gte: DateTime
-  published: Boolean
-  published_not: Boolean
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
-  content: String
-  content_not: String
-  content_in: [String!]
-  content_not_in: [String!]
-  content_lt: String
-  content_lte: String
-  content_gt: String
-  content_gte: String
-  content_contains: String
-  content_not_contains: String
-  content_starts_with: String
-  content_not_starts_with: String
-  content_ends_with: String
-  content_not_ends_with: String
-  author: UserWhereInput
+  caption: String
+  caption_not: String
+  caption_in: [String!]
+  caption_not_in: [String!]
+  caption_lt: String
+  caption_lte: String
+  caption_gt: String
+  caption_gte: String
+  caption_contains: String
+  caption_not_contains: String
+  caption_starts_with: String
+  caption_not_starts_with: String
+  caption_ends_with: String
+  caption_not_ends_with: String
+  pictureUrl: String
+  pictureUrl_not: String
+  pictureUrl_in: [String!]
+  pictureUrl_not_in: [String!]
+  pictureUrl_lt: String
+  pictureUrl_lte: String
+  pictureUrl_gt: String
+  pictureUrl_gte: String
+  pictureUrl_contains: String
+  pictureUrl_not_contains: String
+  pictureUrl_starts_with: String
+  pictureUrl_not_starts_with: String
+  pictureUrl_ends_with: String
+  pictureUrl_not_ends_with: String
+  user: UserWhereInput
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]
   NOT: [PostWhereInput!]
@@ -351,7 +337,7 @@ input UserCreateInput {
   email: String!
   password: String!
   name: String!
-  posts: PostCreateManyWithoutAuthorInput
+  posts: PostCreateManyWithoutUserInput
 }
 
 input UserCreateOneWithoutPostsInput {
@@ -414,7 +400,7 @@ input UserUpdateInput {
   email: String
   password: String
   name: String
-  posts: PostUpdateManyWithoutAuthorInput
+  posts: PostUpdateManyWithoutUserInput
 }
 
 input UserUpdateManyMutationInput {

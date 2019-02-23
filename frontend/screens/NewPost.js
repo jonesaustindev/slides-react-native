@@ -16,46 +16,56 @@ class NewPost extends Component {
     state = {
         loading: false
     }
-    newPost = ({ caption, image, name }) => {
-        const { createPost, navigation, screenProps } = this.props;
+    newPost = ({ caption, image, name, screenProps }) => {
+        const { createPost, navigation } = this.props;
         this.setState({ loading: true });
 
-        const imagePost = new FormData();
-        imagePost.append('name', 'testName');
-        imagePost.append('photo', {
-            uri: image,
-            type: 'image/jpeg',
-            name: name,
-        });
-        fetch('POST', fileEndpoint, {
-            'Accept': 'application/json',
-            'Content-Type': 'multipart/form-data',
-        }, [{
-            name: 'data',
-            filename: name,
-            data: image,
-        }]).then(res => {
-            console.log(res);
-        }).catch(err => {
-            console.log(err);
-        })
+        // createPost({
+        //     variables: {
+        //         caption,
+        //         name,
+        //         image,
+        //         userId: screenProps.me.id,
+        //     }
+        // })
 
-        createPost({
-            variables: {
-                caption,
-                userId: screenProps.user.id,
-            }
-        })
-            .then(() => {
-                navigation.goBack();
-            })
-            .catch(err => {
-                this.setState({ loading: false });
-                console.log(err);
-            })
+        // const imagePost = new FormData();
+        // imagePost.append('name', 'testName');
+        // imagePost.append('photo', {
+        //     uri: image,
+        //     type: 'image/jpeg',
+        //     name: name,
+        // });
+        // fetch('POST', fileEndpoint, {
+        //     'Accept': 'application/json',
+        //     'Content-Type': 'multipart/form-data',
+        // }, [{
+        //     name: 'data',
+        //     filename: name,
+        //     data: image,
+        // }]).then(res => {
+        //     console.log(res);
+        // }).catch(err => {
+        //     console.log(err);
+        // })
+
+        // createPost({
+        //     variables: {
+        //         caption,
+        //         userId: screenProps.user.id,
+        //     }
+        // })
+        //     .then(() => {
+        //         navigation.goBack();
+        //     })
+        //     .catch(err => {
+        //         this.setState({ loading: false });
+        //         console.log(err);
+        //     })
     }
 
     render() {
+        console.log(this.props.screenProps.me);
         return (
             <View>
                 {this.state.loading ? (
@@ -78,17 +88,17 @@ class NewPost extends Component {
     }
 }
 
-const NEW_POST_MUTATION = gql`
-    mutation NEW_POST_MUTATION($caption: String, $userId: ID!) {
+const createPost = gql`
+    mutation createPost($caption: String, $userId: ID!) {
         createPost(caption: $caption, userId: $userId) {
             id
         }
     }
 `;
 
-export default graphql(NEW_POST_MUTATION, {
+export default graphql(createPost, {
     name: "createPost",
-    options: {
-        refetchQueries: ["ALL_POSTS_QUERY"]
-    }
+    // options: {
+    //     refetchQueries: ["ALL_POSTS_QUERY"]
+    // }
 })(NewPost);

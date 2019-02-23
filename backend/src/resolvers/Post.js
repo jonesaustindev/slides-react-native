@@ -1,6 +1,6 @@
 const Post = {
-  author: ({ id }, args, context) => {
-    return context.prisma.post({ id }).author()
+  user: ({ id }, args, context) => {
+    return context.prisma.post({ id }).user()
   },
 }
 

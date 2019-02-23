@@ -6,7 +6,6 @@ import navStyles from '../styles/navStyles';
 import Posts from '../screens/Posts';
 import { signOut } from '../auth';
 
-
 class Home extends React.Component {
     static navigationOptions = {
         title: "Home",
