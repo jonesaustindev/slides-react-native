@@ -22,7 +22,7 @@ class Signup extends Component {
       const signin = await this.props.signin({
         variables: { email, password }
       })
-      this.props.screenProps.changeLoginState(signin.data.signin.token);
+      this.props.screenProps.changeLoginState(true, signin.data.signin.token);
       this.props.client.resetStore();
     } catch (err) {
       console.log(err);
@@ -33,7 +33,7 @@ class Signup extends Component {
       const signin = await this.props.signin({
         variables: { email, password }
       })
-      this.props.screenProps.changeLoginState(signin.data.signin.token);
+      this.props.screenProps.changeLoginState(true, signin.data.signin.token);
       this.props.client.resetStore();
     } catch (err) {
       console.log(err);

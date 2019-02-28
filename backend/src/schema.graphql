@@ -3,6 +3,7 @@ scalar DateTime
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
+  posts: [Post!]!
   post(id: ID!): Post
   me: User
   currentUser: User
@@ -13,7 +14,7 @@ type Mutation {
   signin(email: String!, password: String!): AuthPayload!
   # createDraft(title: String!, content: String!): Post!
   # publish(id: ID!): Post!
-  createPost(caption: String, pictureUrl: String!): Post!
+  createPost(caption: String): Post!
   deletePost(id: ID!): Post!
 }
 
@@ -38,6 +39,5 @@ type Post {
   createdAt: DateTime!
   updatedAt: DateTime!
   caption: String
-  pictureUrl: String!
   user: User!
 }

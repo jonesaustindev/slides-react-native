@@ -6,8 +6,8 @@ import gql from 'graphql-tag';
 
 class Posts extends Component {
     render() {
-        const { navigation, allPosts } = this.props;
-        if (!allPosts) return (
+        const { navigation, posts } = this.props;
+        if (!posts) return (
             <ActivityIndicator
                 style={{
                     flex: 1,
@@ -22,7 +22,7 @@ class Posts extends Component {
             <View>
                 <List>
                     <FlatList
-                        data={allPosts}
+                        data={posts}
                         keyExtractor={item => item.id}
                         renderItem={({ item }) => (
                             <ListItem
@@ -46,16 +46,16 @@ class Posts extends Component {
     }
 }
 
-const ALL_POSTS_QUERY = gql`
-    query ALL_POSTS_QUERY {
-        allPosts(orderBy: createdAt_DESC) {
+const posts = gql`
+    query posts {
+        posts {
             id
             caption
         }
     }
 `;
 
-export default graphql(ALL_POSTS_QUERY, {
+export default graphql(posts, {
     props: ({ data }) => ({ ...data }),
 })(Posts);
-export { ALL_POSTS_QUERY };
+export { posts };

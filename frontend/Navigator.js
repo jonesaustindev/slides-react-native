@@ -27,17 +27,10 @@ const AppNavigator = createStackNavigator({
     },
 });
 
-const AuthStack = createStackNavigator({
-    Signup: {
-        screen: Signup,
-    },
-});
-
 const AppContainer = createAppContainer(AppNavigator);
-const AuthContainer = createAppContainer(AuthStack);
 
 
-class NavWrapper extends Component {
+export default class NavWrapper extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -54,9 +47,9 @@ class NavWrapper extends Component {
         }
     }
 
-    handleChangeLoginState = (token) => {
-        console.log(token);
-        if (token) {
+    handleChangeLoginState = (loggedIn = false, token) => {
+        this.setState({ loggedIn });
+        if (loggedIn) {
             signIn(token);
         } else {
             signOut();
@@ -64,14 +57,13 @@ class NavWrapper extends Component {
     }
 
     render() {
-        const { me } = this.props;
         if(this.state.loggedIn) {
             return (
-                <AppContainer screenProps={{ changeLoginState: this.handleChangeLoginState, me }} />
+                <AppContainer screenProps={{ changeLoginState: this.handleChangeLoginState }} />
             )
         } else {
             return (
-                <AuthContainer screenProps={{ changeLoginState: this.handleChangeLoginState }} />
+                <Signup screenProps={{ changeLoginState: this.handleChangeLoginState }} />
             )
         }
     }
@@ -92,16 +84,16 @@ class NavWrapper extends Component {
     // return <AppContainer screenProps={{ user }} />
 }
 
-const me = gql`
-    query me {
-        me {
-            id
-            email
-            jwt
-        }
-    }
-`;
+// const me = gql`
+//     query me {
+//         me {
+//             id
+//             email
+//             jwt
+//         }
+//     }
+// `;
 
-export default graphql(me, {
-    prop: ({ data }) => ({ ...data }),
-})(NavWrapper);
+// export default graphql(me, {
+//     prop: ({ data }) => ({ ...data }),
+// })(NavWrapper);

@@ -52,7 +52,6 @@ type Post {
   createdAt: DateTime!
   updatedAt: DateTime!
   caption: String
-  pictureUrl: String!
   user: User!
 }
 
@@ -64,7 +63,6 @@ type PostConnection {
 
 input PostCreateInput {
   caption: String
-  pictureUrl: String!
   user: UserCreateOneWithoutPostsInput!
 }
 
@@ -75,7 +73,6 @@ input PostCreateManyWithoutUserInput {
 
 input PostCreateWithoutUserInput {
   caption: String
-  pictureUrl: String!
 }
 
 type PostEdge {
@@ -92,8 +89,6 @@ enum PostOrderByInput {
   updatedAt_DESC
   caption_ASC
   caption_DESC
-  pictureUrl_ASC
-  pictureUrl_DESC
 }
 
 type PostPreviousValues {
@@ -101,7 +96,6 @@ type PostPreviousValues {
   createdAt: DateTime!
   updatedAt: DateTime!
   caption: String
-  pictureUrl: String!
 }
 
 input PostScalarWhereInput {
@@ -149,20 +143,6 @@ input PostScalarWhereInput {
   caption_not_starts_with: String
   caption_ends_with: String
   caption_not_ends_with: String
-  pictureUrl: String
-  pictureUrl_not: String
-  pictureUrl_in: [String!]
-  pictureUrl_not_in: [String!]
-  pictureUrl_lt: String
-  pictureUrl_lte: String
-  pictureUrl_gt: String
-  pictureUrl_gte: String
-  pictureUrl_contains: String
-  pictureUrl_not_contains: String
-  pictureUrl_starts_with: String
-  pictureUrl_not_starts_with: String
-  pictureUrl_ends_with: String
-  pictureUrl_not_ends_with: String
   AND: [PostScalarWhereInput!]
   OR: [PostScalarWhereInput!]
   NOT: [PostScalarWhereInput!]
@@ -188,18 +168,15 @@ input PostSubscriptionWhereInput {
 
 input PostUpdateInput {
   caption: String
-  pictureUrl: String
   user: UserUpdateOneRequiredWithoutPostsInput
 }
 
 input PostUpdateManyDataInput {
   caption: String
-  pictureUrl: String
 }
 
 input PostUpdateManyMutationInput {
   caption: String
-  pictureUrl: String
 }
 
 input PostUpdateManyWithoutUserInput {
@@ -221,7 +198,6 @@ input PostUpdateManyWithWhereNestedInput {
 
 input PostUpdateWithoutUserDataInput {
   caption: String
-  pictureUrl: String
 }
 
 input PostUpdateWithWhereUniqueWithoutUserInput {
@@ -280,20 +256,6 @@ input PostWhereInput {
   caption_not_starts_with: String
   caption_ends_with: String
   caption_not_ends_with: String
-  pictureUrl: String
-  pictureUrl_not: String
-  pictureUrl_in: [String!]
-  pictureUrl_not_in: [String!]
-  pictureUrl_lt: String
-  pictureUrl_lte: String
-  pictureUrl_gt: String
-  pictureUrl_gte: String
-  pictureUrl_contains: String
-  pictureUrl_not_contains: String
-  pictureUrl_starts_with: String
-  pictureUrl_not_starts_with: String
-  pictureUrl_ends_with: String
-  pictureUrl_not_ends_with: String
   user: UserWhereInput
   AND: [PostWhereInput!]
   OR: [PostWhereInput!]

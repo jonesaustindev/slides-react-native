@@ -154,9 +154,7 @@ export type PostOrderByInput =
   | "updatedAt_ASC"
   | "updatedAt_DESC"
   | "caption_ASC"
-  | "caption_DESC"
-  | "pictureUrl_ASC"
-  | "pictureUrl_DESC";
+  | "caption_DESC";
 
 export type UserOrderByInput =
   | "id_ASC"
@@ -241,7 +239,6 @@ export interface UserUpdateManyMutationInput {
 
 export interface PostCreateInput {
   caption?: String;
-  pictureUrl: String;
   user: UserCreateOneWithoutPostsInput;
 }
 
@@ -269,12 +266,10 @@ export interface UserCreateWithoutPostsInput {
 
 export interface PostUpdateWithoutUserDataInput {
   caption?: String;
-  pictureUrl?: String;
 }
 
 export interface PostUpdateInput {
   caption?: String;
-  pictureUrl?: String;
   user?: UserUpdateOneRequiredWithoutPostsInput;
 }
 
@@ -345,12 +340,10 @@ export interface UserWhereInput {
 
 export interface PostCreateWithoutUserInput {
   caption?: String;
-  pictureUrl: String;
 }
 
 export interface PostUpdateManyDataInput {
   caption?: String;
-  pictureUrl?: String;
 }
 
 export interface PostCreateManyWithoutUserInput {
@@ -360,7 +353,6 @@ export interface PostCreateManyWithoutUserInput {
 
 export interface PostUpdateManyMutationInput {
   caption?: String;
-  pictureUrl?: String;
 }
 
 export interface PostWhereInput {
@@ -408,20 +400,6 @@ export interface PostWhereInput {
   caption_not_starts_with?: String;
   caption_ends_with?: String;
   caption_not_ends_with?: String;
-  pictureUrl?: String;
-  pictureUrl_not?: String;
-  pictureUrl_in?: String[] | String;
-  pictureUrl_not_in?: String[] | String;
-  pictureUrl_lt?: String;
-  pictureUrl_lte?: String;
-  pictureUrl_gt?: String;
-  pictureUrl_gte?: String;
-  pictureUrl_contains?: String;
-  pictureUrl_not_contains?: String;
-  pictureUrl_starts_with?: String;
-  pictureUrl_not_starts_with?: String;
-  pictureUrl_ends_with?: String;
-  pictureUrl_not_ends_with?: String;
   user?: UserWhereInput;
   AND?: PostWhereInput[] | PostWhereInput;
   OR?: PostWhereInput[] | PostWhereInput;
@@ -479,20 +457,6 @@ export interface PostScalarWhereInput {
   caption_not_starts_with?: String;
   caption_ends_with?: String;
   caption_not_ends_with?: String;
-  pictureUrl?: String;
-  pictureUrl_not?: String;
-  pictureUrl_in?: String[] | String;
-  pictureUrl_not_in?: String[] | String;
-  pictureUrl_lt?: String;
-  pictureUrl_lte?: String;
-  pictureUrl_gt?: String;
-  pictureUrl_gte?: String;
-  pictureUrl_contains?: String;
-  pictureUrl_not_contains?: String;
-  pictureUrl_starts_with?: String;
-  pictureUrl_not_starts_with?: String;
-  pictureUrl_ends_with?: String;
-  pictureUrl_not_ends_with?: String;
   AND?: PostScalarWhereInput[] | PostScalarWhereInput;
   OR?: PostScalarWhereInput[] | PostScalarWhereInput;
   NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
@@ -569,7 +533,6 @@ export interface Post {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   caption?: String;
-  pictureUrl: String;
 }
 
 export interface PostPromise extends Promise<Post>, Fragmentable {
@@ -577,7 +540,6 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   caption: () => Promise<String>;
-  pictureUrl: () => Promise<String>;
   user: <T = UserPromise>() => T;
 }
 
@@ -588,7 +550,6 @@ export interface PostSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   caption: () => Promise<AsyncIterator<String>>;
-  pictureUrl: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
 }
 
@@ -802,7 +763,6 @@ export interface PostPreviousValues {
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
   caption?: String;
-  pictureUrl: String;
 }
 
 export interface PostPreviousValuesPromise
@@ -812,7 +772,6 @@ export interface PostPreviousValuesPromise
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
   caption: () => Promise<String>;
-  pictureUrl: () => Promise<String>;
 }
 
 export interface PostPreviousValuesSubscription
@@ -822,7 +781,6 @@ export interface PostPreviousValuesSubscription
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   caption: () => Promise<AsyncIterator<String>>;
-  pictureUrl: () => Promise<AsyncIterator<String>>;
 }
 
 export interface UserConnection {

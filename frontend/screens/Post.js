@@ -14,14 +14,14 @@ class Post extends Component {
     }
   }
   editPost = () => {
-    const { navigation, Post } = this.props;
+    const { navigation, post } = this.props;
     navigation.navigate('EditPost', {
-      id: Post.id,
+      id: post.id,
     });
   }
   render() {
-    const { Post } = this.props;
-    if (!Post) return (
+    const { post } = this.props;
+    if (!post) return (
       <ActivityIndicator
         style={{
           flex: 1,
@@ -34,9 +34,10 @@ class Post extends Component {
     )
     return (
       <View style={styles.container}>
-        <Text style={styles.bodyText}>{Post.id}</Text>
-        <Text style={styles.bodyText}>{Post.user.id}</Text>
-        <Text style={styles.bodyText}>Posted by: {Post.user.name}</Text>
+        <Text style={styles.bodyText}>{post.id}</Text>
+        <Text style={styles.bodyText}>{post.caption}</Text>
+        <Text style={styles.bodyText}>{post.user.id}</Text>
+        <Text style={styles.bodyText}>Posted by: {post.user.name}</Text>
         <Fab
           onPress={this.editPost}
         >
@@ -47,9 +48,9 @@ class Post extends Component {
   }
 }
 
-const POST_QUERY = gql`
-  query POST_QUERY($id: ID!) {
-    Post(id: $id) {
+const post = gql`
+  query post($id: ID!) {
+    post(id: $id) {
       caption
       id
       user {
@@ -70,7 +71,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default graphql(POST_QUERY, {
+export default graphql(post, {
   props: ({ data }) => ({ ...data }),
   options: ({ navigation }) => ({
     variables: {
@@ -78,4 +79,4 @@ export default graphql(POST_QUERY, {
     }
   })
 })(Post);
-export { POST_QUERY };
+export { post };

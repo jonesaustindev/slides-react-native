@@ -11,15 +11,15 @@ class PostForm extends Component {
 
     state = {
         caption: this.props.post.caption || '',
-        image: this.props.post.image || null,
-        name: this.props.post.name || '',
+        // image: this.props.post.image || null,
+        // name: this.props.post.name || '',
     }
 
     submitForm = () => {
         this.props.onSubmit({
             caption: this.state.caption,
-            image: this.state.image,
-            name: this.state.name,
+            // image: this.state.image,
+            // name: this.state.name,
         })
     }
 

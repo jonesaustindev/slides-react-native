@@ -16,9 +16,22 @@ class NewPost extends Component {
     state = {
         loading: false
     }
-    newPost = ({ caption, image, name, screenProps }) => {
+    newPost = ({ caption }) => {
         const { createPost, navigation } = this.props;
         this.setState({ loading: true });
+
+        createPost({
+            variables: {
+                caption,
+            }
+        })
+            .then(() => {
+                navigation.goBack();
+            })
+            .catch(err => {
+                this.setState({ loading: false });
+                console.log(err);
+            })
 
         // createPost({
         //     variables: {
@@ -48,24 +61,9 @@ class NewPost extends Component {
         // }).catch(err => {
         //     console.log(err);
         // })
-
-        // createPost({
-        //     variables: {
-        //         caption,
-        //         userId: screenProps.user.id,
-        //     }
-        // })
-        //     .then(() => {
-        //         navigation.goBack();
-        //     })
-        //     .catch(err => {
-        //         this.setState({ loading: false });
-        //         console.log(err);
-        //     })
     }
 
     render() {
-        console.log(this.props.screenProps.me);
         return (
             <View>
                 {this.state.loading ? (
@@ -79,26 +77,33 @@ class NewPost extends Component {
                         size="large"
                     />
                 ) : (
-                    <PostForm 
-                        onSubmit={this.newPost}
-                    />
-                )}
+                        <PostForm
+                            onSubmit={this.newPost}
+                        />
+                    )}
             </View>
         )
     }
 }
 
 const createPost = gql`
-    mutation createPost($caption: String, $userId: ID!) {
-        createPost(caption: $caption, userId: $userId) {
+    mutation createPost($caption: String) {
+        createPost(caption: $caption) {
             id
+            caption
+            user {
+                id
+                email
+                name
+                posts {
+                    id
+                    caption
+                }
+            }
         }
     }
 `;
 
 export default graphql(createPost, {
-    name: "createPost",
-    // options: {
-    //     refetchQueries: ["ALL_POSTS_QUERY"]
-    // }
+    name: "createPost"
 })(NewPost);

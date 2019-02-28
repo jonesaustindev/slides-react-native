@@ -22,8 +22,7 @@ class Home extends React.Component {
                 <Posts {...this.props} />
                 <Button 
                     onPress={() => {
-                        signOut();
-                        this.props.client.resetStore();
+                        return this.props.screenProps.changeLoginState(false);
                     }}
                     title="Sign Out"
                 />
