@@ -1,13 +1,6 @@
-scalar DateTime
+# import * from './generated/prisma-client/prisma.graphql'
 
-type Query {
-  feed: [Post!]!
-  drafts: [Post!]!
-  posts: [Post!]!
-  post(id: ID!): Post
-  me: User
-  currentUser: User
-}
+scalar DateTime
 
 type Mutation {
   signup(email: String!, password: String!, name: String!): AuthPayload!
@@ -18,26 +11,31 @@ type Mutation {
   deletePost(id: ID!): Post!
 }
 
-type Subscription {
-  feedSubscription: Post
+type Query {
+  feed: [Post!]!
+  drafts: [Post!]!
+  posts: [Post!]!
+  post(id: ID!): Post
+  me: User
+  currentUser: User
 }
 
 type AuthPayload {
-  token: String!
-  user: User!
+    token: String!
+    user: User!
 }
 
 type User {
-  id: ID!
-  email: String!
-  name: String!
-  posts: [Post!]!
+    id: ID!
+    email: String!
+    name: String!
+    posts: [Post!]!
 }
 
 type Post {
-  id: ID!
-  createdAt: DateTime!
-  updatedAt: DateTime!
-  caption: String
-  user: User!
+    id: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    caption: String
+    user: User!
 }

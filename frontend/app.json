@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Slides",
+    "name": "slides-frontend",
     "slug": "frontend",
     "privacy": "public",
     "sdkVersion": "32.0.0",
