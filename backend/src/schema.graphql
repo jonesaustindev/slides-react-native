@@ -1,41 +1,64 @@
-# import * from './generated/prisma-client/prisma.graphql'
-
 scalar DateTime
-
-type Mutation {
-  signup(email: String!, password: String!, name: String!): AuthPayload!
-  signin(email: String!, password: String!): AuthPayload!
-  # createDraft(title: String!, content: String!): Post!
-  # publish(id: ID!): Post!
-  createPost(caption: String): Post!
-  deletePost(id: ID!): Post!
-}
 
 type Query {
   feed: [Post!]!
   drafts: [Post!]!
-  posts: [Post!]!
   post(id: ID!): Post
   me: User
-  currentUser: User
+  allPosts: [ImagePost!]!
+  queryImagePost(id: ID!): ImagePost!
+}
+
+type Mutation {
+  signup(email: String!, password: String!, name: String!): AuthPayload!
+  login(email: String!, password: String!): AuthPayload!
+  createDraft(title: String!, content: String!): Post!
+  publish(id: ID!): Post!
+  deletePost(id: ID!): Post!
+  uploadImagePost(caption: String, image: String!, largeImage: String!): ImagePost!
+  editImagePost(id: ID!, caption: String): ImagePost!
+  deleteImagePost(id: ID!): ImagePost
+  # createImagePost(caption: String, image: String!, largeImage: String!): ImagePost!
+}
+
+type Subscription {
+  feedSubscription: Post
 }
 
 type AuthPayload {
-    token: String!
-    user: User!
+  token: String!
+  user: User!
 }
 
 type User {
-    id: ID!
-    email: String!
-    name: String!
-    posts: [Post!]!
+  id: ID!
+  email: String!
+  name: String!
+  posts: [Post!]!
+  imagePosts: [ImagePost!]!
 }
 
 type Post {
-    id: ID!
-    createdAt: DateTime!
-    updatedAt: DateTime!
-    caption: String
-    user: User!
+  id: ID!
+  published: Boolean!
+  title: String!
+  content: String!
+  author: User!
+}
+
+type ImagePost {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  caption: String
+  image: String!
+  largeImage: String!
+  user: User!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID!
+  text: String!
+  user: User!
 }

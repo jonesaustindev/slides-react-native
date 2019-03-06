@@ -6,6 +6,8 @@ import Home from './screens/Home';
 import Details from './screens/Details';
 import Signup from './screens/Signup';
 import Post from './screens/Post';
+import NewPost from './screens/NewPost';
+import EditPost from './screens/EditPost';
 
 import { getToken, signIn, signOut } from './auth';
 
@@ -15,6 +17,8 @@ const AppNavigator = createStackNavigator(
     Home: Home,
     Details: Details,
     Post: Post,
+    NewPost: NewPost,
+    EditPost: EditPost,
   },
   {
     initialRouteName: 'Home',

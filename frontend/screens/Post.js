@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from "react-native";
-import Post from '../components/Post';
+import SinglePost from '../components/SinglePost';
 import navStyles from "../styles/navStyles";
 
-class PostScreen extends Component {
+class Post extends Component {
     static navigationOptions = ({ navigation }) => {
         return {
             title: navigation.getParam('title'),
@@ -18,9 +18,9 @@ class PostScreen extends Component {
     }
     render() {
         return (
-            <Post />
+            <SinglePost {...this.props} />
         );
     }
 }
 
-export default PostScreen;
+export default Post;

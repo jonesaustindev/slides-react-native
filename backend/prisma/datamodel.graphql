@@ -2,9 +2,10 @@ type Post {
   id: ID! @unique
   createdAt: DateTime!
   updatedAt: DateTime!
-  caption: String
-  # pictureUrl: String!
-  user: User!
+  published: Boolean! @default(value: "false")
+  title: String!
+  content: String!
+  author: User!
 }
 
 type User {
@@ -13,4 +14,22 @@ type User {
   password: String!
   name: String!
   posts: [Post!]!
+  imagePosts: [ImagePost!]!
+}
+
+type ImagePost {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  caption: String
+  image: String!
+  largeImage: String!
+  user: User!
+  comments: [Comment!]!
+}
+
+type Comment {
+  id: ID! @unique
+  text: String!
+  user: User!
 }

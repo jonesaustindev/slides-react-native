@@ -1,4 +1,3 @@
-
 const { getUserId } = require('../utils')
 
 const Query = {
@@ -22,9 +21,12 @@ const Query = {
     const id = getUserId(context)
     return context.prisma.user({ id })
   },
-  posts(parent, args, context, info) {
-    return context.prisma.posts()
+  allPosts(parent, args, context) {
+    return context.prisma.imagePosts()
   },
+  queryImagePost(parent, { id }, context) {
+    return context.prisma.imagePost({ id })
+  }
 }
 
 module.exports = { Query }

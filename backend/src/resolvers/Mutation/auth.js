@@ -12,7 +12,7 @@ const auth = {
     }
   },
 
-  async signin(parent, { email, password }, context) {
+  async login(parent, { email, password }, context) {
     const user = await context.prisma.user({ email })
     if (!user) {
       throw new Error(`No user found for email: ${email}`)

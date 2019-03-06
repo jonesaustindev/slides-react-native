@@ -9,7 +9,10 @@ class AllPosts extends Component {
     const { navigation } = this.props;
     return (
       <View>
-        <Query query={posts}>
+        <Query 
+          query={posts}
+          notifyOnNetworkStatusChange
+        >
           {({ loading, error, data }) => {
             if (loading) return <ActivityIndicator size="large" />
             if (error) return console.log(error);
@@ -59,3 +62,4 @@ const posts = gql`
 `;
 
 export default AllPosts;
+export { posts };
