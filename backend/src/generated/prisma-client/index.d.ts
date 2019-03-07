@@ -259,9 +259,7 @@ export type ImagePostOrderByInput =
   | "caption_ASC"
   | "caption_DESC"
   | "image_ASC"
-  | "image_DESC"
-  | "largeImage_ASC"
-  | "largeImage_DESC";
+  | "image_DESC";
 
 export type CommentOrderByInput =
   | "id_ASC"
@@ -307,7 +305,6 @@ export interface PostCreateWithoutAuthorInput {
 export interface ImagePostCreateInput {
   caption?: String;
   image: String;
-  largeImage: String;
   user: UserCreateOneWithoutImagePostsInput;
   comments?: CommentCreateManyInput;
 }
@@ -325,7 +322,6 @@ export interface ImagePostUpdateWithWhereUniqueWithoutUserInput {
 export interface ImagePostCreateWithoutUserInput {
   caption?: String;
   image: String;
-  largeImage: String;
   comments?: CommentCreateManyInput;
 }
 
@@ -609,7 +605,6 @@ export interface PostScalarWhereInput {
 export interface ImagePostUpdateManyMutationInput {
   caption?: String;
   image?: String;
-  largeImage?: String;
 }
 
 export interface UserCreateWithoutImagePostsInput {
@@ -736,7 +731,6 @@ export interface PostCreateManyWithoutAuthorInput {
 export interface ImagePostUpdateWithoutUserDataInput {
   caption?: String;
   image?: String;
-  largeImage?: String;
   comments?: CommentUpdateManyInput;
 }
 
@@ -929,20 +923,6 @@ export interface ImagePostWhereInput {
   image_not_starts_with?: String;
   image_ends_with?: String;
   image_not_ends_with?: String;
-  largeImage?: String;
-  largeImage_not?: String;
-  largeImage_in?: String[] | String;
-  largeImage_not_in?: String[] | String;
-  largeImage_lt?: String;
-  largeImage_lte?: String;
-  largeImage_gt?: String;
-  largeImage_gte?: String;
-  largeImage_contains?: String;
-  largeImage_not_contains?: String;
-  largeImage_starts_with?: String;
-  largeImage_not_starts_with?: String;
-  largeImage_ends_with?: String;
-  largeImage_not_ends_with?: String;
   user?: UserWhereInput;
   comments_every?: CommentWhereInput;
   comments_some?: CommentWhereInput;
@@ -1025,20 +1005,6 @@ export interface ImagePostScalarWhereInput {
   image_not_starts_with?: String;
   image_ends_with?: String;
   image_not_ends_with?: String;
-  largeImage?: String;
-  largeImage_not?: String;
-  largeImage_in?: String[] | String;
-  largeImage_not_in?: String[] | String;
-  largeImage_lt?: String;
-  largeImage_lte?: String;
-  largeImage_gt?: String;
-  largeImage_gte?: String;
-  largeImage_contains?: String;
-  largeImage_not_contains?: String;
-  largeImage_starts_with?: String;
-  largeImage_not_starts_with?: String;
-  largeImage_ends_with?: String;
-  largeImage_not_ends_with?: String;
   AND?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
   OR?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
   NOT?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
@@ -1056,7 +1022,6 @@ export interface ImagePostUpdateManyWithWhereNestedInput {
 export interface ImagePostUpdateInput {
   caption?: String;
   image?: String;
-  largeImage?: String;
   user?: UserUpdateOneRequiredWithoutImagePostsInput;
   comments?: CommentUpdateManyInput;
 }
@@ -1078,7 +1043,6 @@ export interface UserUpsertNestedInput {
 export interface ImagePostUpdateManyDataInput {
   caption?: String;
   image?: String;
-  largeImage?: String;
 }
 
 export interface UserCreateInput {
@@ -1382,7 +1346,6 @@ export interface ImagePost {
   updatedAt: DateTimeOutput;
   caption?: String;
   image: String;
-  largeImage: String;
 }
 
 export interface ImagePostPromise extends Promise<ImagePost>, Fragmentable {
@@ -1391,7 +1354,6 @@ export interface ImagePostPromise extends Promise<ImagePost>, Fragmentable {
   updatedAt: () => Promise<DateTimeOutput>;
   caption: () => Promise<String>;
   image: () => Promise<String>;
-  largeImage: () => Promise<String>;
   user: <T = UserPromise>() => T;
   comments: <T = FragmentableArray<Comment>>(
     args?: {
@@ -1414,7 +1376,6 @@ export interface ImagePostSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   caption: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
-  largeImage: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   comments: <T = Promise<AsyncIterator<CommentSubscription>>>(
     args?: {
@@ -1575,7 +1536,6 @@ export interface ImagePostPreviousValues {
   updatedAt: DateTimeOutput;
   caption?: String;
   image: String;
-  largeImage: String;
 }
 
 export interface ImagePostPreviousValuesPromise
@@ -1586,7 +1546,6 @@ export interface ImagePostPreviousValuesPromise
   updatedAt: () => Promise<DateTimeOutput>;
   caption: () => Promise<String>;
   image: () => Promise<String>;
-  largeImage: () => Promise<String>;
 }
 
 export interface ImagePostPreviousValuesSubscription
@@ -1597,7 +1556,6 @@ export interface ImagePostPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   caption: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
-  largeImage: () => Promise<AsyncIterator<String>>;
 }
 
 export interface ImagePostSubscriptionPayload {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
 import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
+import { ReactNativeFile } from 'apollo-upload-client';
 
 import PostForm from '../components/PostForm';
 import navStyles from '../styles/navStyles';
@@ -17,13 +18,20 @@ class NewPost extends Component {
     state = {
         loading: false
     }
-    newPost = ({ caption }) => {
-        const { createPost, navigation } = this.props;
+    newPost = async ({ caption, image, name, type }) => {
+        const { uploadImagePost, navigation } = this.props;
         this.setState({ loading: true });
 
-        createPost({
+        const imageFile = new ReactNativeFile({
+            uri: image,
+            type: 'image/jpg',
+            name,
+        });
+
+        uploadImagePost({
             variables: {
                 caption,
+                image: imageFile,
             },
         })
             .then(() => {
@@ -78,24 +86,20 @@ class NewPost extends Component {
     }
 }
 
-const createPost = gql`
-    mutation createPost($caption: String) {
-        createPost(caption: $caption) {
+const uploadImagePost = gql`
+    mutation uploadImagePost($caption: String, $image: Upload!) {
+        uploadImagePost(caption: $caption, image: $image) {
             id
+            createdAt
             caption
+            image
             user {
                 id
-                email
-                name
-                posts {
-                    id
-                    caption
-                }
             }
         }
     }
 `;
 
-export default graphql(createPost, {
-    name: "createPost"
+export default graphql(uploadImagePost, {
+    name: "uploadImagePost"
 })(NewPost);

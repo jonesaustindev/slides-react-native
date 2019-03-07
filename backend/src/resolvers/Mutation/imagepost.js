@@ -1,12 +1,35 @@
 const { getUserId } = require('../../utils')
+const shortid = require('shortid')
+const { createWriteStream } = require('fs')
+
+const storeUpload = async ({ stream, filename }) => {
+    const id = shortid.generate()
+    const path = `images/${id}-${filename}`
+  
+    return new Promise((resolve, reject) =>
+      stream
+        .pipe(createWriteStream(path))
+        .on('finish', () => resolve({ path }))
+        .on('error', reject),
+    )
+  }
+
+  
+
+const processUpload = async upload => {
+    const { createReadStream, filename, mimetype, encoding } = await upload
+    const stream = createReadStream()
+    const { path } = await storeUpload({ stream, filename })
+    return path
+  }
 
 const imagepost = {
-    async uploadImagePost(parent, { caption, image, largeImage }, context) {
+    async uploadImagePost(parent, { caption, image }, context) {
         const userId = getUserId(context);
+        const imageUrl = await processUpload(image);
         return context.prisma.createImagePost({
             caption,
-            image,
-            largeImage,
+            image: imageUrl,
             user: { connect: { id: userId } },
         })
     },

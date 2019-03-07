@@ -11,28 +11,33 @@ class PostForm extends Component {
 
     state = {
         caption: this.props.post.caption || '',
-        // image: this.props.post.image || null,
-        // name: this.props.post.name || '',
+        image: this.props.post.image || '',
+        type: this.props.post.type || '',
+        name: this.props.post.name || '',
     }
 
     submitForm = () => {
         this.props.onSubmit({
             caption: this.state.caption,
-            // image: this.state.image,
-            // name: this.state.name,
+            image: this.state.image,
+            type: this.state.type,
+            name: this.state.name,
         })
     }
 
     pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: true,
-            aspect: [4, 3],
         });
         if (!result.cancelled) {
             this.setState({
                 image: result.uri,
+                type: result.type,
                 name: result.uri.split('ImagePicker/').pop(),
             });
+            console.log(result);
+            console.log(result.uri);
+            console.log(this.state);
         }
     }
 

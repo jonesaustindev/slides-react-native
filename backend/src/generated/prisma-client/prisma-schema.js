@@ -211,7 +211,6 @@ type ImagePost {
   updatedAt: DateTime!
   caption: String
   image: String!
-  largeImage: String!
   user: User!
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
 }
@@ -225,7 +224,6 @@ type ImagePostConnection {
 input ImagePostCreateInput {
   caption: String
   image: String!
-  largeImage: String!
   user: UserCreateOneWithoutImagePostsInput!
   comments: CommentCreateManyInput
 }
@@ -238,7 +236,6 @@ input ImagePostCreateManyWithoutUserInput {
 input ImagePostCreateWithoutUserInput {
   caption: String
   image: String!
-  largeImage: String!
   comments: CommentCreateManyInput
 }
 
@@ -258,8 +255,6 @@ enum ImagePostOrderByInput {
   caption_DESC
   image_ASC
   image_DESC
-  largeImage_ASC
-  largeImage_DESC
 }
 
 type ImagePostPreviousValues {
@@ -268,7 +263,6 @@ type ImagePostPreviousValues {
   updatedAt: DateTime!
   caption: String
   image: String!
-  largeImage: String!
 }
 
 input ImagePostScalarWhereInput {
@@ -330,20 +324,6 @@ input ImagePostScalarWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
-  largeImage: String
-  largeImage_not: String
-  largeImage_in: [String!]
-  largeImage_not_in: [String!]
-  largeImage_lt: String
-  largeImage_lte: String
-  largeImage_gt: String
-  largeImage_gte: String
-  largeImage_contains: String
-  largeImage_not_contains: String
-  largeImage_starts_with: String
-  largeImage_not_starts_with: String
-  largeImage_ends_with: String
-  largeImage_not_ends_with: String
   AND: [ImagePostScalarWhereInput!]
   OR: [ImagePostScalarWhereInput!]
   NOT: [ImagePostScalarWhereInput!]
@@ -370,7 +350,6 @@ input ImagePostSubscriptionWhereInput {
 input ImagePostUpdateInput {
   caption: String
   image: String
-  largeImage: String
   user: UserUpdateOneRequiredWithoutImagePostsInput
   comments: CommentUpdateManyInput
 }
@@ -378,13 +357,11 @@ input ImagePostUpdateInput {
 input ImagePostUpdateManyDataInput {
   caption: String
   image: String
-  largeImage: String
 }
 
 input ImagePostUpdateManyMutationInput {
   caption: String
   image: String
-  largeImage: String
 }
 
 input ImagePostUpdateManyWithoutUserInput {
@@ -407,7 +384,6 @@ input ImagePostUpdateManyWithWhereNestedInput {
 input ImagePostUpdateWithoutUserDataInput {
   caption: String
   image: String
-  largeImage: String
   comments: CommentUpdateManyInput
 }
 
@@ -481,20 +457,6 @@ input ImagePostWhereInput {
   image_not_starts_with: String
   image_ends_with: String
   image_not_ends_with: String
-  largeImage: String
-  largeImage_not: String
-  largeImage_in: [String!]
-  largeImage_not_in: [String!]
-  largeImage_lt: String
-  largeImage_lte: String
-  largeImage_gt: String
-  largeImage_gte: String
-  largeImage_contains: String
-  largeImage_not_contains: String
-  largeImage_starts_with: String
-  largeImage_not_starts_with: String
-  largeImage_ends_with: String
-  largeImage_not_ends_with: String
   user: UserWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput

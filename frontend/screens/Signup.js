@@ -20,10 +20,10 @@ class Signup extends Component {
                     password,
                 }
             });
-            const signin = await this.props.signin({
+            const signin = await this.props.login({
                 variables: { email, password }
             });
-            this.props.screenProps.changeLoginState(true, signin.data.signin.token);
+            this.props.screenProps.changeLoginState(true, signin.data.login.token);
             this.props.client.resetStore();
         } catch (err) {
             console.log(err);
@@ -32,10 +32,10 @@ class Signup extends Component {
 
     signin = async ({ email, password }) => {
         try {
-            const signin = await this.props.signin({
+            const signin = await this.props.login({
                 variables: { email, password }
             });
-            this.props.screenProps.changeLoginState(true, signin.data.signin.token);
+            this.props.screenProps.changeLoginState(true, signin.data.login.token);
             this.props.client.resetStore();
         } catch (err) {
             console.log(err);
@@ -71,9 +71,9 @@ const signup = gql`
     }
 `;
 
-const signin = gql`
-    mutation signin($email: String!, $password: String!) {
-        signin(email: $email, password: $password) {
+const login = gql`
+    mutation login($email: String!, $password: String!) {
+        login(email: $email, password: $password) {
             token
         }
     }
@@ -81,5 +81,5 @@ const signin = gql`
 
 export default withApollo(compose(
     graphql(signup, { name: "signup" }),
-    graphql(signin, { name: "signin" }),
+    graphql(login, { name: "login" }),
 )(Signup));

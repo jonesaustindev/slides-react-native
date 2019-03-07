@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { Query } from 'react-apollo';
 import { Fab, Icon } from 'native-base';
-import gql from 'graphql-tag';
 
 import navStyles from '../styles/navStyles';
 
@@ -24,57 +22,33 @@ class Post extends Component {
     //         >
     //           <Icon name="create" />
     //         </Fab>
+
     render() {
-        const postId = this.props.navigation.state.params.id;
-
+        const post = this.props.queryImagePost;
+        console.log(post);
+        if (!post) return (
+            <ActivityIndicator
+              style={{
+                flex: 1,
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+              size="large"
+            />
+          )
         return (
-            <Query
-                query={post}
-                variables={{
-                    id: postId,
-                }}
-            >
-                {({ loading, error, data }) => {
-                    if (loading) return (
-                        <ActivityIndicator
-                            style={{
-                                flex: 1,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
-                            size="large"
-                        />
-                    )
-                    if (error) return console.log(error);
-
-                    const post = data.post;
-                    return (
-                        <View style={styles.container}>
-                            <Text style={styles.bodyText}>{post.id}</Text>
-                            <Text style={styles.bodyText}>{post.caption}</Text>
-                            <Text style={styles.bodyText}>{post.user.id}</Text>
-                            <Text style={styles.bodyText}>Posted by: {post.user.name}</Text>
-                        </View>
-                    )
-                }}
-            </Query>
+            <View style={styles.container}>
+                <Text style={styles.bodyText}>{post.id}</Text>
+                <Text style={styles.bodyText}>{post.caption}</Text>
+                <Text style={styles.bodyText}>{post.user.id}</Text>
+                <Text style={styles.bodyText}>{post.image}</Text>
+                <Text style={styles.bodyText}>{post.largeImage}</Text>
+                <Text style={styles.bodyText}>Posted by: {post.user.name}</Text>
+            </View>
         )
     }
 }
-
-const post = gql`
-  query post($id: ID!) {
-    post(id: $id) {
-      caption
-      id
-      user {
-        id
-        name
-      }
-    }
-  }
-`;
 
 const styles = StyleSheet.create({
     container: {
@@ -87,4 +61,3 @@ const styles = StyleSheet.create({
 });
 
 export default Post;
-export { post };

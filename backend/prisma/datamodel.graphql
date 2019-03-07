@@ -23,7 +23,6 @@ type ImagePost {
   updatedAt: DateTime!
   caption: String
   image: String!
-  largeImage: String!
   user: User!
   comments: [Comment!]!
 }
