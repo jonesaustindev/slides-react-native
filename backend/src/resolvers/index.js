@@ -2,11 +2,12 @@ const { Query } = require('./Query')
 const { auth } = require('./Mutation/auth')
 const { post } = require('./Mutation/post')
 const { imagepost } = require('./Mutation/imagepost')
-const { comment } = require('./Mutation/imagepost')
+const { comment } = require('./Mutation/comment')
 const { Subscription } = require('./Subscription')
 const { User } = require('./User')
 const { Post } = require('./Post')
 const { ImagePost } = require('./ImagePost')
+const { Comment } = require('./Comment')
 
 module.exports = {
   Query,
@@ -20,4 +21,5 @@ module.exports = {
   User,
   Post,
   ImagePost,
+  Comment,
 }

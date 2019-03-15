@@ -77,6 +77,21 @@ const styles = StyleSheet.create({
     CommentsTitle: {
         paddingLeft: 8,
         paddingTop: 8,
+        paddingBottom: 16,
+    },
+    Comments: {
+        paddingLeft: 8,
+        paddingRight: 8,
+        flexDirection: 'row',
+    },
+    CommentUserContainer: {
+        flex: 1,
+    },
+    CommentUser: {
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        backgroundColor: 'red',
     },
 
     //////// ALL POSTS ////////

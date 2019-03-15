@@ -82,6 +82,7 @@ const allPosts = gql`
       caption
       image
       user {
+        id
         name
       }
     }

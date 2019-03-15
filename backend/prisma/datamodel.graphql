@@ -34,4 +34,5 @@ type Comment {
   createdAt: DateTime!
   text: String!
   user: User!
+  post: ImagePost!
 }

@@ -28,6 +28,7 @@ type Comment {
   createdAt: DateTime!
   text: String!
   user: User!
+  post: ImagePost!
 }
 
 type CommentConnection {
@@ -39,10 +40,11 @@ type CommentConnection {
 input CommentCreateInput {
   text: String!
   user: UserCreateOneWithoutCommentsInput!
+  post: ImagePostCreateOneWithoutCommentsInput!
 }
 
-input CommentCreateManyInput {
-  create: [CommentCreateInput!]
+input CommentCreateManyWithoutPostInput {
+  create: [CommentCreateWithoutPostInput!]
   connect: [CommentWhereUniqueInput!]
 }
 
@@ -51,8 +53,14 @@ input CommentCreateManyWithoutUserInput {
   connect: [CommentWhereUniqueInput!]
 }
 
+input CommentCreateWithoutPostInput {
+  text: String!
+  user: UserCreateOneWithoutCommentsInput!
+}
+
 input CommentCreateWithoutUserInput {
   text: String!
+  post: ImagePostCreateOneWithoutCommentsInput!
 }
 
 type CommentEdge {
@@ -137,34 +145,30 @@ input CommentSubscriptionWhereInput {
   NOT: [CommentSubscriptionWhereInput!]
 }
 
-input CommentUpdateDataInput {
-  text: String
-  user: UserUpdateOneRequiredWithoutCommentsInput
-}
-
 input CommentUpdateInput {
   text: String
   user: UserUpdateOneRequiredWithoutCommentsInput
+  post: ImagePostUpdateOneRequiredWithoutCommentsInput
 }
 
 input CommentUpdateManyDataInput {
   text: String
 }
 
-input CommentUpdateManyInput {
-  create: [CommentCreateInput!]
-  update: [CommentUpdateWithWhereUniqueNestedInput!]
-  upsert: [CommentUpsertWithWhereUniqueNestedInput!]
+input CommentUpdateManyMutationInput {
+  text: String
+}
+
+input CommentUpdateManyWithoutPostInput {
+  create: [CommentCreateWithoutPostInput!]
   delete: [CommentWhereUniqueInput!]
   connect: [CommentWhereUniqueInput!]
   set: [CommentWhereUniqueInput!]
   disconnect: [CommentWhereUniqueInput!]
+  update: [CommentUpdateWithWhereUniqueWithoutPostInput!]
+  upsert: [CommentUpsertWithWhereUniqueWithoutPostInput!]
   deleteMany: [CommentScalarWhereInput!]
   updateMany: [CommentUpdateManyWithWhereNestedInput!]
-}
-
-input CommentUpdateManyMutationInput {
-  text: String
 }
 
 input CommentUpdateManyWithoutUserInput {
@@ -184,13 +188,19 @@ input CommentUpdateManyWithWhereNestedInput {
   data: CommentUpdateManyDataInput!
 }
 
-input CommentUpdateWithoutUserDataInput {
+input CommentUpdateWithoutPostDataInput {
   text: String
+  user: UserUpdateOneRequiredWithoutCommentsInput
 }
 
-input CommentUpdateWithWhereUniqueNestedInput {
+input CommentUpdateWithoutUserDataInput {
+  text: String
+  post: ImagePostUpdateOneRequiredWithoutCommentsInput
+}
+
+input CommentUpdateWithWhereUniqueWithoutPostInput {
   where: CommentWhereUniqueInput!
-  data: CommentUpdateDataInput!
+  data: CommentUpdateWithoutPostDataInput!
 }
 
 input CommentUpdateWithWhereUniqueWithoutUserInput {
@@ -198,10 +208,10 @@ input CommentUpdateWithWhereUniqueWithoutUserInput {
   data: CommentUpdateWithoutUserDataInput!
 }
 
-input CommentUpsertWithWhereUniqueNestedInput {
+input CommentUpsertWithWhereUniqueWithoutPostInput {
   where: CommentWhereUniqueInput!
-  update: CommentUpdateDataInput!
-  create: CommentCreateInput!
+  update: CommentUpdateWithoutPostDataInput!
+  create: CommentCreateWithoutPostInput!
 }
 
 input CommentUpsertWithWhereUniqueWithoutUserInput {
@@ -248,6 +258,7 @@ input CommentWhereInput {
   text_ends_with: String
   text_not_ends_with: String
   user: UserWhereInput
+  post: ImagePostWhereInput
   AND: [CommentWhereInput!]
   OR: [CommentWhereInput!]
   NOT: [CommentWhereInput!]
@@ -281,7 +292,7 @@ input ImagePostCreateInput {
   caption: String
   image: String!
   user: UserCreateOneWithoutImagePostsInput!
-  comments: CommentCreateManyInput
+  comments: CommentCreateManyWithoutPostInput
 }
 
 input ImagePostCreateManyWithoutUserInput {
@@ -289,11 +300,23 @@ input ImagePostCreateManyWithoutUserInput {
   connect: [ImagePostWhereUniqueInput!]
 }
 
+input ImagePostCreateOneWithoutCommentsInput {
+  create: ImagePostCreateWithoutCommentsInput
+  connect: ImagePostWhereUniqueInput
+}
+
+input ImagePostCreateWithoutCommentsInput {
+  title: String!
+  caption: String
+  image: String!
+  user: UserCreateOneWithoutImagePostsInput!
+}
+
 input ImagePostCreateWithoutUserInput {
   title: String!
   caption: String
   image: String!
-  comments: CommentCreateManyInput
+  comments: CommentCreateManyWithoutPostInput
 }
 
 type ImagePostEdge {
@@ -426,7 +449,7 @@ input ImagePostUpdateInput {
   caption: String
   image: String
   user: UserUpdateOneRequiredWithoutImagePostsInput
-  comments: CommentUpdateManyInput
+  comments: CommentUpdateManyWithoutPostInput
 }
 
 input ImagePostUpdateManyDataInput {
@@ -458,16 +481,35 @@ input ImagePostUpdateManyWithWhereNestedInput {
   data: ImagePostUpdateManyDataInput!
 }
 
+input ImagePostUpdateOneRequiredWithoutCommentsInput {
+  create: ImagePostCreateWithoutCommentsInput
+  update: ImagePostUpdateWithoutCommentsDataInput
+  upsert: ImagePostUpsertWithoutCommentsInput
+  connect: ImagePostWhereUniqueInput
+}
+
+input ImagePostUpdateWithoutCommentsDataInput {
+  title: String
+  caption: String
+  image: String
+  user: UserUpdateOneRequiredWithoutImagePostsInput
+}
+
 input ImagePostUpdateWithoutUserDataInput {
   title: String
   caption: String
   image: String
-  comments: CommentUpdateManyInput
+  comments: CommentUpdateManyWithoutPostInput
 }
 
 input ImagePostUpdateWithWhereUniqueWithoutUserInput {
   where: ImagePostWhereUniqueInput!
   data: ImagePostUpdateWithoutUserDataInput!
+}
+
+input ImagePostUpsertWithoutCommentsInput {
+  update: ImagePostUpdateWithoutCommentsDataInput!
+  create: ImagePostCreateWithoutCommentsInput!
 }
 
 input ImagePostUpsertWithWhereUniqueWithoutUserInput {

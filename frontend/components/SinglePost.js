@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, Image, Button, ScrollView } from 'react-native';
+import { View, Text, ActivityIndicator, Image, Button, ScrollView, FlatList, Dimensions } from 'react-native';
 import FullWidthImage from 'react-native-fullwidth-image';
-// import { Fab, Icon } from 'native-base';
+import gql from 'graphql-tag';
+import { graphql } from 'react-apollo';
+import { Fab, Icon, ListItem } from 'native-base';
 
 import { endpoint } from '../config';
 import styles from '../styles/postStyles';
 
-class Post extends Component {
+const win = Dimensions.get('window');
+
+class SinglePost extends Component {
     //   editPost = () => {
     //     const { navigation, post } = this.props;
     //     navigation.navigate('EditPost', {
@@ -32,7 +36,7 @@ class Post extends Component {
                 size="large"
             />
         )
-        
+
         return (
             <ScrollView style={styles.ScrollContainer}>
                 <View style={styles.Container}>
@@ -69,13 +73,58 @@ class Post extends Component {
 
                     <View style={styles.CommentsContainer}>
                         <Text style={styles.CommentsTitle}>Comments</Text>
-                        
+                        <FlatList
+                            contentContainerStyle={{ flexGrow: 1, width: win.width }}
+                            data={this.props.postComments}
+                            keyExtractor={item => item.id}
+                            renderItem={({ item }) => (
+                                <View style={styles.Comments}>
+                                    <View style={{ height: 25, width: 25, backgroundColor: 'black', borderRadius: 14, marginRight: 4 }}>
+                                        {item.user.image && (
+                                            <Image source={{ uri: `${endpoint}/${item.user.image}` }} />
+                                        )}
+                                    </View>
+                                    <View style={styles.CommentUserContainer}>
+                                        <View style={styles.CommentUser}>
+                                            <Text style={styles.UserText}><Text style={styles.TextBold}>{item.user.name}</Text></Text>
+                                        </View>
+                                        <View style={styles.CommentText}>
+                                            <Text>{item.text}</Text>
+                                        </View>
+                                    </View>
+                                </View>
+                            )}
+                        >
+
+                        </FlatList>
                     </View>
 
                 </View>
-            </ScrollView>
+            </ScrollView >
         )
     }
 }
 
-export default Post;
+const postComments = gql`
+    query postComments($id: ID!) {
+        postComments(id: $id) {
+            id
+            text
+            user {
+                id
+                name
+            }
+        }
+    }
+`;
+
+export default graphql(postComments, {
+    props: ({ data }) => ({ ...data }),
+    options: ({ navigation }) => ({
+        variables: {
+            id: navigation.state.params.id,
+        }
+    })
+})(SinglePost);
+
+// export default SinglePost;

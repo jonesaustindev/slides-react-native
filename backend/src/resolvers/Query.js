@@ -26,7 +26,10 @@ const Query = {
   },
   queryImagePost(parent, { id }, context) {
     return context.prisma.imagePost({ id })
-  }
+  },
+  postComments(parent, { id }, context) {
+    return context.prisma.imagePost({ id }).comments()
+  },
 }
 
 module.exports = { Query }

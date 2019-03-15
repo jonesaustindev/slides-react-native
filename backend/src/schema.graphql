@@ -8,6 +8,7 @@ type Query {
   me: User
   allPosts: [ImagePost!]!
   queryImagePost(id: ID!): ImagePost!
+  postComments(id: ID!): [Comment!]!
 }
 
 type Mutation {
@@ -65,4 +66,5 @@ type Comment {
   createdAt: DateTime!
   text: String!
   user: User!
+  imagePost: ImagePost!
 }

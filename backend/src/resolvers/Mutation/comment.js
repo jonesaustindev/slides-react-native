@@ -11,6 +11,7 @@ const comment = {
         }
         return context.prisma.createComment({
             text,
+            imagePost: { connect: { id: id } },
             user: { connect: { id: userId } },
         })
     },
