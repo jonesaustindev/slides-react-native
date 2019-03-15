@@ -12,7 +12,6 @@ class Details extends React.Component {
                     title="Go Home"
                 />
             ),
-            ...navStyles,
         }
     }
     render() {

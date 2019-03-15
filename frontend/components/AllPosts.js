@@ -1,22 +1,15 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, FlatList, Image, StyleSheet } from 'react-native';
+import { Text, View, ActivityIndicator, FlatList, Image, TouchableHighlight, Dimensions } from 'react-native';
 import { graphql } from 'react-apollo';
 import { List, ListItem, Body, Right, Icon } from 'native-base';
 import gql from 'graphql-tag';
+import Masonry from 'react-native-masonry';
+import FullWidthImage from 'react-native-fullwidth-image';
 
 import { endpoint } from '../config';
+import styles from '../styles/postStyles';
 
-const styles = StyleSheet.create({
-  images: {
-    height: 50,
-    width: 50,
-  },
-  row: {
-    display: 'flex',
-    flexDirection: 'row',
-    margin: 10,
-  }
-})
+const win = Dimensions.get('window');
 
 class AllPosts extends Component {
   render() {
@@ -32,34 +25,49 @@ class AllPosts extends Component {
         size="large"
       />
     )
+
     return (
-      <View>
-        <List>
-          <FlatList
-            data={allPosts}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <ListItem
-                style={styles.row}
-                onPress={() => navigation.navigate('Post', {
-                  id: item.id,
-                  title: item.caption
-                })}
-              >
-                <Image
-                  style={{ height: 50, width: 50 }}
-                  source={{ uri: `${endpoint}/${item.image}` }}
-                />
-                <Body>
-                  <Text>{item.caption}</Text>
-                </Body>
-                <Right>
-                  <Icon name="arrow-forward" />
-                </Right>
-              </ListItem>
-            )}
-          />
-        </List>
+      <View style={{ flex: 1 }}>
+        <FlatList
+          contentContainerStyle={{ flexGrow: 1, width: win.width, }}
+          data={allPosts}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <ListItem
+              style={styles.post}
+            >
+              <View style={styles.postContainer}>
+
+                <View style={styles.postTitleContainer}>
+                  <Text style={styles.postTitleText}>{item.title}</Text>
+                </View>
+
+                <TouchableHighlight
+                  onPress={() => navigation.navigate('Post', {
+                    id: item.id,
+                    user: item.user.name,
+                  })}
+                >
+                  <FullWidthImage
+                    style={styles.postImages}
+                    source={{ uri: `${endpoint}/${item.image}` }}
+                  />
+                </TouchableHighlight>
+                  
+                <View style={styles.UserContainer}>
+                  <View style={{ height: 25, width: 25, backgroundColor: 'black', borderRadius: 14, marginRight: 4 }}>
+                    {item.user.image && (
+                      <Image source={{ uri: `${endpoint}/${item.user.image}` }} />
+                    )}
+                  </View>
+                  <View style={styles.User}>
+                    <Text style={styles.UserText}>Posted by <Text style={styles.TextBold}>{item.user.name}</Text></Text>
+                  </View>
+                </View>
+              </View>
+            </ListItem>
+          )}
+        />
       </View>
     )
   }
@@ -70,6 +78,7 @@ const allPosts = gql`
     allPosts {
       id
       createdAt
+      title
       caption
       image
       user {
@@ -82,3 +91,4 @@ const allPosts = gql`
 export default graphql(allPosts, {
   props: ({ data }) => ({ ...data })
 })(AllPosts);
+export { allPosts };

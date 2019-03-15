@@ -11,6 +11,7 @@ class PostForm extends Component {
 
     state = {
         caption: this.props.post.caption || '',
+        title: this.props.post.title || '',
         image: this.props.post.image || '',
         type: this.props.post.type || '',
         name: this.props.post.name || '',
@@ -19,6 +20,7 @@ class PostForm extends Component {
     submitForm = () => {
         this.props.onSubmit({
             caption: this.state.caption,
+            title: this.state.title,
             image: this.state.image,
             type: this.state.type,
             name: this.state.name,
@@ -27,7 +29,7 @@ class PostForm extends Component {
 
     pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
-            allowsEditing: true,
+            allowsEditing: false,
         });
         if (!result.cancelled) {
             this.setState({
@@ -35,9 +37,6 @@ class PostForm extends Component {
                 type: result.type,
                 name: result.uri.split('ImagePicker/').pop(),
             });
-            console.log(result);
-            console.log(result.uri);
-            console.log(this.state);
         }
     }
 
@@ -48,6 +47,17 @@ class PostForm extends Component {
                 <FormContainer>
                     <Form>
                         <View>
+                            <Item floatingLabel>
+                                <Label>
+                                    Title
+                                </Label>
+                                <Input
+                                    multiline
+                                    onChangeText={title => this.setState({ title })}
+                                    value={this.state.title}
+                                    style={styles.title}
+                                />
+                            </Item>
                             <Item floatingLabel>
                                 <Label>
                                     Caption

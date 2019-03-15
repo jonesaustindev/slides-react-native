@@ -1,16 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { Fab, Icon } from 'native-base';
+import { View, Text, ActivityIndicator, Image, Button, ScrollView } from 'react-native';
+import FullWidthImage from 'react-native-fullwidth-image';
+// import { Fab, Icon } from 'native-base';
 
-import navStyles from '../styles/navStyles';
+import { endpoint } from '../config';
+import styles from '../styles/postStyles';
 
 class Post extends Component {
-    static navigationOptions = ({ navigation }) => {
-        return {
-            title: navigation.state.params.title,
-            ...navStyles
-        }
-    }
     //   editPost = () => {
     //     const { navigation, post } = this.props;
     //     navigation.navigate('EditPost', {
@@ -25,39 +21,61 @@ class Post extends Component {
 
     render() {
         const post = this.props.queryImagePost;
-        console.log(post);
         if (!post) return (
             <ActivityIndicator
-              style={{
-                flex: 1,
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}
-              size="large"
+                style={{
+                    flex: 1,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                }}
+                size="large"
             />
-          )
+        )
+        
         return (
-            <View style={styles.container}>
-                <Text style={styles.bodyText}>{post.id}</Text>
-                <Text style={styles.bodyText}>{post.caption}</Text>
-                <Text style={styles.bodyText}>{post.user.id}</Text>
-                <Text style={styles.bodyText}>{post.image}</Text>
-                <Text style={styles.bodyText}>{post.largeImage}</Text>
-                <Text style={styles.bodyText}>Posted by: {post.user.name}</Text>
-            </View>
+            <ScrollView style={styles.ScrollContainer}>
+                <View style={styles.Container}>
+
+                    <View style={styles.ContentContainer}>
+                        <FullWidthImage style={styles.Image} source={{ uri: `${endpoint}/${post.image}` }} />
+                    </View>
+
+                    <View style={styles.Meta}>
+                        <View style={styles.MetaTextContainer}>
+                            <Text style={styles.MetaText}>Posted on</Text>
+                            <Text style={styles.MetaText}><Text style={styles.TextBold}>March 13 2019</Text></Text>
+                        </View>
+                        <View style={styles.ButtonContainer}>
+                            <View style={styles.Button}>
+                                <Text style={styles.ButtonText}>Like</Text>
+                            </View>
+                        </View>
+                    </View>
+
+                    <View style={styles.UserContainer}>
+                        <View style={styles.UserImage}>
+                            {post.user.image && (
+                                <Image source={{ uri: `${endpoint}/${post.image}` }} />
+                            )}
+                        </View>
+                        <View style={styles.User}>
+                            <Text style={styles.UserText}>Posted by <Text style={styles.TextBold}>{post.user.name}</Text></Text>
+                            <Text style={styles.UserText}>{post.caption}</Text>
+                        </View>
+                    </View>
+
+                    <View style={styles.HR} />
+
+                    <View style={styles.CommentsContainer}>
+                        <Text style={styles.CommentsTitle}>Comments</Text>
+                        
+                    </View>
+
+                </View>
+            </ScrollView>
         )
     }
 }
-
-const styles = StyleSheet.create({
-    container: {
-        padding: 20,
-        flex: 1,
-    },
-    bodyText: {
-        fontSize: 16
-    }
-});
 
 export default Post;

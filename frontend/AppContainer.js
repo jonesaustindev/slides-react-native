@@ -23,6 +23,20 @@ const AppNavigator = createStackNavigator(
   {
     initialRouteName: 'Home',
   },
+  {
+    defaultNavigationOptions: {
+      headerStyle: {
+        backgroundColor: "#fff"
+      },
+      headerTitleStyle: {
+        color: "#FFF"
+      },
+      headerBackTitleStyle: {
+        color: "#FFF"
+      },
+      headerTintColor: "#FFF",
+    }
+  }
 );
 
 const AppContainer = createAppContainer(AppNavigator);
@@ -54,9 +68,9 @@ class AppWrapper extends Component {
   }
 
   render() {
-    if(this.state.loggedIn) {
+    if (this.state.loggedIn) {
       return (
-        <AppContainer 
+        <AppContainer
           screenProps={{
             changeLoginState: this.handleChangeLoginState
           }}
@@ -64,7 +78,7 @@ class AppWrapper extends Component {
       )
     } else {
       return (
-        <Signup 
+        <Signup
           screenProps={{
             changeLoginState: this.handleChangeLoginState
           }}

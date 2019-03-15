@@ -24,11 +24,12 @@ const processUpload = async upload => {
   }
 
 const imagepost = {
-    async uploadImagePost(parent, { caption, image }, context) {
+    async uploadImagePost(parent, { caption, image, title }, context) {
         const userId = getUserId(context);
         const imageUrl = await processUpload(image);
         return context.prisma.createImagePost({
             caption,
+            title,
             image: imageUrl,
             user: { connect: { id: userId } },
         })

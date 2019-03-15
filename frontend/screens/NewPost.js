@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { graphql } from 'react-apollo';
+import { Mutation, graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { ReactNativeFile } from 'apollo-upload-client';
 
 import PostForm from '../components/PostForm';
 import navStyles from '../styles/navStyles';
 import { fileEndpoint } from '../config';
-import { posts } from '../components/AllPosts';
+import { allPosts } from '../components/AllPosts';
 
 
 class NewPost extends Component {
     static navigationOptions = {
         title: "New Post",
-        ...navStyles
     }
     state = {
         loading: false
     }
-    newPost = async ({ caption, image, name, type }) => {
+    newPost = async ({ caption, image, name, title }) => {
         const { uploadImagePost, navigation } = this.props;
         this.setState({ loading: true });
 
@@ -31,11 +30,12 @@ class NewPost extends Component {
         uploadImagePost({
             variables: {
                 caption,
+                title,
                 image: imageFile,
             },
         })
             .then(() => {
-                navigation.goBack();
+                navigation.navigate('Home')
             })
             .catch(err => {
                 this.setState({ loading: false });
@@ -65,10 +65,15 @@ class NewPost extends Component {
 
     render() {
         return (
+            // <Mutation
+            //     mutation={uploadImagePost}
+            //     variables={}
+            // >
+            // </Mutation>
             <View>
-                {this.state.loading ? (
-                    <ActivityIndicator
-                        style={{
+            {this.state.loading ? (
+                <ActivityIndicator
+                style={{
                             flex: 1,
                             display: 'flex',
                             justifyContent: 'center',
@@ -87,12 +92,13 @@ class NewPost extends Component {
 }
 
 const uploadImagePost = gql`
-    mutation uploadImagePost($caption: String, $image: Upload!) {
-        uploadImagePost(caption: $caption, image: $image) {
+    mutation uploadImagePost($caption: String, $image: Upload!, $title: String!) {
+        uploadImagePost(caption: $caption, image: $image, title: $title) {
             id
             createdAt
             caption
             image
+            title
             user {
                 id
             }
@@ -101,5 +107,5 @@ const uploadImagePost = gql`
 `;
 
 export default graphql(uploadImagePost, {
-    name: "uploadImagePost"
+    name: "uploadImagePost",
 })(NewPost);

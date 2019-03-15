@@ -9,7 +9,6 @@ class Home extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return{
       title: 'Home',
-      ...navStyles,
     }
   }
 
@@ -20,9 +19,8 @@ class Home extends React.Component {
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "space-between" }}>
-        <Text>Home Screen</Text>
         <AllPosts {...this.props} />
-        <Button 
+        <Button
           title="Go to Details"
           onPress={() => {
             this.props.navigation.navigate('Details', {

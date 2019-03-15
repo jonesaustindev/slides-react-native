@@ -256,6 +256,8 @@ export type ImagePostOrderByInput =
   | "createdAt_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC"
+  | "title_ASC"
+  | "title_DESC"
   | "caption_ASC"
   | "caption_DESC"
   | "image_ASC"
@@ -264,10 +266,10 @@ export type ImagePostOrderByInput =
 export type CommentOrderByInput =
   | "id_ASC"
   | "id_DESC"
-  | "text_ASC"
-  | "text_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
+  | "text_ASC"
+  | "text_DESC"
   | "updatedAt_ASC"
   | "updatedAt_DESC";
 
@@ -287,42 +289,45 @@ export type UserOrderByInput =
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
-export interface PostUpdateManyWithWhereNestedInput {
-  where: PostScalarWhereInput;
-  data: PostUpdateManyDataInput;
+export interface ImagePostUpdateWithWhereUniqueWithoutUserInput {
+  where: ImagePostWhereUniqueInput;
+  data: ImagePostUpdateWithoutUserDataInput;
 }
 
 export type CommentWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface PostCreateWithoutAuthorInput {
-  published?: Boolean;
-  title: String;
-  content: String;
+export interface CommentUpdateInput {
+  text?: String;
+  user?: UserUpdateOneRequiredWithoutCommentsInput;
 }
 
-export interface ImagePostCreateInput {
-  caption?: String;
-  image: String;
-  user: UserCreateOneWithoutImagePostsInput;
-  comments?: CommentCreateManyInput;
+export interface UserUpdateOneRequiredWithoutImagePostsInput {
+  create?: UserCreateWithoutImagePostsInput;
+  update?: UserUpdateWithoutImagePostsDataInput;
+  upsert?: UserUpsertWithoutImagePostsInput;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface ImagePostCreateManyWithoutUserInput {
-  create?: ImagePostCreateWithoutUserInput[] | ImagePostCreateWithoutUserInput;
-  connect?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
+export interface UserUpdateOneRequiredWithoutCommentsInput {
+  create?: UserCreateWithoutCommentsInput;
+  update?: UserUpdateWithoutCommentsDataInput;
+  upsert?: UserUpsertWithoutCommentsInput;
+  connect?: UserWhereUniqueInput;
 }
 
-export interface ImagePostUpdateWithWhereUniqueWithoutUserInput {
-  where: ImagePostWhereUniqueInput;
-  data: ImagePostUpdateWithoutUserDataInput;
+export interface CommentUpdateDataInput {
+  text?: String;
+  user?: UserUpdateOneRequiredWithoutCommentsInput;
 }
 
-export interface ImagePostCreateWithoutUserInput {
-  caption?: String;
-  image: String;
-  comments?: CommentCreateManyInput;
+export interface UserUpdateWithoutCommentsDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+  imagePosts?: ImagePostUpdateManyWithoutUserInput;
 }
 
 export interface CommentWhereInput {
@@ -340,6 +345,14 @@ export interface CommentWhereInput {
   id_not_starts_with?: ID_Input;
   id_ends_with?: ID_Input;
   id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
   text?: String;
   text_not?: String;
   text_in?: String[] | String;
@@ -360,25 +373,397 @@ export interface CommentWhereInput {
   NOT?: CommentWhereInput[] | CommentWhereInput;
 }
 
+export interface PostUpdateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  set?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+  update?:
+    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
+    | PostUpdateWithWhereUniqueWithoutAuthorInput;
+  upsert?:
+    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
+    | PostUpsertWithWhereUniqueWithoutAuthorInput;
+  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
+  updateMany?:
+    | PostUpdateManyWithWhereNestedInput[]
+    | PostUpdateManyWithWhereNestedInput;
+}
+
+export interface UserSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: UserWhereInput;
+  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
+}
+
+export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  data: PostUpdateWithoutAuthorDataInput;
+}
+
+export interface ImagePostSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: ImagePostWhereInput;
+  AND?: ImagePostSubscriptionWhereInput[] | ImagePostSubscriptionWhereInput;
+  OR?: ImagePostSubscriptionWhereInput[] | ImagePostSubscriptionWhereInput;
+  NOT?: ImagePostSubscriptionWhereInput[] | ImagePostSubscriptionWhereInput;
+}
+
+export interface PostUpdateWithoutAuthorDataInput {
+  published?: Boolean;
+  title?: String;
+  content?: String;
+}
+
+export interface UserUpdateManyMutationInput {
+  email?: String;
+  password?: String;
+  name?: String;
+}
+
+export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
+  where: PostWhereUniqueInput;
+  update: PostUpdateWithoutAuthorDataInput;
+  create: PostCreateWithoutAuthorInput;
+}
+
+export interface UserCreateInput {
+  email: String;
+  password: String;
+  name: String;
+  posts?: PostCreateManyWithoutAuthorInput;
+  imagePosts?: ImagePostCreateManyWithoutUserInput;
+  comments?: CommentCreateManyWithoutUserInput;
+}
+
+export interface PostScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  updatedAt?: DateTimeInput;
+  updatedAt_not?: DateTimeInput;
+  updatedAt_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
+  updatedAt_lt?: DateTimeInput;
+  updatedAt_lte?: DateTimeInput;
+  updatedAt_gt?: DateTimeInput;
+  updatedAt_gte?: DateTimeInput;
+  published?: Boolean;
+  published_not?: Boolean;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
+  content?: String;
+  content_not?: String;
+  content_in?: String[] | String;
+  content_not_in?: String[] | String;
+  content_lt?: String;
+  content_lte?: String;
+  content_gt?: String;
+  content_gte?: String;
+  content_contains?: String;
+  content_not_contains?: String;
+  content_starts_with?: String;
+  content_not_starts_with?: String;
+  content_ends_with?: String;
+  content_not_ends_with?: String;
+  AND?: PostScalarWhereInput[] | PostScalarWhereInput;
+  OR?: PostScalarWhereInput[] | PostScalarWhereInput;
+  NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
+}
+
+export interface UserUpsertWithoutPostsInput {
+  update: UserUpdateWithoutPostsDataInput;
+  create: UserCreateWithoutPostsInput;
+}
+
+export interface PostUpdateManyWithWhereNestedInput {
+  where: PostScalarWhereInput;
+  data: PostUpdateManyDataInput;
+}
+
+export interface UserUpdateWithoutPostsDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  imagePosts?: ImagePostUpdateManyWithoutUserInput;
+  comments?: CommentUpdateManyWithoutUserInput;
+}
+
+export interface PostUpdateManyDataInput {
+  published?: Boolean;
+  title?: String;
+  content?: String;
+}
+
+export interface PostUpdateInput {
+  published?: Boolean;
+  title?: String;
+  content?: String;
+  author?: UserUpdateOneRequiredWithoutPostsInput;
+}
+
+export interface ImagePostUpdateManyWithoutUserInput {
+  create?: ImagePostCreateWithoutUserInput[] | ImagePostCreateWithoutUserInput;
+  delete?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
+  connect?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
+  set?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
+  disconnect?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
+  update?:
+    | ImagePostUpdateWithWhereUniqueWithoutUserInput[]
+    | ImagePostUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | ImagePostUpsertWithWhereUniqueWithoutUserInput[]
+    | ImagePostUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
+  updateMany?:
+    | ImagePostUpdateManyWithWhereNestedInput[]
+    | ImagePostUpdateManyWithWhereNestedInput;
+}
+
+export interface UserCreateWithoutPostsInput {
+  email: String;
+  password: String;
+  name: String;
+  imagePosts?: ImagePostCreateManyWithoutUserInput;
+  comments?: CommentCreateManyWithoutUserInput;
+}
+
+export interface CommentUpdateWithWhereUniqueWithoutUserInput {
+  where: CommentWhereUniqueInput;
+  data: CommentUpdateWithoutUserDataInput;
+}
+
+export interface PostCreateInput {
+  published?: Boolean;
+  title: String;
+  content: String;
+  author: UserCreateOneWithoutPostsInput;
+}
+
+export interface ImagePostUpdateWithoutUserDataInput {
+  title?: String;
+  caption?: String;
+  image?: String;
+  comments?: CommentUpdateManyInput;
+}
+
+export interface ImagePostUpdateManyMutationInput {
+  title?: String;
+  caption?: String;
+  image?: String;
+}
+
+export interface CommentUpdateManyInput {
+  create?: CommentCreateInput[] | CommentCreateInput;
+  update?:
+    | CommentUpdateWithWhereUniqueNestedInput[]
+    | CommentUpdateWithWhereUniqueNestedInput;
+  upsert?:
+    | CommentUpsertWithWhereUniqueNestedInput[]
+    | CommentUpsertWithWhereUniqueNestedInput;
+  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  set?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  deleteMany?: CommentScalarWhereInput[] | CommentScalarWhereInput;
+  updateMany?:
+    | CommentUpdateManyWithWhereNestedInput[]
+    | CommentUpdateManyWithWhereNestedInput;
+}
+
+export interface CommentUpsertWithWhereUniqueWithoutUserInput {
+  where: CommentWhereUniqueInput;
+  update: CommentUpdateWithoutUserDataInput;
+  create: CommentCreateWithoutUserInput;
+}
+
+export interface CommentUpdateWithWhereUniqueNestedInput {
+  where: CommentWhereUniqueInput;
+  data: CommentUpdateDataInput;
+}
+
+export interface UserCreateOneWithoutCommentsInput {
+  create?: UserCreateWithoutCommentsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface UserWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  email?: String;
+  email_not?: String;
+  email_in?: String[] | String;
+  email_not_in?: String[] | String;
+  email_lt?: String;
+  email_lte?: String;
+  email_gt?: String;
+  email_gte?: String;
+  email_contains?: String;
+  email_not_contains?: String;
+  email_starts_with?: String;
+  email_not_starts_with?: String;
+  email_ends_with?: String;
+  email_not_ends_with?: String;
+  password?: String;
+  password_not?: String;
+  password_in?: String[] | String;
+  password_not_in?: String[] | String;
+  password_lt?: String;
+  password_lte?: String;
+  password_gt?: String;
+  password_gte?: String;
+  password_contains?: String;
+  password_not_contains?: String;
+  password_starts_with?: String;
+  password_not_starts_with?: String;
+  password_ends_with?: String;
+  password_not_ends_with?: String;
+  name?: String;
+  name_not?: String;
+  name_in?: String[] | String;
+  name_not_in?: String[] | String;
+  name_lt?: String;
+  name_lte?: String;
+  name_gt?: String;
+  name_gte?: String;
+  name_contains?: String;
+  name_not_contains?: String;
+  name_starts_with?: String;
+  name_not_starts_with?: String;
+  name_ends_with?: String;
+  name_not_ends_with?: String;
+  posts_every?: PostWhereInput;
+  posts_some?: PostWhereInput;
+  posts_none?: PostWhereInput;
+  imagePosts_every?: ImagePostWhereInput;
+  imagePosts_some?: ImagePostWhereInput;
+  imagePosts_none?: ImagePostWhereInput;
+  comments_every?: CommentWhereInput;
+  comments_some?: CommentWhereInput;
+  comments_none?: CommentWhereInput;
+  AND?: UserWhereInput[] | UserWhereInput;
+  OR?: UserWhereInput[] | UserWhereInput;
+  NOT?: UserWhereInput[] | UserWhereInput;
+}
+
+export interface PostCreateManyWithoutAuthorInput {
+  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
+  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
+}
+
+export interface CommentUpsertWithWhereUniqueNestedInput {
+  where: CommentWhereUniqueInput;
+  update: CommentUpdateDataInput;
+  create: CommentCreateInput;
+}
+
+export interface ImagePostCreateManyWithoutUserInput {
+  create?: ImagePostCreateWithoutUserInput[] | ImagePostCreateWithoutUserInput;
+  connect?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
+}
+
+export interface CommentScalarWhereInput {
+  id?: ID_Input;
+  id_not?: ID_Input;
+  id_in?: ID_Input[] | ID_Input;
+  id_not_in?: ID_Input[] | ID_Input;
+  id_lt?: ID_Input;
+  id_lte?: ID_Input;
+  id_gt?: ID_Input;
+  id_gte?: ID_Input;
+  id_contains?: ID_Input;
+  id_not_contains?: ID_Input;
+  id_starts_with?: ID_Input;
+  id_not_starts_with?: ID_Input;
+  id_ends_with?: ID_Input;
+  id_not_ends_with?: ID_Input;
+  createdAt?: DateTimeInput;
+  createdAt_not?: DateTimeInput;
+  createdAt_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
+  createdAt_lt?: DateTimeInput;
+  createdAt_lte?: DateTimeInput;
+  createdAt_gt?: DateTimeInput;
+  createdAt_gte?: DateTimeInput;
+  text?: String;
+  text_not?: String;
+  text_in?: String[] | String;
+  text_not_in?: String[] | String;
+  text_lt?: String;
+  text_lte?: String;
+  text_gt?: String;
+  text_gte?: String;
+  text_contains?: String;
+  text_not_contains?: String;
+  text_starts_with?: String;
+  text_not_starts_with?: String;
+  text_ends_with?: String;
+  text_not_ends_with?: String;
+  AND?: CommentScalarWhereInput[] | CommentScalarWhereInput;
+  OR?: CommentScalarWhereInput[] | CommentScalarWhereInput;
+  NOT?: CommentScalarWhereInput[] | CommentScalarWhereInput;
+}
+
 export interface CommentCreateManyInput {
   create?: CommentCreateInput[] | CommentCreateInput;
   connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
 }
 
-export interface PostSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: PostWhereInput;
-  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
-}
-
-export interface CommentUpdateInput {
-  text?: String;
-  user?: UserUpdateOneRequiredInput;
+export interface CommentUpdateManyWithWhereNestedInput {
+  where: CommentScalarWhereInput;
+  data: CommentUpdateManyDataInput;
 }
 
 export interface PostWhereInput {
@@ -448,25 +833,25 @@ export interface PostWhereInput {
   NOT?: PostWhereInput[] | PostWhereInput;
 }
 
-export interface UserUpdateOneRequiredInput {
-  create?: UserCreateInput;
-  update?: UserUpdateDataInput;
-  upsert?: UserUpsertNestedInput;
-  connect?: UserWhereUniqueInput;
+export interface CommentUpdateManyDataInput {
+  text?: String;
 }
 
-export interface UserUpdateManyMutationInput {
-  email?: String;
-  password?: String;
-  name?: String;
+export interface CommentSubscriptionWhereInput {
+  mutation_in?: MutationType[] | MutationType;
+  updatedFields_contains?: String;
+  updatedFields_contains_every?: String[] | String;
+  updatedFields_contains_some?: String[] | String;
+  node?: CommentWhereInput;
+  AND?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
+  OR?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
+  NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
 }
 
-export interface UserUpdateDataInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
-  imagePosts?: ImagePostUpdateManyWithoutUserInput;
+export interface ImagePostUpsertWithWhereUniqueWithoutUserInput {
+  where: ImagePostWhereUniqueInput;
+  update: ImagePostUpdateWithoutUserDataInput;
+  create: ImagePostCreateWithoutUserInput;
 }
 
 export interface PostUpdateManyMutationInput {
@@ -475,68 +860,7 @@ export interface PostUpdateManyMutationInput {
   content?: String;
 }
 
-export interface PostUpdateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  delete?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  set?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  disconnect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-  update?:
-    | PostUpdateWithWhereUniqueWithoutAuthorInput[]
-    | PostUpdateWithWhereUniqueWithoutAuthorInput;
-  upsert?:
-    | PostUpsertWithWhereUniqueWithoutAuthorInput[]
-    | PostUpsertWithWhereUniqueWithoutAuthorInput;
-  deleteMany?: PostScalarWhereInput[] | PostScalarWhereInput;
-  updateMany?:
-    | PostUpdateManyWithWhereNestedInput[]
-    | PostUpdateManyWithWhereNestedInput;
-}
-
-export interface UserUpdateWithoutPostsDataInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  imagePosts?: ImagePostUpdateManyWithoutUserInput;
-}
-
-export interface PostUpdateWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  data: PostUpdateWithoutAuthorDataInput;
-}
-
-export interface UserUpdateOneRequiredWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  update?: UserUpdateWithoutPostsDataInput;
-  upsert?: UserUpsertWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface PostUpdateWithoutAuthorDataInput {
-  published?: Boolean;
-  title?: String;
-  content?: String;
-}
-
-export interface UserCreateWithoutPostsInput {
-  email: String;
-  password: String;
-  name: String;
-  imagePosts?: ImagePostCreateManyWithoutUserInput;
-}
-
-export interface PostUpsertWithWhereUniqueWithoutAuthorInput {
-  where: PostWhereUniqueInput;
-  update: PostUpdateWithoutAuthorDataInput;
-  create: PostCreateWithoutAuthorInput;
-}
-
-export interface UserCreateOneWithoutPostsInput {
-  create?: UserCreateWithoutPostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface PostScalarWhereInput {
+export interface ImagePostScalarWhereInput {
   id?: ID_Input;
   id_not?: ID_Input;
   id_in?: ID_Input[] | ID_Input;
@@ -567,8 +891,6 @@ export interface PostScalarWhereInput {
   updatedAt_lte?: DateTimeInput;
   updatedAt_gt?: DateTimeInput;
   updatedAt_gte?: DateTimeInput;
-  published?: Boolean;
-  published_not?: Boolean;
   title?: String;
   title_not?: String;
   title_in?: String[] | String;
@@ -583,35 +905,60 @@ export interface PostScalarWhereInput {
   title_not_starts_with?: String;
   title_ends_with?: String;
   title_not_ends_with?: String;
-  content?: String;
-  content_not?: String;
-  content_in?: String[] | String;
-  content_not_in?: String[] | String;
-  content_lt?: String;
-  content_lte?: String;
-  content_gt?: String;
-  content_gte?: String;
-  content_contains?: String;
-  content_not_contains?: String;
-  content_starts_with?: String;
-  content_not_starts_with?: String;
-  content_ends_with?: String;
-  content_not_ends_with?: String;
-  AND?: PostScalarWhereInput[] | PostScalarWhereInput;
-  OR?: PostScalarWhereInput[] | PostScalarWhereInput;
-  NOT?: PostScalarWhereInput[] | PostScalarWhereInput;
+  caption?: String;
+  caption_not?: String;
+  caption_in?: String[] | String;
+  caption_not_in?: String[] | String;
+  caption_lt?: String;
+  caption_lte?: String;
+  caption_gt?: String;
+  caption_gte?: String;
+  caption_contains?: String;
+  caption_not_contains?: String;
+  caption_starts_with?: String;
+  caption_not_starts_with?: String;
+  caption_ends_with?: String;
+  caption_not_ends_with?: String;
+  image?: String;
+  image_not?: String;
+  image_in?: String[] | String;
+  image_not_in?: String[] | String;
+  image_lt?: String;
+  image_lte?: String;
+  image_gt?: String;
+  image_gte?: String;
+  image_contains?: String;
+  image_not_contains?: String;
+  image_starts_with?: String;
+  image_not_starts_with?: String;
+  image_ends_with?: String;
+  image_not_ends_with?: String;
+  AND?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
+  OR?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
+  NOT?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
 }
 
-export interface ImagePostUpdateManyMutationInput {
+export interface UserUpdateOneRequiredWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  update?: UserUpdateWithoutPostsDataInput;
+  upsert?: UserUpsertWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface ImagePostUpdateManyWithWhereNestedInput {
+  where: ImagePostScalarWhereInput;
+  data: ImagePostUpdateManyDataInput;
+}
+
+export interface UserCreateOneWithoutPostsInput {
+  create?: UserCreateWithoutPostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface ImagePostUpdateManyDataInput {
+  title?: String;
   caption?: String;
   image?: String;
-}
-
-export interface UserCreateWithoutImagePostsInput {
-  email: String;
-  password: String;
-  name: String;
-  posts?: PostCreateManyWithoutAuthorInput;
 }
 
 export interface UserUpsertWithoutImagePostsInput {
@@ -619,249 +966,42 @@ export interface UserUpsertWithoutImagePostsInput {
   create: UserCreateWithoutImagePostsInput;
 }
 
-export interface PostUpdateManyDataInput {
-  published?: Boolean;
-  title?: String;
-  content?: String;
-}
-
-export interface UserUpdateOneRequiredWithoutImagePostsInput {
-  create?: UserCreateWithoutImagePostsInput;
-  update?: UserUpdateWithoutImagePostsDataInput;
-  upsert?: UserUpsertWithoutImagePostsInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface ImagePostUpdateManyWithoutUserInput {
-  create?: ImagePostCreateWithoutUserInput[] | ImagePostCreateWithoutUserInput;
-  delete?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
-  connect?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
-  set?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
-  disconnect?: ImagePostWhereUniqueInput[] | ImagePostWhereUniqueInput;
-  update?:
-    | ImagePostUpdateWithWhereUniqueWithoutUserInput[]
-    | ImagePostUpdateWithWhereUniqueWithoutUserInput;
-  upsert?:
-    | ImagePostUpsertWithWhereUniqueWithoutUserInput[]
-    | ImagePostUpsertWithWhereUniqueWithoutUserInput;
-  deleteMany?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
-  updateMany?:
-    | ImagePostUpdateManyWithWhereNestedInput[]
-    | ImagePostUpdateManyWithWhereNestedInput;
-}
-
-export interface UserCreateOneInput {
-  create?: UserCreateInput;
-  connect?: UserWhereUniqueInput;
-}
-
-export interface UserWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  email?: String;
-  email_not?: String;
-  email_in?: String[] | String;
-  email_not_in?: String[] | String;
-  email_lt?: String;
-  email_lte?: String;
-  email_gt?: String;
-  email_gte?: String;
-  email_contains?: String;
-  email_not_contains?: String;
-  email_starts_with?: String;
-  email_not_starts_with?: String;
-  email_ends_with?: String;
-  email_not_ends_with?: String;
-  password?: String;
-  password_not?: String;
-  password_in?: String[] | String;
-  password_not_in?: String[] | String;
-  password_lt?: String;
-  password_lte?: String;
-  password_gt?: String;
-  password_gte?: String;
-  password_contains?: String;
-  password_not_contains?: String;
-  password_starts_with?: String;
-  password_not_starts_with?: String;
-  password_ends_with?: String;
-  password_not_ends_with?: String;
-  name?: String;
-  name_not?: String;
-  name_in?: String[] | String;
-  name_not_in?: String[] | String;
-  name_lt?: String;
-  name_lte?: String;
-  name_gt?: String;
-  name_gte?: String;
-  name_contains?: String;
-  name_not_contains?: String;
-  name_starts_with?: String;
-  name_not_starts_with?: String;
-  name_ends_with?: String;
-  name_not_ends_with?: String;
-  posts_every?: PostWhereInput;
-  posts_some?: PostWhereInput;
-  posts_none?: PostWhereInput;
-  imagePosts_every?: ImagePostWhereInput;
-  imagePosts_some?: ImagePostWhereInput;
-  imagePosts_none?: ImagePostWhereInput;
-  AND?: UserWhereInput[] | UserWhereInput;
-  OR?: UserWhereInput[] | UserWhereInput;
-  NOT?: UserWhereInput[] | UserWhereInput;
-}
-
-export interface PostCreateManyWithoutAuthorInput {
-  create?: PostCreateWithoutAuthorInput[] | PostCreateWithoutAuthorInput;
-  connect?: PostWhereUniqueInput[] | PostWhereUniqueInput;
-}
-
-export interface ImagePostUpdateWithoutUserDataInput {
-  caption?: String;
-  image?: String;
-  comments?: CommentUpdateManyInput;
-}
-
-export interface UserSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: UserWhereInput;
-  AND?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  OR?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-  NOT?: UserSubscriptionWhereInput[] | UserSubscriptionWhereInput;
-}
-
-export interface CommentUpdateManyInput {
-  create?: CommentCreateInput[] | CommentCreateInput;
-  update?:
-    | CommentUpdateWithWhereUniqueNestedInput[]
-    | CommentUpdateWithWhereUniqueNestedInput;
-  upsert?:
-    | CommentUpsertWithWhereUniqueNestedInput[]
-    | CommentUpsertWithWhereUniqueNestedInput;
-  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  set?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
-  deleteMany?: CommentScalarWhereInput[] | CommentScalarWhereInput;
-  updateMany?:
-    | CommentUpdateManyWithWhereNestedInput[]
-    | CommentUpdateManyWithWhereNestedInput;
-}
-
-export interface CommentSubscriptionWhereInput {
-  mutation_in?: MutationType[] | MutationType;
-  updatedFields_contains?: String;
-  updatedFields_contains_every?: String[] | String;
-  updatedFields_contains_some?: String[] | String;
-  node?: CommentWhereInput;
-  AND?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
-  OR?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
-  NOT?: CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput;
-}
-
-export interface CommentUpdateWithWhereUniqueNestedInput {
-  where: CommentWhereUniqueInput;
-  data: CommentUpdateDataInput;
-}
-
-export interface UserUpsertWithoutPostsInput {
-  update: UserUpdateWithoutPostsDataInput;
-  create: UserCreateWithoutPostsInput;
-}
-
-export interface CommentUpdateDataInput {
-  text?: String;
-  user?: UserUpdateOneRequiredInput;
-}
-
-export interface PostUpdateInput {
-  published?: Boolean;
-  title?: String;
-  content?: String;
-  author?: UserUpdateOneRequiredWithoutPostsInput;
-}
-
-export interface CommentUpsertWithWhereUniqueNestedInput {
-  where: CommentWhereUniqueInput;
-  update: CommentUpdateDataInput;
-  create: CommentCreateInput;
-}
-
-export interface PostCreateInput {
-  published?: Boolean;
-  title: String;
-  content: String;
-  author: UserCreateOneWithoutPostsInput;
-}
-
-export interface CommentScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  text?: String;
-  text_not?: String;
-  text_in?: String[] | String;
-  text_not_in?: String[] | String;
-  text_lt?: String;
-  text_lte?: String;
-  text_gt?: String;
-  text_gte?: String;
-  text_contains?: String;
-  text_not_contains?: String;
-  text_starts_with?: String;
-  text_not_starts_with?: String;
-  text_ends_with?: String;
-  text_not_ends_with?: String;
-  AND?: CommentScalarWhereInput[] | CommentScalarWhereInput;
-  OR?: CommentScalarWhereInput[] | CommentScalarWhereInput;
-  NOT?: CommentScalarWhereInput[] | CommentScalarWhereInput;
-}
-
-export interface UserUpdateWithoutImagePostsDataInput {
-  email?: String;
-  password?: String;
-  name?: String;
-  posts?: PostUpdateManyWithoutAuthorInput;
-}
-
-export interface CommentUpdateManyWithWhereNestedInput {
-  where: CommentScalarWhereInput;
-  data: CommentUpdateManyDataInput;
+export interface UserUpsertWithoutCommentsInput {
+  update: UserUpdateWithoutCommentsDataInput;
+  create: UserCreateWithoutCommentsInput;
 }
 
 export interface CommentCreateInput {
   text: String;
-  user: UserCreateOneInput;
+  user: UserCreateOneWithoutCommentsInput;
 }
 
-export interface CommentUpdateManyDataInput {
+export interface CommentUpdateManyMutationInput {
   text?: String;
+}
+
+export interface PostCreateWithoutAuthorInput {
+  published?: Boolean;
+  title: String;
+  content: String;
+}
+
+export interface CommentUpdateManyWithoutUserInput {
+  create?: CommentCreateWithoutUserInput[] | CommentCreateWithoutUserInput;
+  delete?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  set?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  disconnect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
+  update?:
+    | CommentUpdateWithWhereUniqueWithoutUserInput[]
+    | CommentUpdateWithWhereUniqueWithoutUserInput;
+  upsert?:
+    | CommentUpsertWithWhereUniqueWithoutUserInput[]
+    | CommentUpsertWithWhereUniqueWithoutUserInput;
+  deleteMany?: CommentScalarWhereInput[] | CommentScalarWhereInput;
+  updateMany?:
+    | CommentUpdateManyWithWhereNestedInput[]
+    | CommentUpdateManyWithWhereNestedInput;
 }
 
 export interface ImagePostWhereInput {
@@ -895,6 +1035,20 @@ export interface ImagePostWhereInput {
   updatedAt_lte?: DateTimeInput;
   updatedAt_gt?: DateTimeInput;
   updatedAt_gte?: DateTimeInput;
+  title?: String;
+  title_not?: String;
+  title_in?: String[] | String;
+  title_not_in?: String[] | String;
+  title_lt?: String;
+  title_lte?: String;
+  title_gt?: String;
+  title_gte?: String;
+  title_contains?: String;
+  title_not_contains?: String;
+  title_starts_with?: String;
+  title_not_starts_with?: String;
+  title_ends_with?: String;
+  title_not_ends_with?: String;
   caption?: String;
   caption_not?: String;
   caption_in?: String[] | String;
@@ -932,10 +1086,12 @@ export interface ImagePostWhereInput {
   NOT?: ImagePostWhereInput[] | ImagePostWhereInput;
 }
 
-export interface ImagePostUpsertWithWhereUniqueWithoutUserInput {
-  where: ImagePostWhereUniqueInput;
-  update: ImagePostUpdateWithoutUserDataInput;
-  create: ImagePostCreateWithoutUserInput;
+export interface UserUpdateWithoutImagePostsDataInput {
+  email?: String;
+  password?: String;
+  name?: String;
+  posts?: PostUpdateManyWithoutAuthorInput;
+  comments?: CommentUpdateManyWithoutUserInput;
 }
 
 export interface UserUpdateInput {
@@ -944,108 +1100,56 @@ export interface UserUpdateInput {
   name?: String;
   posts?: PostUpdateManyWithoutAuthorInput;
   imagePosts?: ImagePostUpdateManyWithoutUserInput;
+  comments?: CommentUpdateManyWithoutUserInput;
 }
 
-export interface ImagePostScalarWhereInput {
-  id?: ID_Input;
-  id_not?: ID_Input;
-  id_in?: ID_Input[] | ID_Input;
-  id_not_in?: ID_Input[] | ID_Input;
-  id_lt?: ID_Input;
-  id_lte?: ID_Input;
-  id_gt?: ID_Input;
-  id_gte?: ID_Input;
-  id_contains?: ID_Input;
-  id_not_contains?: ID_Input;
-  id_starts_with?: ID_Input;
-  id_not_starts_with?: ID_Input;
-  id_ends_with?: ID_Input;
-  id_not_ends_with?: ID_Input;
-  createdAt?: DateTimeInput;
-  createdAt_not?: DateTimeInput;
-  createdAt_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_not_in?: DateTimeInput[] | DateTimeInput;
-  createdAt_lt?: DateTimeInput;
-  createdAt_lte?: DateTimeInput;
-  createdAt_gt?: DateTimeInput;
-  createdAt_gte?: DateTimeInput;
-  updatedAt?: DateTimeInput;
-  updatedAt_not?: DateTimeInput;
-  updatedAt_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_not_in?: DateTimeInput[] | DateTimeInput;
-  updatedAt_lt?: DateTimeInput;
-  updatedAt_lte?: DateTimeInput;
-  updatedAt_gt?: DateTimeInput;
-  updatedAt_gte?: DateTimeInput;
+export interface ImagePostCreateInput {
+  title: String;
   caption?: String;
-  caption_not?: String;
-  caption_in?: String[] | String;
-  caption_not_in?: String[] | String;
-  caption_lt?: String;
-  caption_lte?: String;
-  caption_gt?: String;
-  caption_gte?: String;
-  caption_contains?: String;
-  caption_not_contains?: String;
-  caption_starts_with?: String;
-  caption_not_starts_with?: String;
-  caption_ends_with?: String;
-  caption_not_ends_with?: String;
-  image?: String;
-  image_not?: String;
-  image_in?: String[] | String;
-  image_not_in?: String[] | String;
-  image_lt?: String;
-  image_lte?: String;
-  image_gt?: String;
-  image_gte?: String;
-  image_contains?: String;
-  image_not_contains?: String;
-  image_starts_with?: String;
-  image_not_starts_with?: String;
-  image_ends_with?: String;
-  image_not_ends_with?: String;
-  AND?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
-  OR?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
-  NOT?: ImagePostScalarWhereInput[] | ImagePostScalarWhereInput;
+  image: String;
+  user: UserCreateOneWithoutImagePostsInput;
+  comments?: CommentCreateManyInput;
 }
 
 export type PostWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface ImagePostUpdateManyWithWhereNestedInput {
-  where: ImagePostScalarWhereInput;
-  data: ImagePostUpdateManyDataInput;
+export interface UserCreateOneWithoutImagePostsInput {
+  create?: UserCreateWithoutImagePostsInput;
+  connect?: UserWhereUniqueInput;
+}
+
+export interface CommentUpdateWithoutUserDataInput {
+  text?: String;
 }
 
 export interface ImagePostUpdateInput {
+  title?: String;
   caption?: String;
   image?: String;
   user?: UserUpdateOneRequiredWithoutImagePostsInput;
   comments?: CommentUpdateManyInput;
 }
 
-export interface UserCreateOneWithoutImagePostsInput {
-  create?: UserCreateWithoutImagePostsInput;
-  connect?: UserWhereUniqueInput;
+export interface CommentCreateWithoutUserInput {
+  text: String;
 }
 
-export interface CommentUpdateManyMutationInput {
-  text?: String;
+export interface CommentCreateManyWithoutUserInput {
+  create?: CommentCreateWithoutUserInput[] | CommentCreateWithoutUserInput;
+  connect?: CommentWhereUniqueInput[] | CommentWhereUniqueInput;
 }
 
-export interface UserUpsertNestedInput {
-  update: UserUpdateDataInput;
-  create: UserCreateInput;
+export interface UserCreateWithoutImagePostsInput {
+  email: String;
+  password: String;
+  name: String;
+  posts?: PostCreateManyWithoutAuthorInput;
+  comments?: CommentCreateManyWithoutUserInput;
 }
 
-export interface ImagePostUpdateManyDataInput {
-  caption?: String;
-  image?: String;
-}
-
-export interface UserCreateInput {
+export interface UserCreateWithoutCommentsInput {
   email: String;
   password: String;
   name: String;
@@ -1062,15 +1166,22 @@ export type ImagePostWhereUniqueInput = AtLeastOne<{
   id: ID_Input;
 }>;
 
-export interface ImagePostSubscriptionWhereInput {
+export interface PostSubscriptionWhereInput {
   mutation_in?: MutationType[] | MutationType;
   updatedFields_contains?: String;
   updatedFields_contains_every?: String[] | String;
   updatedFields_contains_some?: String[] | String;
-  node?: ImagePostWhereInput;
-  AND?: ImagePostSubscriptionWhereInput[] | ImagePostSubscriptionWhereInput;
-  OR?: ImagePostSubscriptionWhereInput[] | ImagePostSubscriptionWhereInput;
-  NOT?: ImagePostSubscriptionWhereInput[] | ImagePostSubscriptionWhereInput;
+  node?: PostWhereInput;
+  AND?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  OR?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+  NOT?: PostSubscriptionWhereInput[] | PostSubscriptionWhereInput;
+}
+
+export interface ImagePostCreateWithoutUserInput {
+  title: String;
+  caption?: String;
+  image: String;
+  comments?: CommentCreateManyInput;
 }
 
 export interface NodeNode {
@@ -1118,29 +1229,35 @@ export interface AggregateCommentSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
-export interface PostSubscriptionPayload {
-  mutation: MutationType;
-  node: Post;
-  updatedFields: String[];
-  previousValues: PostPreviousValues;
+export interface Post {
+  id: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+  published: Boolean;
+  title: String;
+  content: String;
 }
 
-export interface PostSubscriptionPayloadPromise
-  extends Promise<PostSubscriptionPayload>,
-    Fragmentable {
-  mutation: () => Promise<MutationType>;
-  node: <T = PostPromise>() => T;
-  updatedFields: () => Promise<String[]>;
-  previousValues: <T = PostPreviousValuesPromise>() => T;
+export interface PostPromise extends Promise<Post>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+  published: () => Promise<Boolean>;
+  title: () => Promise<String>;
+  content: () => Promise<String>;
+  author: <T = UserPromise>() => T;
 }
 
-export interface PostSubscriptionPayloadSubscription
-  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
+export interface PostSubscription
+  extends Promise<AsyncIterator<Post>>,
     Fragmentable {
-  mutation: () => Promise<AsyncIterator<MutationType>>;
-  node: <T = PostSubscription>() => T;
-  updatedFields: () => Promise<AsyncIterator<String[]>>;
-  previousValues: <T = PostPreviousValuesSubscription>() => T;
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  published: () => Promise<AsyncIterator<Boolean>>;
+  title: () => Promise<AsyncIterator<String>>;
+  content: () => Promise<AsyncIterator<String>>;
+  author: <T = UserSubscription>() => T;
 }
 
 export interface CommentEdge {
@@ -1257,71 +1374,29 @@ export interface UserConnectionSubscription
   aggregate: <T = AggregateUserSubscription>() => T;
 }
 
-export interface User {
-  id: ID_Output;
-  email: String;
-  password: String;
-  name: String;
+export interface PostSubscriptionPayload {
+  mutation: MutationType;
+  node: Post;
+  updatedFields: String[];
+  previousValues: PostPreviousValues;
 }
 
-export interface UserPromise extends Promise<User>, Fragmentable {
-  id: () => Promise<ID_Output>;
-  email: () => Promise<String>;
-  password: () => Promise<String>;
-  name: () => Promise<String>;
-  posts: <T = FragmentableArray<Post>>(
-    args?: {
-      where?: PostWhereInput;
-      orderBy?: PostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  imagePosts: <T = FragmentableArray<ImagePost>>(
-    args?: {
-      where?: ImagePostWhereInput;
-      orderBy?: ImagePostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-}
-
-export interface UserSubscription
-  extends Promise<AsyncIterator<User>>,
+export interface PostSubscriptionPayloadPromise
+  extends Promise<PostSubscriptionPayload>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
-  email: () => Promise<AsyncIterator<String>>;
-  password: () => Promise<AsyncIterator<String>>;
-  name: () => Promise<AsyncIterator<String>>;
-  posts: <T = Promise<AsyncIterator<PostSubscription>>>(
-    args?: {
-      where?: PostWhereInput;
-      orderBy?: PostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
-  imagePosts: <T = Promise<AsyncIterator<ImagePostSubscription>>>(
-    args?: {
-      where?: ImagePostWhereInput;
-      orderBy?: ImagePostOrderByInput;
-      skip?: Int;
-      after?: String;
-      before?: String;
-      first?: Int;
-      last?: Int;
-    }
-  ) => T;
+  mutation: () => Promise<MutationType>;
+  node: <T = PostPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = PostPreviousValuesPromise>() => T;
+}
+
+export interface PostSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<PostSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = PostSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = PostPreviousValuesSubscription>() => T;
 }
 
 export interface AggregatePost {
@@ -1344,6 +1419,7 @@ export interface ImagePost {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  title: String;
   caption?: String;
   image: String;
 }
@@ -1352,6 +1428,7 @@ export interface ImagePostPromise extends Promise<ImagePost>, Fragmentable {
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
   caption: () => Promise<String>;
   image: () => Promise<String>;
   user: <T = UserPromise>() => T;
@@ -1374,6 +1451,7 @@ export interface ImagePostSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  title: () => Promise<AsyncIterator<String>>;
   caption: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
@@ -1413,11 +1491,13 @@ export interface PostConnectionSubscription
 
 export interface Comment {
   id: ID_Output;
+  createdAt: DateTimeOutput;
   text: String;
 }
 
 export interface CommentPromise extends Promise<Comment>, Fragmentable {
   id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
   text: () => Promise<String>;
   user: <T = UserPromise>() => T;
 }
@@ -1426,6 +1506,7 @@ export interface CommentSubscription
   extends Promise<AsyncIterator<Comment>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   text: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
 }
@@ -1534,6 +1615,7 @@ export interface ImagePostPreviousValues {
   id: ID_Output;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
+  title: String;
   caption?: String;
   image: String;
 }
@@ -1544,6 +1626,7 @@ export interface ImagePostPreviousValuesPromise
   id: () => Promise<ID_Output>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
+  title: () => Promise<String>;
   caption: () => Promise<String>;
   image: () => Promise<String>;
 }
@@ -1554,6 +1637,7 @@ export interface ImagePostPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  title: () => Promise<AsyncIterator<String>>;
   caption: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
 }
@@ -1583,39 +1667,98 @@ export interface ImagePostSubscriptionPayloadSubscription
   previousValues: <T = ImagePostPreviousValuesSubscription>() => T;
 }
 
-export interface Post {
+export interface User {
   id: ID_Output;
-  createdAt: DateTimeOutput;
-  updatedAt: DateTimeOutput;
-  published: Boolean;
-  title: String;
-  content: String;
+  email: String;
+  password: String;
+  name: String;
 }
 
-export interface PostPromise extends Promise<Post>, Fragmentable {
+export interface UserPromise extends Promise<User>, Fragmentable {
   id: () => Promise<ID_Output>;
-  createdAt: () => Promise<DateTimeOutput>;
-  updatedAt: () => Promise<DateTimeOutput>;
-  published: () => Promise<Boolean>;
-  title: () => Promise<String>;
-  content: () => Promise<String>;
-  author: <T = UserPromise>() => T;
+  email: () => Promise<String>;
+  password: () => Promise<String>;
+  name: () => Promise<String>;
+  posts: <T = FragmentableArray<Post>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  imagePosts: <T = FragmentableArray<ImagePost>>(
+    args?: {
+      where?: ImagePostWhereInput;
+      orderBy?: ImagePostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  comments: <T = FragmentableArray<Comment>>(
+    args?: {
+      where?: CommentWhereInput;
+      orderBy?: CommentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
-export interface PostSubscription
-  extends Promise<AsyncIterator<Post>>,
+export interface UserSubscription
+  extends Promise<AsyncIterator<User>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
-  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
-  published: () => Promise<AsyncIterator<Boolean>>;
-  title: () => Promise<AsyncIterator<String>>;
-  content: () => Promise<AsyncIterator<String>>;
-  author: <T = UserSubscription>() => T;
+  email: () => Promise<AsyncIterator<String>>;
+  password: () => Promise<AsyncIterator<String>>;
+  name: () => Promise<AsyncIterator<String>>;
+  posts: <T = Promise<AsyncIterator<PostSubscription>>>(
+    args?: {
+      where?: PostWhereInput;
+      orderBy?: PostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  imagePosts: <T = Promise<AsyncIterator<ImagePostSubscription>>>(
+    args?: {
+      where?: ImagePostWhereInput;
+      orderBy?: ImagePostOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
+  comments: <T = Promise<AsyncIterator<CommentSubscription>>>(
+    args?: {
+      where?: CommentWhereInput;
+      orderBy?: CommentOrderByInput;
+      skip?: Int;
+      after?: String;
+      before?: String;
+      first?: Int;
+      last?: Int;
+    }
+  ) => T;
 }
 
 export interface CommentPreviousValues {
   id: ID_Output;
+  createdAt: DateTimeOutput;
   text: String;
 }
 
@@ -1623,6 +1766,7 @@ export interface CommentPreviousValuesPromise
   extends Promise<CommentPreviousValues>,
     Fragmentable {
   id: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
   text: () => Promise<String>;
 }
 
@@ -1630,6 +1774,7 @@ export interface CommentPreviousValuesSubscription
   extends Promise<AsyncIterator<CommentPreviousValues>>,
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   text: () => Promise<AsyncIterator<String>>;
 }
 
@@ -1718,6 +1863,11 @@ export type ID_Input = string | number;
 export type ID_Output = string;
 
 /*
+The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
+*/
+export type Int = number;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -1731,11 +1881,6 @@ export type DateTimeOutput = string;
 The `String` scalar type represents textual data, represented as UTF-8 character sequences. The String type is most often used by GraphQL to represent free-form human-readable text.
 */
 export type String = string;
-
-/*
-The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1. 
-*/
-export type Int = number;
 
 /**
  * Model Metadata

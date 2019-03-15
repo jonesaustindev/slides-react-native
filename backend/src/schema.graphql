@@ -16,9 +16,10 @@ type Mutation {
   createDraft(title: String!, content: String!): Post!
   publish(id: ID!): Post!
   deletePost(id: ID!): Post!
-  uploadImagePost(caption: String, image: Upload!): ImagePost!
-  editImagePost(id: ID!, caption: String): ImagePost!
+  uploadImagePost(caption: String, title: String!, image: Upload!): ImagePost!
+  editImagePost(id: ID!, caption: String, title: String!): ImagePost!
   deleteImagePost(id: ID!): ImagePost
+  addComment(id: ID!, text: String!): Comment!
   # createImagePost(caption: String, image: String!, largeImage: String!): ImagePost!
 }
 
@@ -37,6 +38,7 @@ type User {
   name: String!
   posts: [Post!]!
   imagePosts: [ImagePost!]!
+  comments: [Comment!]!
 }
 
 type Post {
@@ -51,6 +53,7 @@ type ImagePost {
   id: ID!
   createdAt: DateTime!
   updatedAt: DateTime!
+  title: String!
   caption: String
   image: String!
   user: User!
@@ -59,6 +62,7 @@ type ImagePost {
 
 type Comment {
   id: ID!
+  createdAt: DateTime!
   text: String!
   user: User!
 }
