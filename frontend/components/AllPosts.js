@@ -29,43 +29,48 @@ class AllPosts extends Component {
     return (
       <View style={{ flex: 1 }}>
         <FlatList
-          contentContainerStyle={{ flexGrow: 1, width: win.width, }}
+          contentContainerStyle={{ flexGrow: 1 }}
           data={allPosts}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <ListItem
-              style={styles.post}
-            >
-              <View style={styles.postContainer}>
+            <React.Fragment>
+              <ListItem
+                style={{ borderBottomWidth: 0 }}
+              >
+                <View style={styles.postContainer}>
 
-                <View style={styles.postTitleContainer}>
-                  <Text style={styles.postTitleText}>{item.title}</Text>
-                </View>
+                  <View style={styles.postTitleContainer}>
+                    <Text style={styles.postTitleText}>{item.title}</Text>
+                  </View>
 
-                <TouchableHighlight
-                  onPress={() => navigation.navigate('Post', {
-                    id: item.id,
-                    user: item.user.name,
-                  })}
-                >
-                  <FullWidthImage
-                    style={styles.postImages}
-                    source={{ uri: `${endpoint}/${item.image}` }}
-                  />
-                </TouchableHighlight>
-                  
-                <View style={styles.UserContainer}>
-                  <View style={{ height: 25, width: 25, backgroundColor: 'black', borderRadius: 14, marginRight: 4 }}>
-                    {item.user.image && (
-                      <Image source={{ uri: `${endpoint}/${item.user.image}` }} />
-                    )}
+                  <View>
+                    <TouchableHighlight
+                      onPress={() => navigation.navigate('Post', {
+                        id: item.id,
+                        user: item.user.name,
+                      })}
+                    >
+                      <FullWidthImage
+                        style={styles.postImages}
+                        source={{ uri: `${endpoint}/${item.image}` }}
+                      />
+                    </TouchableHighlight>
                   </View>
-                  <View style={styles.User}>
-                    <Text style={styles.UserText}>Posted by <Text style={styles.TextBold}>{item.user.name}</Text></Text>
+
+                  <View style={styles.UserContainer}>
+                    <View style={{ height: 25, width: 25, backgroundColor: 'black', borderRadius: 14, marginRight: 4 }}>
+                      {item.user.image && (
+                        <Image source={{ uri: `${endpoint}/${item.user.image}` }} />
+                      )}
+                    </View>
+                    <View style={styles.User}>
+                      <Text style={styles.UserText}>Posted by <Text style={styles.TextBold}>{item.user.name}</Text></Text>
+                    </View>
                   </View>
                 </View>
-              </View>
-            </ListItem>
+              </ListItem>
+              <View style={styles.HR} />
+            </React.Fragment>
           )}
         />
       </View>

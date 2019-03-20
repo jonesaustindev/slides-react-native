@@ -11,7 +11,7 @@ class SignupForm extends Component {
     submitForm = () => {
         const { name, email, password } = this.state;
         this.props.onSubmit({
-            name: name.toLowerCase(),
+            name,
             email: email.toLowerCase(),
             password
         });

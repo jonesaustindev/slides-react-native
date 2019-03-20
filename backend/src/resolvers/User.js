@@ -1,5 +1,5 @@
 const User = {
-  posts: ({ id }, args, context) => {
+  imagePosts: ({ id }, args, context) => {
     return context.prisma.user({ id }).imagePosts()
   },
   comments: ({ id }, args, context) => {

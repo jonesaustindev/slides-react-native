@@ -8,38 +8,15 @@ import AllPosts from "../components/AllPosts";
 class Home extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return{
-      title: 'Home',
+      title: 'Slides',
+      ...navStyles
     }
-  }
-
-  newPost = () => {
-    this.props.navigation.navigate('NewPost');
   }
 
   render() {
     return (
       <View style={{ flex: 1, justifyContent: "space-between" }}>
         <AllPosts {...this.props} />
-        <Button
-          title="Go to Details"
-          onPress={() => {
-            this.props.navigation.navigate('Details', {
-              title: 'Details Here',
-            })
-          }}
-        />
-        <Button 
-          onPress={() => {
-              this.props.screenProps.changeLoginState(false);
-          }}
-          title="Sign Out"
-        />
-        <Fab
-          onPress={this.newPost}
-          style={{ backgroundColor: '#82d8d8', padding: 20 }}
-        >
-          <Icon name="add" />
-        </Fab>
       </View>
     );
   }

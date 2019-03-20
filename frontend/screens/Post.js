@@ -12,6 +12,7 @@ class Post extends Component {
       const user = navigation.getParam('user');
         return {
             title: `Post by ${user}`,
+            ...navStyles,
         }
     }
     render() {
@@ -27,6 +28,7 @@ const queryImagePost = gql`
       id
       caption
       image
+      title
       user {
         id
         name

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, Image, Button, ScrollView, FlatList, Dimensions } from 'react-native';
+import { View, Text, ActivityIndicator, Image, Button, ScrollView, FlatList, Dimensions, TouchableHighlight } from 'react-native';
 import FullWidthImage from 'react-native-fullwidth-image';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -47,13 +47,15 @@ class SinglePost extends Component {
 
                     <View style={styles.Meta}>
                         <View style={styles.MetaTextContainer}>
-                            <Text style={styles.MetaText}>Posted on</Text>
-                            <Text style={styles.MetaText}><Text style={styles.TextBold}>March 13 2019</Text></Text>
+                            <Text style={styles.MetaTitle}><Text style={styles.TextBold}>{post.title}</Text></Text>
+                            <Text style={styles.MetaText}>March 13 2019</Text>
                         </View>
                         <View style={styles.ButtonContainer}>
-                            <View style={styles.Button}>
-                                <Text style={styles.ButtonText}>Like</Text>
-                            </View>
+                            <TouchableHighlight>
+                                <View style={styles.Button}>
+                                    <Text style={styles.ButtonText}>Like</Text>
+                                </View>
+                            </TouchableHighlight>
                         </View>
                     </View>
 
@@ -100,7 +102,7 @@ class SinglePost extends Component {
                     </View>
 
                 </View>
-            </ScrollView >
+            </ScrollView>
         )
     }
 }

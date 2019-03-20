@@ -1,32 +1,89 @@
 import React, { Component } from 'react';
-import { createStackNavigator, createAppContainer } from "react-navigation";
+import { createStackNavigator, createAppContainer, createBottomTabNavigator } from "react-navigation";
 import { withApollo } from 'react-apollo';
+import Ionicons from '@expo/vector-icons';
 
 import Home from './screens/Home';
-import Details from './screens/Details';
 import Signup from './screens/Signup';
 import Post from './screens/Post';
 import NewPost from './screens/NewPost';
 import EditPost from './screens/EditPost';
+import Account from './screens/Account';
 
 import { getToken, signIn, signOut } from './auth';
 
 
-const AppNavigator = createStackNavigator(
+const HomeNavigator = createStackNavigator(
   {
     Home: Home,
-    Details: Details,
     Post: Post,
-    NewPost: NewPost,
-    EditPost: EditPost,
+    // NewPost: NewPost,
+    // EditPost: EditPost,
   },
   {
     initialRouteName: 'Home',
   },
+);
+
+const UploadNavigator = createStackNavigator(
   {
-    defaultNavigationOptions: {
-      headerStyle: {
-        backgroundColor: "#fff"
+    NewPost: NewPost,
+    // EditPost: EditPost,
+  },
+  {
+    initialRouteName: 'NewPost',
+  },
+)
+
+const AccountNavigator = createStackNavigator(
+  {
+    Account: Account,
+    // EditPost: EditPost,
+  },
+  {
+    initialRouteName: 'Account',
+  },
+)
+
+const BottomNavigator = createBottomTabNavigator(
+  {
+    Home: HomeNavigator,
+    NewPost: UploadNavigator,
+    Account: AccountNavigator
+  },
+  // {
+  //   defaultNavigationOptions: ({ navigation }) => ({
+  //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
+  //       const { routeName } = navigation.state;
+  //       let IconComponent = Ionicons;
+  //       let iconName;
+  //       if (routeName === 'Home') {
+  //         iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+  //         // Sometimes we want to add badges to some icons. 
+  //         // You can check the implementation below.
+  //         IconComponent = HomeIconWithBadge; 
+  //       } else if (routeName === 'Settings') {
+  //         iconName = `ios-options${focused ? '' : '-outline'}`;
+  //       }
+
+  //       // You can return any component that you like here!
+  //       return <IconComponent name={iconName} size={25} color={tintColor} />;
+  //     },
+  //   }),
+  //   tabBarOptions: {
+  //     activeTintColor: 'tomato',
+  //     inactiveTintColor: 'gray',
+  //   },
+  // },
+  {
+    tabBarOptions: {
+      activeTintColor: '#ace58a',
+      labelStyle: {
+        fontSize: 12,
+        color: '#FFF'
+      },
+      style: {
+        backgroundColor: "#89da59"
       },
       headerTitleStyle: {
         color: "#FFF"
@@ -39,8 +96,7 @@ const AppNavigator = createStackNavigator(
   }
 );
 
-const AppContainer = createAppContainer(AppNavigator);
-
+const AppContainer = createAppContainer(BottomNavigator);
 
 class AppWrapper extends Component {
   constructor(props) {

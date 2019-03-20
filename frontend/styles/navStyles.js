@@ -1,12 +1,12 @@
 export default {
     headerStyle: {
-        backgroundColor: "#3E517A"
-    },
-    headerTitleStyle: {
+        backgroundColor: "#89da59"
+      },
+      headerTitleStyle: {
         color: "#FFF"
-    },
-    headerBackTitleStyle: {
+      },
+      headerBackTitleStyle: {
         color: "#FFF"
-    },
-    headerTintColor: "#FFF"
+      },
+      headerTintColor: "#FFF",
 }

@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
     },
     Button: {
         flexDirection: 'row',
-        backgroundColor: 'red',
+        backgroundColor: '#89da59',
         padding: 8,
         borderRadius: 6,
         width: 60,
@@ -48,6 +48,9 @@ const styles = StyleSheet.create({
         paddingRight: 8,
         paddingLeft: 8,
         paddingBottom: 16,
+    },
+    MetaTitle: {
+        fontSize: 18,
     },
     UserContainer: {
         // flex: 4,
@@ -112,6 +115,9 @@ const styles = StyleSheet.create({
     postImages: {
         borderRadius: 6,
     },
+
+    //////// NEW POST /////////
+
 });
 
 export default styles;

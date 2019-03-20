@@ -1,18 +1,17 @@
 import React, { Component } from 'react';
 import { View, ActivityIndicator } from 'react-native';
-import { Mutation, graphql } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import gql from 'graphql-tag';
 import { ReactNativeFile } from 'apollo-upload-client';
 
 import PostForm from '../components/PostForm';
 import navStyles from '../styles/navStyles';
-import { fileEndpoint } from '../config';
-import { allPosts } from '../components/AllPosts';
 
 
 class NewPost extends Component {
     static navigationOptions = {
         title: "New Post",
+        ...navStyles,
     }
     state = {
         loading: false
@@ -41,35 +40,10 @@ class NewPost extends Component {
                 this.setState({ loading: false });
                 console.log(err);
             })
-
-        // const imagePost = new FormData();
-        // imagePost.append('name', 'testName');
-        // imagePost.append('photo', {
-        //     uri: image,
-        //     type: 'image/jpeg',
-        //     name: name,
-        // });
-        // fetch('POST', fileEndpoint, {
-        //     'Accept': 'application/json',
-        //     'Content-Type': 'multipart/form-data',
-        // }, [{
-        //     name: 'data',
-        //     filename: name,
-        //     data: image,
-        // }]).then(res => {
-        //     console.log(res);
-        // }).catch(err => {
-        //     console.log(err);
-        // })
     }
 
     render() {
         return (
-            // <Mutation
-            //     mutation={uploadImagePost}
-            //     variables={}
-            // >
-            // </Mutation>
             <View>
             {this.state.loading ? (
                 <ActivityIndicator
