@@ -3,7 +3,6 @@ import { Text, View, ActivityIndicator, FlatList, Image, TouchableHighlight, Dim
 import { graphql } from 'react-apollo';
 import { List, ListItem, Body, Right, Icon } from 'native-base';
 import gql from 'graphql-tag';
-import Masonry from 'react-native-masonry';
 import FullWidthImage from 'react-native-fullwidth-image';
 
 import { endpoint } from '../config';
