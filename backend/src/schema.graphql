@@ -33,6 +33,12 @@ type AuthPayload {
   user: User!
 }
 
+# type CommentCreateInput {
+#   id: ID!
+#   text: String!
+#   post: 
+# }
+
 type User {
   id: ID!
   email: String!

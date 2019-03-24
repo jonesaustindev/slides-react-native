@@ -18,6 +18,9 @@ class AccountPage extends Component {
                         <Button
                             rounded
                             style={accountStyles.SignOutButton}
+                            onPress={() => {
+                                this.props.screenProps.changeLoginState(false)
+                            }}
                         >
                             <Text style={accountStyles.ButtonText}
                             >Logout</Text>

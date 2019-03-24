@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, ActivityIndicator, Image, Button, ScrollView, FlatList, Dimensions, TouchableHighlight } from 'react-native';
+import { View, Text, ActivityIndicator, Image, Button, ScrollView, FlatList, Dimensions, TouchableOpacity } from 'react-native';
 import FullWidthImage from 'react-native-fullwidth-image';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
@@ -51,11 +51,11 @@ class SinglePost extends Component {
                             <Text style={styles.MetaText}>March 13 2019</Text>
                         </View>
                         <View style={styles.ButtonContainer}>
-                            <TouchableHighlight>
+                            <TouchableOpacity>
                                 <View style={styles.Button}>
                                     <Text style={styles.ButtonText}>Like</Text>
                                 </View>
-                            </TouchableHighlight>
+                            </TouchableOpacity>
                         </View>
                     </View>
 

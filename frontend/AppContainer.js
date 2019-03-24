@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { createStackNavigator, createAppContainer, createBottomTabNavigator } from "react-navigation";
 import { withApollo } from 'react-apollo';
-import Ionicons from '@expo/vector-icons';
+import { Image, TouchableHighlight } from 'react-native';
 
 import Home from './screens/Home';
 import Signup from './screens/Signup';
@@ -11,7 +11,6 @@ import EditPost from './screens/EditPost';
 import Account from './screens/Account';
 
 import { getToken, signIn, signOut } from './auth';
-
 
 const HomeNavigator = createStackNavigator(
   {
@@ -47,37 +46,75 @@ const AccountNavigator = createStackNavigator(
 
 const BottomNavigator = createBottomTabNavigator(
   {
-    Home: HomeNavigator,
-    NewPost: UploadNavigator,
-    Account: AccountNavigator
+    Home: {
+      screen: HomeNavigator,
+
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Image
+            style={{ height: 35, width: 35 }}
+            source={require('./assets/home-3-64.png')}
+          />
+        )
+      },
+    },
+    NewPost: {
+      screen: UploadNavigator,
+
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Image
+            style={{ height: 35, width: 35 }}
+            source={require('./assets/add-64.png')}
+          />
+        )
+      },
+    },
+    Account: {
+      screen: AccountNavigator,
+
+      navigationOptions: {
+        tabBarIcon: () => (
+          <Image
+            style={{ height: 35, width: 35 }}
+            source={require('./assets/user-64.png')}
+          />
+        )
+      },
+    },
   },
   // {
-  //   defaultNavigationOptions: ({ navigation }) => ({
-  //     tabBarIcon: ({ focused, horizontal, tintColor }) => {
-  //       const { routeName } = navigation.state;
-  //       let IconComponent = Ionicons;
-  //       let iconName;
-  //       if (routeName === 'Home') {
-  //         iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-  //         // Sometimes we want to add badges to some icons. 
-  //         // You can check the implementation below.
-  //         IconComponent = HomeIconWithBadge; 
-  //       } else if (routeName === 'Settings') {
-  //         iconName = `ios-options${focused ? '' : '-outline'}`;
-  //       }
+  //   // defaultNavigationOptions: ({ navigation }) => ({
+  //   //   tabBarIcon: ({ focused, horizontal, tintColor }) => {
+  //   //     const { routeName } = navigation.state;
+  //   //     let IconComponent = Ionicons;
+  //   //     let iconName;
+  //   //     if (routeName === 'Home') {
+  //   //       iconName = `ios-information-circle${focused ? '' : '-outline'}`;
+  //   //       // Sometimes we want to add badges to some icons. 
+  //   //       // You can check the implementation below.
+  //   //       IconComponent = HomeIcon; 
+  //   //     } else if (routeName === 'NewPost') {
+  //   //       iconName = `ios-options${focused ? '' : '-outline'}`;
+  //   //     } else if (routeName === 'Account') {
+  //   //       iconName = `ios-options${focused ? '' : '-outline'}`;
+  //   //     }
 
-  //       // You can return any component that you like here!
-  //       return <IconComponent name={iconName} size={25} color={tintColor} />;
-  //     },
-  //   }),
-  //   tabBarOptions: {
-  //     activeTintColor: 'tomato',
-  //     inactiveTintColor: 'gray',
-  //   },
+  //   //     // You can return any component that you like here!
+  //   //     return <IconComponent name={iconName} size={25} color={tintColor} />;
+  //   //   },
+  //   // }),
+  //   // tabBarOptions: {
+  //   //   activeTintColor: 'tomato',
+  //   //   inactiveTintColor: 'gray',
+  //   //   showIcon: true,
+  //   // },
   // },
   {
     tabBarOptions: {
       activeTintColor: '#ace58a',
+      showIcon: true,
+      showLabel: false,
       labelStyle: {
         fontSize: 12,
         color: '#FFF'

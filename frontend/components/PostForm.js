@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView } from 'react-native';
+import { Text, View, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { ImagePicker } from 'expo';
-import { Form, Item, Input, Label, Card, CardItem, Button } from 'native-base';
+import { Form, Item, Input, Label, Button } from 'native-base';
 import FullWidthImage from 'react-native-fullwidth-image';
 
 import styles from '../styles/formStyles';
@@ -46,14 +46,17 @@ class PostForm extends Component {
         let { image } = this.state;
         return (
             <ScrollView>
-                <View style={styles.Container}>
-                    <Card style={styles.FormContainer}>
+                <KeyboardAvoidingView
+                    style={styles.Container}
+                    behavior='padding'
+                >
+                    <View style={styles.FormContainer}>
                         <Form>
                             <View>
                                 <Item floatingLabel>
                                     <Label>
                                         Title
-                                    </Label>
+                                        </Label>
                                     <Input
                                         multiline
                                         onChangeText={title => this.setState({ title })}
@@ -99,8 +102,8 @@ class PostForm extends Component {
                                 </Button>
                             </View>
                         </Form>
-                    </Card>
-                </View>
+                    </View>
+                </KeyboardAvoidingView>
             </ScrollView>
         )
     }

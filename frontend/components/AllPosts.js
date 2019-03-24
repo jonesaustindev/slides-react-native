@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, ActivityIndicator, FlatList, Image, TouchableHighlight, Dimensions } from 'react-native';
+import { Text, View, ActivityIndicator, FlatList, Image, TouchableHighlight, Dimensions, RefreshControl } from 'react-native';
 import { graphql } from 'react-apollo';
 import { List, ListItem, Body, Right, Icon } from 'native-base';
 import gql from 'graphql-tag';
@@ -11,6 +11,23 @@ import styles from '../styles/postStyles';
 const win = Dimensions.get('window');
 
 class AllPosts extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      refresh: false,
+    }
+  }
+
+  // handleRefresh = () => {
+  //   this.setState({
+  //     refresh: true,
+  //   }, () => {
+  //     this.props.allPosts({
+  //       updateQuery:
+  //     });
+  //   })
+  // }
+
   render() {
     const { navigation, allPosts } = this.props;
     if (!allPosts) return (
@@ -30,7 +47,10 @@ class AllPosts extends Component {
         <FlatList
           contentContainerStyle={{ flexGrow: 1 }}
           data={allPosts}
+          // extraData={allPosts}
           keyExtractor={item => item.id}
+          // refreshing={this.state.refresh}
+          // onRefresh={() => refetch()}
           renderItem={({ item }) => (
             <React.Fragment>
               <ListItem

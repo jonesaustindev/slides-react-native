@@ -35,6 +35,7 @@ class NewPost extends Component {
         })
             .then(() => {
                 navigation.navigate('Home')
+                this.forceUpdate()
             })
             .catch(err => {
                 this.setState({ loading: false });

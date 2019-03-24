@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, Button, TouchableHighlight, Image } from 'react-native';
 import { graphql, compose, withApollo } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import SignupForm from '../components/SignupForm';
 import SigninForm from '../components/SigninForm';
+import styles from '../styles/signupStyles';
 
 class Signup extends Component {
     state = {
@@ -45,12 +46,13 @@ class Signup extends Component {
     render() {
         return (
             <View style={{ flex: 1, justifyContent: "center" }}>
-                <Text> Signup Page </Text>
                 {this.state.register ?
-                    <SignupForm onSubmit={this.signup} /> :
+                    <SignupForm onSubmit={this.signup} />
+                    :
                     <SigninForm onSubmit={this.signin} />
                 }
                 <Button
+                    style={styles.ChangeButton}
                     onPress={() => {
                         this.setState({
                             register: !this.state.register
