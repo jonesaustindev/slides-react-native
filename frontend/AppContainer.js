@@ -9,6 +9,7 @@ import Post from './screens/Post';
 import NewPost from './screens/NewPost';
 import EditPost from './screens/EditPost';
 import Account from './screens/Account';
+import CameraScreen from './screens/CameraScreen';
 
 import { getToken, signIn, signOut } from './auth';
 
@@ -16,8 +17,6 @@ const HomeNavigator = createStackNavigator(
   {
     Home: Home,
     Post: Post,
-    // NewPost: NewPost,
-    // EditPost: EditPost,
   },
   {
     initialRouteName: 'Home',
@@ -27,10 +26,11 @@ const HomeNavigator = createStackNavigator(
 const UploadNavigator = createStackNavigator(
   {
     NewPost: NewPost,
+    CameraScreen: CameraScreen,
     // EditPost: EditPost,
   },
   {
-    initialRouteName: 'NewPost',
+    initialRouteName: 'NewPost', //CameraScreen
   },
 )
 
@@ -83,33 +83,6 @@ const BottomNavigator = createBottomTabNavigator(
       },
     },
   },
-  // {
-  //   // defaultNavigationOptions: ({ navigation }) => ({
-  //   //   tabBarIcon: ({ focused, horizontal, tintColor }) => {
-  //   //     const { routeName } = navigation.state;
-  //   //     let IconComponent = Ionicons;
-  //   //     let iconName;
-  //   //     if (routeName === 'Home') {
-  //   //       iconName = `ios-information-circle${focused ? '' : '-outline'}`;
-  //   //       // Sometimes we want to add badges to some icons. 
-  //   //       // You can check the implementation below.
-  //   //       IconComponent = HomeIcon; 
-  //   //     } else if (routeName === 'NewPost') {
-  //   //       iconName = `ios-options${focused ? '' : '-outline'}`;
-  //   //     } else if (routeName === 'Account') {
-  //   //       iconName = `ios-options${focused ? '' : '-outline'}`;
-  //   //     }
-
-  //   //     // You can return any component that you like here!
-  //   //     return <IconComponent name={iconName} size={25} color={tintColor} />;
-  //   //   },
-  //   // }),
-  //   // tabBarOptions: {
-  //   //   activeTintColor: 'tomato',
-  //   //   inactiveTintColor: 'gray',
-  //   //   showIcon: true,
-  //   // },
-  // },
   {
     tabBarOptions: {
       activeTintColor: '#ace58a',

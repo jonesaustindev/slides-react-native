@@ -44,6 +44,7 @@ class PostForm extends Component {
 
     render() {
         let { image } = this.state;
+        const { navigation } = this.props;
         return (
             <ScrollView>
                 <KeyboardAvoidingView
@@ -75,6 +76,18 @@ class PostForm extends Component {
                                         style={styles.caption}
                                     />
                                 </Item>
+                            </View>
+                            <View style={styles.ButtonContainer}>
+                                <Button
+                                    onPress={() => navigation.navigate('CameraScreen', {
+                                        ...this.props,
+                                    })}
+                                    rounded
+                                    style={styles.UploadButton}
+                                >
+                                    <Text style={styles.ButtonText}
+                                    >Camera Screen</Text>
+                                </Button>
                             </View>
                             <View style={styles.ButtonContainer}>
                                 <Button

@@ -1,13 +1,22 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, FlatList, TouchableHighlight } from 'react-native';
+import { Text, View, ScrollView, FlatList, TouchableHighlight, TouchableOpacity } from 'react-native';
 import { ListItem, Button } from 'native-base';
 import FullWidthImage from 'react-native-fullwidth-image';
+import Modal from 'react-native-modal';
 
 import { endpoint } from '../config';
 import accountStyles from '../styles/accountStyles';
 import styles from '../styles/postStyles';
 
 class AccountPage extends Component {
+    state = {
+        isModalVisible: false,
+    }
+
+    toggleModal = () => {
+        this.setState({ isModalVisible: !this.state.isModalVisible })
+    }
+
     render() {
         const { navigation, user } = this.props;
         return (

@@ -58,6 +58,7 @@ class NewPost extends Component {
                     />
                 ) : (
                         <PostForm
+                            {...this.props}
                             onSubmit={this.newPost}
                         />
                     )}
