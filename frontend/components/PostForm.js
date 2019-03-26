@@ -29,6 +29,15 @@ class PostForm extends Component {
         })
     }
 
+    imageFromCamera = (image) => {
+        this.setState({
+            image: image,
+            type: 'image',
+            name: image.split('Camera/').pop(),
+        })
+        console.log(this.state)
+    }
+
     pickImage = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
             allowsEditing: false,
@@ -45,6 +54,7 @@ class PostForm extends Component {
     render() {
         let { image } = this.state;
         const { navigation } = this.props;
+        console.log(this.state)
         return (
             <ScrollView>
                 <KeyboardAvoidingView
@@ -80,6 +90,7 @@ class PostForm extends Component {
                             <View style={styles.ButtonContainer}>
                                 <Button
                                     onPress={() => navigation.navigate('CameraScreen', {
+                                        imageFromCamera: this.imageFromCamera,
                                         ...this.props,
                                     })}
                                     rounded

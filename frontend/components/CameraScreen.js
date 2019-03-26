@@ -7,7 +7,7 @@ class CameraScreen extends Component {
     state = {
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
-        previewUri: undefined,
+        previewUri: null,
     };
 
     async componentDidMount() {
@@ -24,7 +24,7 @@ class CameraScreen extends Component {
 
     clearPhoto = () => {
         this.setState({
-            previewUri: undefined
+            previewUri: null
         })
     }
 
@@ -40,7 +40,8 @@ class CameraScreen extends Component {
 
         if (this.state.previewUri) {
             return (
-                <ImagePreview 
+                <ImagePreview
+                    imageFromCamera={navigation.state.params.imageFromCamera} 
                     previewUri={this.state.previewUri}
                     clearPhoto={this.clearPhoto}
                     {...this.props}

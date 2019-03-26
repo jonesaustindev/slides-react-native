@@ -13,6 +13,14 @@ class ImagePreview extends Component {
                         navigation.navigate('CameraScreen')
                     }}
                 />
+                <Button
+                    title='Save'
+                    onPress={() => {
+                        this.props.imageFromCamera(previewUri)
+                        navigation.navigate('PostForm')
+                        this.props.clearPhoto()
+                    }}
+                />
                 <Image style={{ flex: 1 }} source={{ uri: previewUri }} />
             </View>
         )

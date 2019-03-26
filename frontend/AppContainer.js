@@ -9,7 +9,7 @@ import Post from './screens/Post';
 import NewPost from './screens/NewPost';
 import EditPost from './screens/EditPost';
 import Account from './screens/Account';
-import CameraScreen from './screens/CameraScreen';
+import CameraScreen from './components/CameraScreen';
 
 import { getToken, signIn, signOut } from './auth';
 
