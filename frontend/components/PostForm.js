@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Text, View, Image, ScrollView, KeyboardAvoidingView } from 'react-native';
-import { ImagePicker } from 'expo';
+import { Text, View, Image, ScrollView, KeyboardAvoidingView, Dimensions } from 'react-native';
+import { ImagePicker, Video } from 'expo';
 import { Form, Item, Input, Label, Button } from 'native-base';
 import FullWidthImage from 'react-native-fullwidth-image';
 
 import styles from '../styles/formStyles';
+
+const win = Dimensions.get('window');
 
 class PostForm extends Component {
     static defaultProps = {
@@ -13,6 +15,7 @@ class PostForm extends Component {
 
     state = {
         caption: this.props.post.caption || '',
+        video: this.props.post.video || '',
         title: this.props.post.title || '',
         image: this.props.post.image || '',
         type: this.props.post.type || '',
@@ -24,8 +27,17 @@ class PostForm extends Component {
             caption: this.state.caption,
             title: this.state.title,
             image: this.state.image,
+            video: this.state.video,
             type: this.state.type,
             name: this.state.name,
+        })
+    }
+
+    videoFromCamera = (video) => {
+        this.setState({
+            video: video,
+            type: 'video',
+            name: video.split('Camera/').pop(),
         })
     }
 
@@ -35,7 +47,6 @@ class PostForm extends Component {
             type: 'image',
             name: image.split('Camera/').pop(),
         })
-        console.log(this.state)
     }
 
     pickImage = async () => {
@@ -52,9 +63,8 @@ class PostForm extends Component {
     }
 
     render() {
-        let { image } = this.state;
+        let { image, video } = this.state;
         const { navigation } = this.props;
-        console.log(this.state)
         return (
             <ScrollView>
                 <KeyboardAvoidingView
@@ -91,6 +101,7 @@ class PostForm extends Component {
                                 <Button
                                     onPress={() => navigation.navigate('CameraScreen', {
                                         imageFromCamera: this.imageFromCamera,
+                                        videoFromCamera: this.videoFromCamera,
                                         ...this.props,
                                     })}
                                     rounded
@@ -113,6 +124,21 @@ class PostForm extends Component {
                             {image ? (
                                 <View style={styles.UploadedImageContainer}>
                                     <FullWidthImage source={{ uri: image }} style={styles.UploadedImage} />
+                                </View>
+                            ) : null
+                            }
+                            {video ? (
+                                <View style={styles.UploadedVideoContainer}>
+                                    <Video
+                                        source={{ uri: video }}
+                                        rate={1.0}
+                                        volume={1.0}
+                                        isMuted={false}
+                                        resizeMode="contain"
+                                        shouldPlay
+                                        isLooping
+                                        style={styles.UploadedVideo}
+                                    />
                                 </View>
                             ) : null
                             }

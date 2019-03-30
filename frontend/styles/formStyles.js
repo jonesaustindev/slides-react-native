@@ -65,6 +65,19 @@ const styles = StyleSheet.create({
         marginTop: 16,
         marginBottom: 16,
     },
+    UploadedVideoContainer: {
+        display: 'flex',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        
+        margin: 36,
+    },
+    UploadedVideo: {
+        width: win.width,
+        height: win.height,
+        marginTop: 16,
+        marginBottom: 16,
+    },
 });
 
 export default styles;
