@@ -99,11 +99,17 @@ class PostForm extends Component {
                             </View>
                             <View style={styles.ButtonContainer}>
                                 <Button
-                                    onPress={() => navigation.navigate('CameraScreen', {
-                                        imageFromCamera: this.imageFromCamera,
-                                        videoFromCamera: this.videoFromCamera,
-                                        ...this.props,
-                                    })}
+                                    onPress={() => {
+                                        navigation.navigate('CameraScreen', {
+                                            imageFromCamera: this.imageFromCamera,
+                                            videoFromCamera: this.videoFromCamera,
+                                            ...this.props,
+                                        })
+                                        this.setState({
+                                            image: '',
+                                            video: '',
+                                        })  
+                                    }}
                                     rounded
                                     style={styles.UploadButton}
                                 >

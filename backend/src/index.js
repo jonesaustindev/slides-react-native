@@ -3,6 +3,7 @@ const { prisma } = require('./generated/prisma-client')
 const resolvers = require('./resolvers')
 const express = require('express')
 const path = require('path')
+const multer = require('multer')
 
 const server = new GraphQLServer({
   typeDefs: 'src/schema.graphql',

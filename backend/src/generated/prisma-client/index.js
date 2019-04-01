@@ -17,6 +17,10 @@ var models = [
     embedded: false
   },
   {
+    name: "VideoPost",
+    embedded: false
+  },
+  {
     name: "Comment",
     embedded: false
   }

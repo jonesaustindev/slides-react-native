@@ -47,6 +47,14 @@ class AccountPage extends Component {
                         <Text style={accountStyles.PostsTitle}>Photos</Text>
                     </View>
 
+                    {user.imagePosts.length <= 0 ? 
+                        <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 20 }}>
+                            <Text>No posts yet!</Text>
+                        </View>
+                        :
+                        null
+                    }
+
                     <FlatList
                         contentContainerStyle={{ flexGrow: 1 }}
                         data={user.imagePosts}

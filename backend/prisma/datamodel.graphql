@@ -15,6 +15,7 @@ type User {
   name: String!
   posts: [Post!]!
   imagePosts: [ImagePost!]!
+  videoPosts: [VideoPost!]!
   comments: [Comment!]!
 }
 
@@ -27,6 +28,16 @@ type ImagePost {
   image: String!
   user: User!
   comments: [Comment!]!
+}
+
+type VideoPost {
+  id: ID! @unique
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  caption: String
+  video: String!
+  user: User!
 }
 
 type Comment {

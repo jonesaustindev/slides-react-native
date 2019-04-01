@@ -19,6 +19,10 @@ type AggregateUser {
   count: Int!
 }
 
+type AggregateVideoPost {
+  count: Int!
+}
+
 type BatchPayload {
   count: Long!
 }
@@ -631,6 +635,12 @@ type Mutation {
   upsertUser(where: UserWhereUniqueInput!, create: UserCreateInput!, update: UserUpdateInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User
   deleteManyUsers(where: UserWhereInput): BatchPayload!
+  createVideoPost(data: VideoPostCreateInput!): VideoPost!
+  updateVideoPost(data: VideoPostUpdateInput!, where: VideoPostWhereUniqueInput!): VideoPost
+  updateManyVideoPosts(data: VideoPostUpdateManyMutationInput!, where: VideoPostWhereInput): BatchPayload!
+  upsertVideoPost(where: VideoPostWhereUniqueInput!, create: VideoPostCreateInput!, update: VideoPostUpdateInput!): VideoPost!
+  deleteVideoPost(where: VideoPostWhereUniqueInput!): VideoPost
+  deleteManyVideoPosts(where: VideoPostWhereInput): BatchPayload!
 }
 
 enum MutationType {
@@ -934,6 +944,9 @@ type Query {
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
+  videoPost(where: VideoPostWhereUniqueInput!): VideoPost
+  videoPosts(where: VideoPostWhereInput, orderBy: VideoPostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [VideoPost]!
+  videoPostsConnection(where: VideoPostWhereInput, orderBy: VideoPostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): VideoPostConnection!
   node(id: ID!): Node
 }
 
@@ -942,6 +955,7 @@ type Subscription {
   imagePost(where: ImagePostSubscriptionWhereInput): ImagePostSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+  videoPost(where: VideoPostSubscriptionWhereInput): VideoPostSubscriptionPayload
 }
 
 type User {
@@ -951,6 +965,7 @@ type User {
   name: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
   imagePosts(where: ImagePostWhereInput, orderBy: ImagePostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [ImagePost!]
+  videoPosts(where: VideoPostWhereInput, orderBy: VideoPostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [VideoPost!]
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
 }
 
@@ -966,6 +981,7 @@ input UserCreateInput {
   name: String!
   posts: PostCreateManyWithoutAuthorInput
   imagePosts: ImagePostCreateManyWithoutUserInput
+  videoPosts: VideoPostCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
 }
 
@@ -984,12 +1000,18 @@ input UserCreateOneWithoutPostsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserCreateOneWithoutVideoPostsInput {
+  create: UserCreateWithoutVideoPostsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserCreateWithoutCommentsInput {
   email: String!
   password: String!
   name: String!
   posts: PostCreateManyWithoutAuthorInput
   imagePosts: ImagePostCreateManyWithoutUserInput
+  videoPosts: VideoPostCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutImagePostsInput {
@@ -997,6 +1019,7 @@ input UserCreateWithoutImagePostsInput {
   password: String!
   name: String!
   posts: PostCreateManyWithoutAuthorInput
+  videoPosts: VideoPostCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
 }
 
@@ -1004,6 +1027,16 @@ input UserCreateWithoutPostsInput {
   email: String!
   password: String!
   name: String!
+  imagePosts: ImagePostCreateManyWithoutUserInput
+  videoPosts: VideoPostCreateManyWithoutUserInput
+  comments: CommentCreateManyWithoutUserInput
+}
+
+input UserCreateWithoutVideoPostsInput {
+  email: String!
+  password: String!
+  name: String!
+  posts: PostCreateManyWithoutAuthorInput
   imagePosts: ImagePostCreateManyWithoutUserInput
   comments: CommentCreateManyWithoutUserInput
 }
@@ -1059,6 +1092,7 @@ input UserUpdateInput {
   name: String
   posts: PostUpdateManyWithoutAuthorInput
   imagePosts: ImagePostUpdateManyWithoutUserInput
+  videoPosts: VideoPostUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
 }
 
@@ -1089,12 +1123,20 @@ input UserUpdateOneRequiredWithoutPostsInput {
   connect: UserWhereUniqueInput
 }
 
+input UserUpdateOneRequiredWithoutVideoPostsInput {
+  create: UserCreateWithoutVideoPostsInput
+  update: UserUpdateWithoutVideoPostsDataInput
+  upsert: UserUpsertWithoutVideoPostsInput
+  connect: UserWhereUniqueInput
+}
+
 input UserUpdateWithoutCommentsDataInput {
   email: String
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
   imagePosts: ImagePostUpdateManyWithoutUserInput
+  videoPosts: VideoPostUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutImagePostsDataInput {
@@ -1102,6 +1144,7 @@ input UserUpdateWithoutImagePostsDataInput {
   password: String
   name: String
   posts: PostUpdateManyWithoutAuthorInput
+  videoPosts: VideoPostUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
 }
 
@@ -1109,6 +1152,16 @@ input UserUpdateWithoutPostsDataInput {
   email: String
   password: String
   name: String
+  imagePosts: ImagePostUpdateManyWithoutUserInput
+  videoPosts: VideoPostUpdateManyWithoutUserInput
+  comments: CommentUpdateManyWithoutUserInput
+}
+
+input UserUpdateWithoutVideoPostsDataInput {
+  email: String
+  password: String
+  name: String
+  posts: PostUpdateManyWithoutAuthorInput
   imagePosts: ImagePostUpdateManyWithoutUserInput
   comments: CommentUpdateManyWithoutUserInput
 }
@@ -1126,6 +1179,11 @@ input UserUpsertWithoutImagePostsInput {
 input UserUpsertWithoutPostsInput {
   update: UserUpdateWithoutPostsDataInput!
   create: UserCreateWithoutPostsInput!
+}
+
+input UserUpsertWithoutVideoPostsInput {
+  update: UserUpdateWithoutVideoPostsDataInput!
+  create: UserCreateWithoutVideoPostsInput!
 }
 
 input UserWhereInput {
@@ -1191,6 +1249,9 @@ input UserWhereInput {
   imagePosts_every: ImagePostWhereInput
   imagePosts_some: ImagePostWhereInput
   imagePosts_none: ImagePostWhereInput
+  videoPosts_every: VideoPostWhereInput
+  videoPosts_some: VideoPostWhereInput
+  videoPosts_none: VideoPostWhereInput
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput
@@ -1202,6 +1263,301 @@ input UserWhereInput {
 input UserWhereUniqueInput {
   id: ID
   email: String
+}
+
+type VideoPost {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  caption: String
+  video: String!
+  user: User!
+}
+
+type VideoPostConnection {
+  pageInfo: PageInfo!
+  edges: [VideoPostEdge]!
+  aggregate: AggregateVideoPost!
+}
+
+input VideoPostCreateInput {
+  title: String!
+  caption: String
+  video: String!
+  user: UserCreateOneWithoutVideoPostsInput!
+}
+
+input VideoPostCreateManyWithoutUserInput {
+  create: [VideoPostCreateWithoutUserInput!]
+  connect: [VideoPostWhereUniqueInput!]
+}
+
+input VideoPostCreateWithoutUserInput {
+  title: String!
+  caption: String
+  video: String!
+}
+
+type VideoPostEdge {
+  node: VideoPost!
+  cursor: String!
+}
+
+enum VideoPostOrderByInput {
+  id_ASC
+  id_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+  title_ASC
+  title_DESC
+  caption_ASC
+  caption_DESC
+  video_ASC
+  video_DESC
+}
+
+type VideoPostPreviousValues {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  title: String!
+  caption: String
+  video: String!
+}
+
+input VideoPostScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  caption: String
+  caption_not: String
+  caption_in: [String!]
+  caption_not_in: [String!]
+  caption_lt: String
+  caption_lte: String
+  caption_gt: String
+  caption_gte: String
+  caption_contains: String
+  caption_not_contains: String
+  caption_starts_with: String
+  caption_not_starts_with: String
+  caption_ends_with: String
+  caption_not_ends_with: String
+  video: String
+  video_not: String
+  video_in: [String!]
+  video_not_in: [String!]
+  video_lt: String
+  video_lte: String
+  video_gt: String
+  video_gte: String
+  video_contains: String
+  video_not_contains: String
+  video_starts_with: String
+  video_not_starts_with: String
+  video_ends_with: String
+  video_not_ends_with: String
+  AND: [VideoPostScalarWhereInput!]
+  OR: [VideoPostScalarWhereInput!]
+  NOT: [VideoPostScalarWhereInput!]
+}
+
+type VideoPostSubscriptionPayload {
+  mutation: MutationType!
+  node: VideoPost
+  updatedFields: [String!]
+  previousValues: VideoPostPreviousValues
+}
+
+input VideoPostSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: VideoPostWhereInput
+  AND: [VideoPostSubscriptionWhereInput!]
+  OR: [VideoPostSubscriptionWhereInput!]
+  NOT: [VideoPostSubscriptionWhereInput!]
+}
+
+input VideoPostUpdateInput {
+  title: String
+  caption: String
+  video: String
+  user: UserUpdateOneRequiredWithoutVideoPostsInput
+}
+
+input VideoPostUpdateManyDataInput {
+  title: String
+  caption: String
+  video: String
+}
+
+input VideoPostUpdateManyMutationInput {
+  title: String
+  caption: String
+  video: String
+}
+
+input VideoPostUpdateManyWithoutUserInput {
+  create: [VideoPostCreateWithoutUserInput!]
+  delete: [VideoPostWhereUniqueInput!]
+  connect: [VideoPostWhereUniqueInput!]
+  set: [VideoPostWhereUniqueInput!]
+  disconnect: [VideoPostWhereUniqueInput!]
+  update: [VideoPostUpdateWithWhereUniqueWithoutUserInput!]
+  upsert: [VideoPostUpsertWithWhereUniqueWithoutUserInput!]
+  deleteMany: [VideoPostScalarWhereInput!]
+  updateMany: [VideoPostUpdateManyWithWhereNestedInput!]
+}
+
+input VideoPostUpdateManyWithWhereNestedInput {
+  where: VideoPostScalarWhereInput!
+  data: VideoPostUpdateManyDataInput!
+}
+
+input VideoPostUpdateWithoutUserDataInput {
+  title: String
+  caption: String
+  video: String
+}
+
+input VideoPostUpdateWithWhereUniqueWithoutUserInput {
+  where: VideoPostWhereUniqueInput!
+  data: VideoPostUpdateWithoutUserDataInput!
+}
+
+input VideoPostUpsertWithWhereUniqueWithoutUserInput {
+  where: VideoPostWhereUniqueInput!
+  update: VideoPostUpdateWithoutUserDataInput!
+  create: VideoPostCreateWithoutUserInput!
+}
+
+input VideoPostWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  caption: String
+  caption_not: String
+  caption_in: [String!]
+  caption_not_in: [String!]
+  caption_lt: String
+  caption_lte: String
+  caption_gt: String
+  caption_gte: String
+  caption_contains: String
+  caption_not_contains: String
+  caption_starts_with: String
+  caption_not_starts_with: String
+  caption_ends_with: String
+  caption_not_ends_with: String
+  video: String
+  video_not: String
+  video_in: [String!]
+  video_not_in: [String!]
+  video_lt: String
+  video_lte: String
+  video_gt: String
+  video_gte: String
+  video_contains: String
+  video_not_contains: String
+  video_starts_with: String
+  video_not_starts_with: String
+  video_ends_with: String
+  video_not_ends_with: String
+  user: UserWhereInput
+  AND: [VideoPostWhereInput!]
+  OR: [VideoPostWhereInput!]
+  NOT: [VideoPostWhereInput!]
+}
+
+input VideoPostWhereUniqueInput {
+  id: ID
 }
 `
       }

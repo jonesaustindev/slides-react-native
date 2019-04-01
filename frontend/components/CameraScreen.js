@@ -1,46 +1,30 @@
 import React, { Component } from 'react';
-import { Text, View, Button, TouchableOpacity, Image } from 'react-native';
+import { 
+    Text, 
+    View, 
+    Button, 
+    TouchableOpacity, 
+    Image, 
+    TouchableWithoutFeedback, 
+    Platform 
+} from 'react-native';
 import { Camera, Permissions } from 'expo';
 import ImagePreview from './ImagePreview';
 import VideoPreview from './VideoPreview';
-import CameraToolbar from './CameraToolbar';
+import { Ionicons } from '@expo/vector-icons';
 
-// <View
-//                         style={{
-//                             flex: 1,
-//                             backgroundColor: 'transparent',
-//                             flexDirection: 'row',
-//                         }}>
-//                         <TouchableOpacity
-//                             style={{
-//                                 flex: 0.1,
-//                                 alignSelf: 'flex-end',
-//                                 alignItems: 'center',
-//                             }}
-//                             onPress={() => {
-//                                 this.setState({
-//                                     type: this.state.type === Camera.Constants.Type.back
-//                                         ? Camera.Constants.Type.front
-//                                         : Camera.Constants.Type.back,
-//                                 });
-//                             }}>
-//                             <Text
-//                                 style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>
-//                                 {' '}Flip{' '}
-//                             </Text>
-//                         </TouchableOpacity>
-//                     </View>
+import styles from '../styles/cameraStyles';
 
 class CameraScreen extends Component {
     state = {
         hasCameraPermission: null,
         type: Camera.Constants.Type.back,
+        cameraMode: true,
         flashMode: null,
         capturing: null,
-        cameraType: null,
         image: null,
         video: null,
-        captures: [],
+        videoData: null,
     };
 
     async componentDidMount() {
@@ -52,16 +36,16 @@ class CameraScreen extends Component {
     }
 
     setFlashMode = (flashMode) => this.setState({ flashMode });
-    setCameraType = (cameraType) => this.setState({ cameraType });
 
-    handleShortCapture = async () => {
-        const imageData = await this.camera.takePictureAsync();
-        this.setState({ capturing: false, image: photoData });
-    }
-
+    snap = async () => {
+        if (this.camera) {
+            let photo = await this.camera.takePictureAsync();
+            this.setState({ image: photo.uri })
+        }
+    };
     handleLongCapture = async () => {
         const videoData = await this.camera.recordAsync();
-        this.setState({ capturing: false, video: videoData });
+        this.setState({ capturing: false, video: videoData.uri, videoData: videoData });
     }
     handleCaptureIn = () => this.setState({ capturing: true });
     handleCaptureOut = () => {
@@ -79,7 +63,7 @@ class CameraScreen extends Component {
 
     render() {
         const { navigation } = this.props;
-        const { hasCameraPermission, flashMode, cameraType, capturing, captures, video, image } = this.state;
+        const { hasCameraPermission, flashMode, cameraType, capturing, captures, video, image, type, cameraMode } = this.state;
 
         if (hasCameraPermission === null) {
             return <View />;
@@ -91,7 +75,7 @@ class CameraScreen extends Component {
             return (
                 <ImagePreview
                     imageFromCamera={navigation.state.params.imageFromCamera}
-                    previewUri={this.state.image.uri}
+                    previewUri={this.state.image}
                     clearPhoto={this.clearPhoto}
                     {...this.props}
                 />
@@ -101,38 +85,80 @@ class CameraScreen extends Component {
         if (this.state.video) {
             return (
                 <VideoPreview
-                    videoFromCamera={navigation.state.params.videoFromCamera} 
-                    video={video.uri} 
+                    videoFromCamera={navigation.state.params.videoFromCamera}
+                    video={this.state.video}
+                    videoData={this.state.videoData}
                     clearPhoto={this.clearPhoto}
                     {...this.props}
                 />
             )
         }
 
-        console.log(this.state)
-
         return (
             <View style={{ flex: 1 }}>
-                <Button
-                    title='Close'
-                    onPress={() => navigation.goBack()}
-                />
                 <Camera
                     style={{ flex: 1 }}
                     type={this.state.type}
+                    getSupportedRatiosAsync='1:1'
                     ref={ref => { this.camera = ref; }}
                 >
-                    <CameraToolbar
-                        capturing={capturing}
-                        flashMode={flashMode}
-                        cameraType={cameraType}
-                        setFlashMode={this.setFlashMode}
-                        setCameraType={this.setCameraType}
-                        onCaptureIn={this.handleCaptureIn}
-                        onCaptureOut={this.handleCaptureOut}
-                        onLongCapture={this.handleLongCapture}
-                        onShortCapture={this.handleShortCapture}
-                    />
+                    <TouchableOpacity
+                        style={{ alignSelf: 'flex-end' }}
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Ionicons
+                            style={{ padding: 20 }}
+                            name='md-close'
+                            color={'#fff'}
+                            size={30}
+                        />
+                    </TouchableOpacity>
+                    <View style={styles.ToolbarContainer}>
+                        <View style={styles.Container}>
+                            <View>
+                                <TouchableOpacity
+                                // onPress={() => setFlashMode(
+                                //     flashMode === CameraFlashModes.on ? CameraFlashModes.off : CameraFlashModes.on
+                                // )}
+                                >
+                                    <Ionicons
+                                        name={'md-flash-off'}
+                                        color='white'
+                                        size={30}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                            <View>
+                                <TouchableWithoutFeedback
+                                    onPress={this.snap}
+                                    onPressIn={this.handleCaptureIn}
+                                    onLongPress={this.handleLongCapture}
+                                    onPressOut={this.handleCaptureOut}
+                                >
+                                    <View style={[styles.CaptureButton, capturing && styles.CaptureButtonActive]}>
+                                        {capturing && <View style={styles.CaptureButtonInternal} />}
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                            <View>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        this.setState({
+                                            type: this.state.type === Camera.Constants.Type.back
+                                                ? Camera.Constants.Type.front
+                                                : Camera.Constants.Type.back,
+                                        });
+                                    }}
+                                >
+                                    <Ionicons
+                                        name='md-reverse-camera'
+                                        color='white'
+                                        size={30}
+                                    />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
                 </Camera>
             </View>
         )

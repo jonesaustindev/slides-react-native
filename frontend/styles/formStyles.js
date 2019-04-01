@@ -68,12 +68,13 @@ const styles = StyleSheet.create({
     UploadedVideoContainer: {
         display: 'flex',
         alignSelf: 'center',
+        alignItems: 'center',
         justifyContent: 'center',
-        
+        width: 300,
         margin: 36,
     },
     UploadedVideo: {
-        width: win.width,
+        width: '80%',
         height: win.height,
         marginTop: 16,
         marginBottom: 16,

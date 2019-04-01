@@ -1,11 +1,6 @@
 const { getUserId } = require('../../utils')
 const shortid = require('shortid')
 const { createWriteStream } = require('fs')
-// const Clarifai = require('clarifai')
-
-// const app = new Clarifai.App({
-//   apiKey: process.env.CLARIFAI_KEY
-// })
 
 const storeUpload = async ({ stream, filename }) => {
     const id = shortid.generate()
@@ -28,32 +23,20 @@ const processUpload = async upload => {
     return path
   }
 
-const imagepost = {
-    async uploadImagePost(parent, { caption, image, title }, context) {
+const videopost = {
+    async uploadVideoPost(parent, { caption, video, title }, context) {
         const userId = getUserId(context);
-        const imageUrl = await processUpload(image);
-        // const imageFile = imageUrl.split('images/').pop()
-        // console.log(imageFile)
-        return context.prisma.createImagePost({
+        const videoUrl = await processUpload(video);
+        return context.prisma.createVideoPost({
             caption,
             title,
-            image: imageUrl,
+            video: videoUrl,
             user: { connect: { id: userId } },
         })
     },
-    async editImagePost(parent, args, context) {
-        const updates = {...args};
-        delete updates.id;
-        return context.prisma.updateImagePost({
-            data: updates,
-            where: {
-                id: args.id
-            }
-        })
-    },
-    async deleteImagePost(parent, { id }, context) {
+    async deleteVideoPost(parent, { id }, context) {
         const userId = getUserId(context)
-        const postExists = await context.prisma.$exists.imagePost({
+        const postExists = await context.prisma.$exists.videoPost({
           id,
           user: { id: userId },
         })
@@ -61,7 +44,7 @@ const imagepost = {
           throw new Error(`Post not found or you're not the author`)
         }
     
-        return context.prisma.deleteImagePost({ id })
+        return context.prisma.deleteVideoPost({ id })
       },
 }
-module.exports = { imagepost }
+module.exports = { videopost }
