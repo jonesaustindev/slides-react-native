@@ -1,19 +1,22 @@
 import React, { Component } from 'react';
-import { 
-    Text, 
-    View, 
-    Button, 
-    TouchableOpacity, 
-    Image, 
-    TouchableWithoutFeedback, 
-    Platform 
+import {
+    Text,
+    View,
+    Button,
+    TouchableOpacity,
+    Image,
+    TouchableWithoutFeedback,
+    Platform,
+    StyleSheet,
 } from 'react-native';
-import { Camera, Permissions } from 'expo';
+import { Camera, Permissions, FaceDetector, Constants } from 'expo';
 import ImagePreview from './ImagePreview';
 import VideoPreview from './VideoPreview';
 import { Ionicons } from '@expo/vector-icons';
 
 import styles from '../styles/cameraStyles';
+
+const landmarkSize = 2;
 
 class CameraScreen extends Component {
     state = {
@@ -25,6 +28,11 @@ class CameraScreen extends Component {
         image: null,
         video: null,
         videoData: null,
+        faceDetecting: true,
+        faceDetected: false,
+        faces: [],
+        ratio: '4:3',
+        ratios: [],
     };
 
     async componentDidMount() {
@@ -61,9 +69,88 @@ class CameraScreen extends Component {
         })
     }
 
+    getRatios = async () => {
+        const ratios = await this.camera.getSupportedRatios();
+        return ratios;
+    };
+
+    setRatio = ratio => this.setState({ ratio });
+
+    onFacesDetected = ({ faces }) => {
+        this.setState({ faces })
+        console.log(faces)
+    };
+    onFaceDetectionError = state => {
+        console.warn('Faces detection error:', state)
+    };
+    renderFace({ bounds, faceID, rollAngle, yawAngle }) {
+        return (
+            <View
+                key={faceID}
+                transform={[
+                    { perspective: 600 },
+                    { rotateZ: `${rollAngle.toFixed(0)}deg` },
+                    { rotateY: `${yawAngle.toFixed(0)}deg` },
+                ]}
+                style={[
+                    styles.face,
+                    {
+                        ...bounds.size,
+                        left: bounds.origin.x,
+                        top: bounds.origin.y,
+                    },
+                ]}>
+                <Text style={styles.faceText}>ID: {faceID}</Text>
+                <Text style={styles.faceText}>rollAngle: {rollAngle.toFixed(0)}</Text>
+                <Text style={styles.faceText}>yawAngle: {yawAngle.toFixed(0)}</Text>
+            </View>
+        );
+    }
+
+    renderLandmarksOfFace(face) {
+        const renderLandmark = position =>
+            position && (
+                <View
+                    style={[
+                        styles.landmark,
+                        {
+                            left: position.x - landmarkSize / 2,
+                            top: position.y - landmarkSize / 2,
+                        },
+                    ]}
+                />
+            );
+        return (
+            <View key={`landmarks-${face.faceID}`}>
+                {renderLandmark(face.leftEyePosition)}
+                {renderLandmark(face.rightEyePosition)}
+                {renderLandmark(face.leftEarPosition)}
+                {renderLandmark(face.rightEarPosition)}
+                {renderLandmark(face.leftCheekPosition)}
+                {renderLandmark(face.rightCheekPosition)}
+                {renderLandmark(face.leftMouthPosition)}
+                {renderLandmark(face.mouthPosition)}
+                {renderLandmark(face.rightMouthPosition)}
+                {renderLandmark(face.noseBasePosition)}
+                {renderLandmark(face.bottomMouthPosition)}
+            </View>
+        );
+    }
+    renderFaces = () => (
+        <View style={styles.facesContainer} pointerEvents="none">
+            {this.state.faces.map(this.renderFace)}
+        </View>
+    )
+
+    renderLandmarks = () => (
+        <View style={styles.facesContainer} pointerEvents="none">
+            {this.state.faces.map(this.renderLandmarksOfFace)}
+        </View>
+    )
+
     render() {
         const { navigation } = this.props;
-        const { hasCameraPermission, flashMode, cameraType, capturing, captures, video, image, type, cameraMode } = this.state;
+        const { hasCameraPermission, flashMode, cameraType, capturing, captures, video, image, type, cameraMode, faces } = this.state;
 
         if (hasCameraPermission === null) {
             return <View />;
@@ -99,8 +186,15 @@ class CameraScreen extends Component {
                 <Camera
                     style={{ flex: 1 }}
                     type={this.state.type}
-                    getSupportedRatiosAsync='1:1'
+                    ratio={this.state.ratio}
                     ref={ref => { this.camera = ref; }}
+                    onFacesDetected={this.state.faceDetecting ? this.onFacesDetected : undefined}
+                    onFaceDetectionError={this.onFaceDetectionError}
+                    faceDetectorSettings={{
+                        mode: FaceDetector.Constants.Mode.fast,
+                        detectLandmarks: FaceDetector.Constants.Mode.accurate
+                    }}
+                // autoFocus={on}
                 >
                     <TouchableOpacity
                         style={{ alignSelf: 'flex-end' }}
@@ -113,12 +207,14 @@ class CameraScreen extends Component {
                             size={30}
                         />
                     </TouchableOpacity>
+                    {this.state.faceDetecting && this.renderFaces()}
+                    {this.state.faceDetecting && this.renderLandmarks()}
                     <View style={styles.ToolbarContainer}>
                         <View style={styles.Container}>
                             <View>
                                 <TouchableOpacity
                                 // onPress={() => setFlashMode(
-                                //     flashMode === CameraFlashModes.on ? CameraFlashModes.off : CameraFlashModes.on
+                                //     flashMode === this.camera.flashMode.on ? this.camera.flashMode.off : this.camera.flashMode.on
                                 // )}
                                 >
                                     <Ionicons
