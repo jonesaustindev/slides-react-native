@@ -18,6 +18,16 @@ import styles from '../styles/cameraStyles';
 
 const landmarkSize = 2;
 
+// {renderLandmark(face.leftEarPosition)}
+//                 {renderLandmark(face.rightEarPosition)}
+//                 {renderLandmark(face.leftCheekPosition)}
+//                 {renderLandmark(face.rightCheekPosition)}
+//                 {renderLandmark(face.leftMouthPosition)}
+//                 {renderLandmark(face.mouthPosition)}
+//                 {renderLandmark(face.rightMouthPosition)}
+//                 {renderLandmark(face.noseBasePosition)}
+//                 {renderLandmark(face.bottomMouthPosition)}
+
 class CameraScreen extends Component {
     state = {
         hasCameraPermission: null,
@@ -78,7 +88,6 @@ class CameraScreen extends Component {
 
     onFacesDetected = ({ faces }) => {
         this.setState({ faces })
-        console.log(faces)
     };
     onFaceDetectionError = state => {
         console.warn('Faces detection error:', state)
@@ -108,6 +117,8 @@ class CameraScreen extends Component {
     }
 
     renderLandmarksOfFace(face) {
+        const { height, width } = face.bounds.size
+        console.log(height)
         const renderLandmark = position =>
             position && (
                 <View
@@ -118,21 +129,24 @@ class CameraScreen extends Component {
                             top: position.y - landmarkSize / 2,
                         },
                     ]}
-                />
+                >
+                    <Image 
+                        source={require('../assets/googly.jpg')}
+                        style={[
+                            styles.googly,
+                            {
+                                height: height / 5,
+                                width: height / 5,
+                            }
+                        ]}
+                    />
+                </View>
             );
         return (
             <View key={`landmarks-${face.faceID}`}>
                 {renderLandmark(face.leftEyePosition)}
                 {renderLandmark(face.rightEyePosition)}
-                {renderLandmark(face.leftEarPosition)}
-                {renderLandmark(face.rightEarPosition)}
-                {renderLandmark(face.leftCheekPosition)}
-                {renderLandmark(face.rightCheekPosition)}
-                {renderLandmark(face.leftMouthPosition)}
-                {renderLandmark(face.mouthPosition)}
-                {renderLandmark(face.rightMouthPosition)}
-                {renderLandmark(face.noseBasePosition)}
-                {renderLandmark(face.bottomMouthPosition)}
+                
             </View>
         );
     }
@@ -207,7 +221,6 @@ class CameraScreen extends Component {
                             size={30}
                         />
                     </TouchableOpacity>
-                    {this.state.faceDetecting && this.renderFaces()}
                     {this.state.faceDetecting && this.renderLandmarks()}
                     <View style={styles.ToolbarContainer}>
                         <View style={styles.Container}>
