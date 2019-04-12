@@ -9,7 +9,7 @@ import {
     Platform,
     StyleSheet,
 } from 'react-native';
-import { Camera, Permissions, FaceDetector, Constants } from 'expo';
+import { Camera, Permissions, FaceDetector, Constants, takeSnapshotAsync } from 'expo';
 import ImagePreview from './ImagePreview';
 import VideoPreview from './VideoPreview';
 import { Ionicons } from '@expo/vector-icons';
@@ -57,10 +57,24 @@ class CameraScreen extends Component {
 
     snap = async () => {
         if (this.camera) {
-            let photo = await this.camera.takePictureAsync();
+            const photo = await this.camera.takePictureAsync();
             this.setState({ image: photo.uri })
         }
     };
+    snapShot = async () => {
+        if (this.camera) {
+            const ratios = this.getRatios()
+            const photo = await takeSnapshotAsync(this.camera, {
+                result: 'file',
+                height: this.state.ratio,
+                width: this.state.ratio,
+                quality: 1,
+                format: 'jpg',
+            })
+            console.log(this.state.ratio)
+            console.log(photo)
+        }
+    }
     handleLongCapture = async () => {
         const videoData = await this.camera.recordAsync();
         this.setState({ capturing: false, video: videoData.uri, videoData: videoData });
@@ -118,7 +132,6 @@ class CameraScreen extends Component {
 
     renderLandmarksOfFace(face) {
         const { height, width } = face.bounds.size
-        console.log(height)
         const renderLandmark = position =>
             position && (
                 <View
@@ -130,7 +143,7 @@ class CameraScreen extends Component {
                         },
                     ]}
                 >
-                    <Image 
+                    <Image
                         source={require('../assets/googly.jpg')}
                         style={[
                             styles.googly,
@@ -146,7 +159,6 @@ class CameraScreen extends Component {
             <View key={`landmarks-${face.faceID}`}>
                 {renderLandmark(face.leftEyePosition)}
                 {renderLandmark(face.rightEyePosition)}
-                
             </View>
         );
     }
@@ -210,17 +222,34 @@ class CameraScreen extends Component {
                     }}
                 // autoFocus={on}
                 >
-                    <TouchableOpacity
-                        style={{ alignSelf: 'flex-end' }}
-                        onPress={() => navigation.goBack()}
-                    >
-                        <Ionicons
-                            style={{ padding: 20 }}
-                            name='md-close'
-                            color={'#fff'}
-                            size={30}
-                        />
-                    </TouchableOpacity>
+                    <View style={styles.Container}>
+                        <TouchableOpacity
+                            style={{}}
+                            onPress={() => {
+                                this.setState({
+                                    faceDetecting: !this.state.faceDetecting,
+                                })
+                            }}
+                        >
+                            <Ionicons
+                                style={{ padding: 20 }}
+                                name='md-contact'
+                                color={'#fff'}
+                                size={30}
+                            />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{}}
+                            onPress={() => navigation.goBack()}
+                        >
+                            <Ionicons
+                                style={{ padding: 20 }}
+                                name='md-close'
+                                color={'#fff'}
+                                size={30}
+                            />
+                        </TouchableOpacity>
+                    </View>
                     {this.state.faceDetecting && this.renderLandmarks()}
                     <View style={styles.ToolbarContainer}>
                         <View style={styles.Container}>
